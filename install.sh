@@ -1,26 +1,26 @@
 #!/bin/sh
-# PraisonAI one-line standalone installer.
+# Octic AI Agent one-line standalone installer.
 #
-#   curl -fsSL https://raw.githubusercontent.com/MervinPraison/PraisonAI/main/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/Aravindh-dev12/octic-Agent/main/install.sh | sh
 #
-# Installs PraisonAI into a dedicated, isolated environment (via `uv tool` or
+# Installs Octic AI Agent into a dedicated, isolated environment (via `uv tool` or
 # `pipx`, auto-detecting/bootstrapping the runtime) and exposes a global
-# `praisonai` command on PATH. Idempotent and safe to re-run.
+# `octic-ai-agent` command on PATH. Idempotent and safe to re-run.
 #
 # Options (environment variables):
-#   PRAISONAI_VERSION=x.y.z   Pin a specific version (default: latest).
-#   PRAISONAI_INSTALLER=uv|pipx  Force a specific tool manager.
-#   PRAISONAI_NONINTERACTIVE=1   Never prompt; suitable for CI.
+#   OCTIC_AI_AGENT_VERSION=x.y.z   Pin a specific version (default: latest).
+#   OCTIC_AI_AGENT_INSTALLER=uv|pipx  Force a specific tool manager.
+#   OCTIC_AI_AGENT_NONINTERACTIVE=1   Never prompt; suitable for CI.
 #
-# `pip install praisonai` remains fully supported for library/embedded use;
+# `pip install octic-ai-agent` remains fully supported for library/embedded use;
 # this installer only manages the standalone CLI binary.
 
 set -eu
 
-PACKAGE="praisonai"
-VERSION="${PRAISONAI_VERSION:-}"
-FORCED_INSTALLER="${PRAISONAI_INSTALLER:-}"
-NONINTERACTIVE="${PRAISONAI_NONINTERACTIVE:-}"
+PACKAGE="octic-ai-agent"
+VERSION="${OCTIC_AI_AGENT_VERSION:-}"
+FORCED_INSTALLER="${OCTIC_AI_AGENT_INSTALLER:-}"
+NONINTERACTIVE="${OCTIC_AI_AGENT_NONINTERACTIVE:-}"
 
 info() { printf '\033[0;36m==>\033[0m %s\n' "$1"; }
 warn() { printf '\033[0;33mwarning:\033[0m %s\n' "$1" >&2; }
@@ -42,7 +42,7 @@ _append_path_line() {
   if [ -f "${rc}" ] && grep -Fq "${bindir}" "${rc}" 2>/dev/null; then
     return 0
   fi
-  printf '\n# Added by PraisonAI installer\n%s\n' "${line}" >>"${rc}" 2>/dev/null
+  printf '\n# Added by Octic AI Agent installer\n%s\n' "${line}" >>"${rc}" 2>/dev/null
 }
 
 wire_path_dispatch() {
@@ -181,17 +181,17 @@ main() {
         install_with_uv
       fi
       ;;
-    *) err "Unknown PRAISONAI_INSTALLER='${FORCED_INSTALLER}' (use uv or pipx)."; exit 1 ;;
+    *) err "Unknown OCTIC_AI_AGENT_INSTALLER='${FORCED_INSTALLER}' (use uv or pipx)."; exit 1 ;;
   esac
 
   echo
-  info "PraisonAI installed. Get started with:"
-  echo "    praisonai setup"
+  info "Octic AI Agent installed. Get started with:"
+  echo "    octic-ai-agent setup"
   echo
   info "Manage it later with:"
-  echo "    praisonai upgrade      # update in place"
-  echo "    praisonai upgrade --check"
-  echo "    praisonai uninstall    # remove cleanly"
+  echo "    octic-ai-agent upgrade      # update in place"
+  echo "    octic-ai-agent upgrade --check"
+  echo "    octic-ai-agent uninstall    # remove cleanly"
 }
 
 main "$@"

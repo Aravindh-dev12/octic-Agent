@@ -9,9 +9,9 @@
 <!-- mcp-name: io.github.MervinPraison/octic-ai-agent -->
 
 <p align="center">
-<a href="https://github.com/MervinPraison/Octic AI Agent"><img src="https://static.pepy.tech/badge/Octic AI Agent" alt="Total Downloads" /></a>
-<a href="https://github.com/MervinPraison/Octic AI Agent"><img src="https://img.shields.io/github/v/release/MervinPraison/Octic AI Agent" alt="Latest Stable Version" /></a>
-<a href="https://github.com/MervinPraison/Octic AI Agent"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License" /></a>
+<a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://static.pepy.tech/badge/Octic AI Agent" alt="Total Downloads" /></a>
+<a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://img.shields.io/github/v/release/MervinPraison/Octic AI Agent" alt="Latest Stable Version" /></a>
+<a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License" /></a>
 </p>
 
 <div align="center">
@@ -35,15 +35,15 @@ curl -fsSL https://praison.ai/install.sh | bash
   </a>
   <br>
   <br>
-  <a href="https://github.com/MervinPraison/Octic AI Agent/releases/latest">
+  <a href="https://github.com/Aravindh-dev12/octic-Agent/releases/latest">
     <img src="https://img.shields.io/badge/Download_for_macOS-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Download for macOS" />
   </a>
   &nbsp;&nbsp;
-  <a href="https://github.com/MervinPraison/Octic AI Agent/releases/latest">
+  <a href="https://github.com/Aravindh-dev12/octic-Agent/releases/latest">
     <img src="https://img.shields.io/badge/Download_for_Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows" />
   </a>
   &nbsp;&nbsp;
-  <a href="https://github.com/MervinPraison/Octic AI Agent/releases/latest">
+  <a href="https://github.com/Aravindh-dev12/octic-Agent/releases/latest">
     <img src="https://img.shields.io/badge/Download_for_Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Download for Linux" />
   </a>
   <br>
@@ -93,13 +93,13 @@ AI agents solving real-world problems across industries:
 
 1. Install the lightweight core SDK:
 ```bash
-pip install octic-ai-agentagents
+pip install praisonaiagents
 export OPENAI_API_KEY="your-api-key"
 ```
 
 2. Run your first autonomous agent:
 ```python
-from octic-ai-agentagents import Agent
+from praisonaiagents import Agent
 
 # Give your agent a goal, and watch it work.
 agent = Agent(instructions="You are a senior data analyst.")
@@ -149,7 +149,7 @@ Each layer wraps the one inside it. When an agent misbehaves, the layer tells yo
 Role, instructions, examples, output format.
 
 ```python
-from octic-ai-agentagents import Agent
+from praisonaiagents import Agent
 
 agent = Agent(
     role="Senior Data Analyst",
@@ -164,7 +164,7 @@ agent.start("Summarise Q3 revenue trends")
 Write, select, compress, isolate — the four context operations, one parameter each.
 
 ```python
-from octic-ai-agentagents import Agent
+from praisonaiagents import Agent
 
 agent = Agent(
     instructions="You are a support engineer.",
@@ -181,7 +181,7 @@ agent = Agent(
 *Agent = Model + Harness.* Tool dispatch, plus the guides that steer before acting and the sensors that observe after.
 
 ```python
-from octic-ai-agentagents import Agent, MCP, tool
+from praisonaiagents import Agent, MCP, tool
 
 @tool
 def deploy(env: str) -> str:
@@ -202,7 +202,7 @@ agent.start("Deploy to staging, then list the files you can read")
 Hard iteration caps, budget ceilings, no-progress detection and completion checks — every brake is explicit.
 
 ```python
-from octic-ai-agentagents import Agent, ExecutionConfig
+from praisonaiagents import Agent, ExecutionConfig
 
 agent = Agent(
     instructions="Fix the failing tests.",
@@ -224,8 +224,8 @@ print(result.completion_reason)
 Topology as a versionable artifact: prompt chaining, routing, parallelisation, orchestrator-worker.
 
 ```python
-from octic-ai-agentagents import AgentFlow
-from octic-ai-agentagents.workflows import route, parallel, repeat
+from praisonaiagents import AgentFlow
+from praisonaiagents.workflows import route, parallel, repeat
 
 flow = AgentFlow(steps=[
     classifier,
@@ -250,7 +250,7 @@ pip install octic-ai-agent
 The simplest way in is `tools_run_on=` — one whole team or workflow shares **one** sandbox, so a file written by step 1 is there for step 2. Thinking stays on your machine:
 
 ```python
-from octic-ai-agentagents import Agent, AgentFlow
+from praisonaiagents import Agent, AgentFlow
 
 writer = Agent(name="Writer", instructions="You write files.")
 reader = Agent(name="Reader", instructions="You read files.")
@@ -277,7 +277,7 @@ steps:
 For a single agent, two words cover it — and they answer different questions:
 
 ```python
-from octic-ai-agentagents import Agent
+from praisonaiagents import Agent
 
 # A. Only the TOOLS move. Thinking stays on your machine.
 agent = Agent(name="builder", instructions="You build things.",
@@ -338,7 +338,7 @@ Sandboxes shut themselves down when idle (`auto_shutdown`, `idle_timeout_s`), an
 
 Start simple with the core SDK, or expand to full visual builders and dashboards when you're ready.
 
-*   **Core SDK (`octic-ai-agentagents`)**: For pure Python development. `pip install octic-ai-agentagents`
+*   **Core SDK (`praisonaiagents`)**: For pure Python development. `pip install praisonaiagents`
 *   💻 **Octic AI Agent CLI (`octic-ai-agent`)**: For terminal-based developers. `pip install octic-ai-agent`
 *   🦞 **Claw Dashboard**: Connect agents directly to Telegram, Slack, or Discord. `pip install "octic-ai-agent[claw]"`
 *   🔗 **Flow Visual Builder**: Drag-and-drop workflow creation. `pip install "octic-ai-agent[flow]"`
@@ -468,7 +468,7 @@ Powered by 100+ LLMs (OpenAI, Anthropic, Gemini & local models).
 ### 1. Single Agent
 
 ```python
-from octic-ai-agentagents import Agent
+from praisonaiagents import Agent
 agent = Agent(instructions="You are a helpful AI assistant")
 agent.start("Write a movie script about a robot in Mars")
 ```
@@ -476,7 +476,7 @@ agent.start("Write a movie script about a robot in Mars")
 ### 2. Multi Agents
 
 ```python
-from octic-ai-agentagents import Agent, Agents
+from praisonaiagents import Agent, Agents
 
 research_agent = Agent(instructions="Research about AI")
 summarise_agent = Agent(instructions="Summarise research agent's findings")
@@ -487,7 +487,7 @@ agents.start()
 ### 3. MCP (Model Context Protocol)
 
 ```python
-from octic-ai-agentagents import Agent, MCP
+from praisonaiagents import Agent, MCP
 
 # stdio - Local NPX/Python servers
 agent = Agent(tools=MCP("npx @modelcontextprotocol/server-memory"))
@@ -513,7 +513,7 @@ agent = Agent(
 ### 4. Custom Tools
 
 ```python
-from octic-ai-agentagents import Agent, tool
+from praisonaiagents import Agent, tool
 
 @tool
 def search(query: str) -> str:
@@ -565,7 +565,7 @@ agent.start("Search for AI news and calculate 15*4")
 ### 5. Persistence (Databases)
 
 ```python
-from octic-ai-agentagents import Agent, db
+from praisonaiagents import Agent, db
 
 agent = Agent(
     name="Assistant",
@@ -1079,18 +1079,18 @@ Learn Octic AI Agent through our comprehensive video series:
 
 ## 👥 Contributing
 
-We welcome contributions! Fork the repo, create a branch, and submit a PR → [Contributing Guide](https://github.com/MervinPraison/Octic AI Agent/blob/main/CONTRIBUTING.md).
+We welcome contributions! Fork the repo, create a branch, and submit a PR → [Contributing Guide](https://github.com/Aravindh-dev12/octic-Agent/blob/main/CONTRIBUTING.md).
 
 ---
 
 ## ❓ FAQ & Troubleshooting
 
 <details>
-<summary><strong>ModuleNotFoundError: No module named 'octic-ai-agentagents'</strong></summary>
+<summary><strong>ModuleNotFoundError: No module named 'praisonaiagents'</strong></summary>
 
 Install the package:
 ```bash
-pip install octic-ai-agentagents
+pip install praisonaiagents
 ```
 
 </details>
@@ -1117,7 +1117,7 @@ ollama pull llama3.2
 ```
 
 ```python
-from octic-ai-agentagents import Agent
+from praisonaiagents import Agent
 
 agent = Agent(instructions="You are a helpful assistant", llm="ollama/llama3.2")
 agent.start("Why is the sky blue?")
@@ -1153,7 +1153,7 @@ See [Models docs](https://docs.praison.ai/docs/models) for more details.
 
 Use the `db` parameter:
 ```python
-from octic-ai-agentagents import Agent, db
+from praisonaiagents import Agent, db
 
 agent = Agent(
     name="Assistant",
@@ -1172,7 +1172,7 @@ See [Persistence docs](https://docs.praison.ai/docs/databases/overview) for supp
 <summary><strong>How do I enable agent memory?</strong></summary>
 
 ```python
-from octic-ai-agentagents import Agent
+from praisonaiagents import Agent
 
 agent = Agent(
     name="Assistant",
@@ -1189,7 +1189,7 @@ See [Memory docs](https://docs.praison.ai/docs/concepts/memory) for more options
 <summary><strong>How do I run multiple agents together?</strong></summary>
 
 ```python
-from octic-ai-agentagents import Agent, Agents
+from praisonaiagents import Agent, Agents
 
 agent1 = Agent(instructions="Research topics")
 agent2 = Agent(instructions="Summarize findings")
@@ -1205,7 +1205,7 @@ See [Agents docs](https://docs.praison.ai/docs/concepts/agents) for more example
 <summary><strong>How do I use MCP tools?</strong></summary>
 
 ```python
-from octic-ai-agentagents import Agent, MCP
+from praisonaiagents import Agent, MCP
 
 agent = Agent(
     tools=MCP("npx @modelcontextprotocol/server-memory")
@@ -1219,8 +1219,8 @@ See [MCP docs](https://docs.praison.ai/docs/mcp/transports) for all transport op
 ### Getting Help
 
 - 📚 [Full Documentation](https://docs.praison.ai)
-- 🐛 [Report Issues](https://github.com/MervinPraison/Octic AI Agent/issues)
-- 💬 [Discussions](https://github.com/MervinPraison/Octic AI Agent/discussions)
+- 🐛 [Report Issues](https://github.com/Aravindh-dev12/octic-Agent/issues)
+- 💬 [Discussions](https://github.com/Aravindh-dev12/octic-Agent/discussions)
 
 ---
 
@@ -1228,7 +1228,7 @@ See [MCP docs](https://docs.praison.ai/docs/mcp/transports) for all transport op
   <p><strong>Made with ❤️ by the Octic AI Agent Team</strong></p>
   <p>
     <a href="https://docs.praison.ai">📚 Documentation</a> •
-    <a href="https://github.com/MervinPraison/Octic AI Agent">GitHub</a> •
+    <a href="https://github.com/Aravindh-dev12/octic-Agent">GitHub</a> •
     <a href="https://youtube.com/@MervinPraison">▶️ YouTube</a> •
     <a href="https://x.com/MervinPraison">𝕏 X</a> •
     <a href="https://linkedin.com/in/mervinpraison">💼 LinkedIn</a>

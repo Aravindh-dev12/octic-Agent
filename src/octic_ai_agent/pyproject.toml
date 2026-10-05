@@ -12,6 +12,7 @@ dependencies = [
     "rich>=13.7",
     "markdown>=3.5",
     "pyparsing>=3.0.0",
+    "praisonai>=4.7.12,<5",
     "praisonaiagents>=1.7.10",
     "praisonai-code>=0.1.9",
     "praisonai-bot>=0.1.9",
@@ -28,11 +29,13 @@ dependencies = [
     "click>=8.4.2",
     "textual>=0.47.0",
     "pydantic>=2.0.0",
+    "flask>=3.0.0",
+    "flask-cors>=6.0.0",
     "toml>=0.10.2",
 ]
 
 [project.scripts]
-octic-ai-agent = "praisonai.__main__:main"
+octic-ai-agent = "octic_ai_agent.cli:main"
 setup-conda-env = "praisonai.setup.setup_conda_env:main"
 octic-ai-agent-call = "praisonai.api.call:main"
 
@@ -316,22 +319,6 @@ dev = [
 Homepage = "https://github.com/Aravindh-dev12/octic-Agent"
 Repository = "https://github.com/Aravindh-dev12/octic-Agent"
 
-[tool.uv.sources]
-praisonaiagents = { path = "../praisonai-agents" }
-# praisonai-code hosts the agentic terminal CLI (extracted incrementally,
-# see issue #2512). Editable path dep during migration; runtime/ and
-# cli_backends/ moved here (C1), interactive/execution/ui/output/state
-# moved here (C2), old praisonai.* paths kept via shims.
-praisonai-code = { path = "../praisonai-code", editable = true }
-praisonai-bot = { path = "../praisonai-bot", editable = true }
-# praisonai-train hosts LLM fine-tuning + agent training (C10); old
-# praisonai.train paths kept via shims.
-praisonai-train = { path = "../praisonai-train", editable = true }
-praisonai-browser = { path = "../praisonai-browser", editable = true }
-praisonai-mcp = { path = "../praisonai-mcp", editable = true }
-praisonai-sandbox = { path = "../praisonai-sandbox", editable = true }
-praisonai-deploy = { path = "../praisonai-deploy", editable = true }
-
 [tool.uv]
 # Exclude from lock resolution — these cause cross-extra conflicts that
 # never occur at install time (nobody installs [claw]+[autogen]+[crewai] together):
@@ -349,13 +336,12 @@ requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.dynamic]
-version = {attr = "praisonai.version.__version__"}
+version = {attr = "octic_ai_agent.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["praisonai*"]
-exclude = ["praisonai_code*", "praisonai_bot*", "praisonai.persistence.tests*", "praisonai._dev.parity*"]
+include = ["octic_ai_agent*"]
+exclude = []
 
 [tool.setuptools.package-data]
-"praisonai.cli.configuration" = ["*.json"]
-"praisonai.config" = ["*.json"]
+"octic_ai_agent" = ["*.yaml", "*.yml", "*.json"]

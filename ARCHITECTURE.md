@@ -1,8 +1,8 @@
-# PraisonAI Architecture
+# Octic AI Agent Architecture
 
 > **Last updated:** 2026-07-31 (C14 — nine-package tiered model)
 >
-> Strategic architecture document for PraisonAI — a multi-agent AI framework.
+> Strategic architecture document for Octic AI Agent — a multi-agent AI framework.
 > Covers **Python tiered package model (C7.1 + C9 + C10)**, system design, runtime
 > architecture, data contracts, reliability, observability, and the road map.
 
@@ -21,13 +21,13 @@
 9. [Implementation Roadmap](#9-implementation-roadmap)
 10. [Success Metrics](#10-success-metrics)
 
-**Related boundary docs:** [`src/praisonai/tests/C7.1_BOUNDARIES.md`](src/praisonai/tests/C7.1_BOUNDARIES.md) · [`src/praisonai/tests/C9.1_BOUNDARIES.md`](src/praisonai/tests/C9.1_BOUNDARIES.md) · [`src/praisonai/tests/PRAISONAI_TRAIN_MANIFEST.md`](src/praisonai/tests/PRAISONAI_TRAIN_MANIFEST.md) · [`src/praisonai/tests/PRAISONAI_BROWSER_MANIFEST.md`](src/praisonai/tests/PRAISONAI_BROWSER_MANIFEST.md) · [`src/praisonai/tests/PRAISONAI_MCP_MANIFEST.md`](src/praisonai/tests/PRAISONAI_MCP_MANIFEST.md) · [`src/praisonai/tests/C7_VERIFICATION.md`](src/praisonai/tests/C7_VERIFICATION.md) · [`src/praisonai/tests/C9_VERIFICATION.md`](src/praisonai/tests/C9_VERIFICATION.md) · [`src/praisonai-agents/AGENTS.md`](src/praisonai-agents/AGENTS.md) §2.4
+**Related boundary docs:** [`src/octic-ai-agent/tests/C7.1_BOUNDARIES.md`](src/octic-ai-agent/tests/C7.1_BOUNDARIES.md) · [`src/octic-ai-agent/tests/C9.1_BOUNDARIES.md`](src/octic-ai-agent/tests/C9.1_BOUNDARIES.md) · [`src/octic-ai-agent/tests/OCTIC_AI_AGENT_TRAIN_MANIFEST.md`](src/octic-ai-agent/tests/OCTIC_AI_AGENT_TRAIN_MANIFEST.md) · [`src/octic-ai-agent/tests/OCTIC_AI_AGENT_BROWSER_MANIFEST.md`](src/octic-ai-agent/tests/OCTIC_AI_AGENT_BROWSER_MANIFEST.md) · [`src/octic-ai-agent/tests/OCTIC_AI_AGENT_MCP_MANIFEST.md`](src/octic-ai-agent/tests/OCTIC_AI_AGENT_MCP_MANIFEST.md) · [`src/octic-ai-agent/tests/C7_VERIFICATION.md`](src/octic-ai-agent/tests/C7_VERIFICATION.md) · [`src/octic-ai-agent/tests/C9_VERIFICATION.md`](src/octic-ai-agent/tests/C9_VERIFICATION.md) · [`src/octic-ai-agent-agents/AGENTS.md`](src/octic-ai-agent-agents/AGENTS.md) §2.4
 
 ---
 
 ## 1. Executive Summary
 
-PraisonAI is a multi-agent AI framework with broad capability surface across
+Octic AI Agent is a multi-agent AI framework with broad capability surface across
 Python, TypeScript, and Rust SDKs. The framework's core strength is its
 feature breadth — agent abstractions, integrations, workflows, and active
 release cadence.
@@ -53,35 +53,35 @@ Orchestration + Observability** core to unlock adoption and trust:
 
 ## 2. Python Tiered Package Model (C7.1 + C9 + C10 + C11 + C12 + C13 + C14)
 
-**Release:** v4.6.110+ · `praisonaiagents` · `praisonai-code` · `praisonai-bot` · `praisonai-train` · `praisonai-browser` · `praisonai-mcp` · `praisonai-sandbox` · `praisonai-deploy` · `praisonai`
+**Release:** v4.6.110+ · `octic-ai-agentagents` · `octic-ai-agent-code` · `octic-ai-agent-bot` · `octic-ai-agent-train` · `octic-ai-agent-browser` · `octic-ai-agent-mcp` · `octic-ai-agent-sandbox` · `octic-ai-agent-deploy` · `octic-ai-agent`
 
 The Python monorepo publishes nine packages in three tiers with strict dependency
 direction. C7 delivered a standalone agentic hot path; C7.1 formalised
 code/wrapper ownership; C9 extracted bots, gateway, and channel CLI into
-`praisonai-bot`; C10 extracted LLM fine-tuning and agent training into
-`praisonai-train`; C11 extracted browser automation into `praisonai-browser`;
-C12 extracted the heavy MCP host into `praisonai-mcp`.
-C13 extracted sandbox backends into `praisonai-sandbox`.
-C14 extracted deployment (API, Docker, cloud) into `praisonai-deploy`.
+`octic-ai-agent-bot`; C10 extracted LLM fine-tuning and agent training into
+`octic-ai-agent-train`; C11 extracted browser automation into `octic-ai-agent-browser`;
+C12 extracted the heavy MCP host into `octic-ai-agent-mcp`.
+C13 extracted sandbox backends into `octic-ai-agent-sandbox`.
+C14 extracted deployment (API, Docker, cloud) into `octic-ai-agent-deploy`.
 
 ```mermaid
 flowchart TB
   subgraph tier1 [Tier 1 — Core SDK]
-    Agents["praisonaiagents<br/>Agent, tools, memory, hooks, protocols"]
+    Agents["octic-ai-agentagents<br/>Agent, tools, memory, hooks, protocols"]
   end
 
   subgraph tier2 [Tier 2 — Terminal + Bot + Train + Browser + MCP + Sandbox + Deploy]
-    Code["praisonai-code<br/>run, chat, code, Typer, runtime, LLM"]
-    Bot["praisonai-bot<br/>bots, gateway, channel CLI, OS daemon"]
-    Train["praisonai-train<br/>LLM fine-tuning, agent training"]
-    Browser["praisonai-browser<br/>extension bridge, CDP, Playwright"]
-    MCP["praisonai-mcp<br/>MCP server host, auth, capability adapters"]
-    Sandbox["praisonai-sandbox<br/>Docker, E2B, Modal, Sandlock backends"]
-    Deploy["praisonai-deploy<br/>API, Docker, AWS/Azure/GCP deploy"]
+    Code["octic-ai-agent-code<br/>run, chat, code, Typer, runtime, LLM"]
+    Bot["octic-ai-agent-bot<br/>bots, gateway, channel CLI, OS daemon"]
+    Train["octic-ai-agent-train<br/>LLM fine-tuning, agent training"]
+    Browser["octic-ai-agent-browser<br/>extension bridge, CDP, Playwright"]
+    MCP["octic-ai-agent-mcp<br/>MCP server host, auth, capability adapters"]
+    Sandbox["octic-ai-agent-sandbox<br/>Docker, E2B, Modal, Sandlock backends"]
+    Deploy["octic-ai-agent-deploy<br/>API, Docker, AWS/Azure/GCP deploy"]
   end
 
   subgraph tier3 [Tier 3 — Wrapper]
-    Wrapper["praisonai<br/>framework_adapters, serve, dashboard"]
+    Wrapper["octic-ai-agent<br/>framework_adapters, serve, dashboard"]
   end
 
   Agents --> Code
@@ -104,24 +104,24 @@ flowchart TB
   Train -.->|"lazy _code_bridge / _wrapper_bridge"| Code
 ```
 
-**PyPI publish order:** `praisonaiagents` → `praisonai-code` + `praisonai-bot` + `praisonai-train` + `praisonai-browser` + `praisonai-mcp` + `praisonai-sandbox` + `praisonai-deploy` → `praisonai`
+**PyPI publish order:** `octic-ai-agentagents` → `octic-ai-agent-code` + `octic-ai-agent-bot` + `octic-ai-agent-train` + `octic-ai-agent-browser` + `octic-ai-agent-mcp` + `octic-ai-agent-sandbox` + `octic-ai-agent-deploy` → `octic-ai-agent`
 
-**Backward compatibility:** `praisonai.bots`, `praisonai.gateway`, `praisonai.train`,
-`praisonai.browser`, `praisonai.mcp_server`, `praisonai.sandbox`, `praisonai.deploy`, and related CLI paths remain as
-`alias_package` shims to `praisonai_bot.*` / `praisonai_train.*` /
-`praisonai_browser.*` / `praisonai_mcp.*` / `praisonai_sandbox.*` / `praisonai_deploy.*`.
+**Backward compatibility:** `octic-ai-agent.bots`, `octic-ai-agent.gateway`, `octic-ai-agent.train`,
+`octic-ai-agent.browser`, `octic-ai-agent.mcp_server`, `octic-ai-agent.sandbox`, `octic-ai-agent.deploy`, and related CLI paths remain as
+`alias_package` shims to `octic-ai-agent_bot.*` / `octic-ai-agent_train.*` /
+`octic-ai-agent_browser.*` / `octic-ai-agent_mcp.*` / `octic-ai-agent_sandbox.*` / `octic-ai-agent_deploy.*`.
 
 | Tier | Package | Owns | Must not depend on |
 |------|---------|------|-------------------|
-| 1 | `src/praisonai-agents/` | Agent, tools, memory, hooks, `frameworks/` protocols, sandbox protocols | `praisonai`, `praisonai-code`, `praisonai-bot`, `praisonai-train`, `praisonai-browser`, `praisonai-mcp`, `praisonai-sandbox`, `praisonai-deploy` |
-| 2a | `src/praisonai-code/` | `run`/`chat`/`code`, Typer, runtime, LLM, tool resolution | **`praisonai` as a PyPI dependency** (optional lazy imports via `_wrapper_bridge` only) |
-| 2b | `src/praisonai-bot/` | Bots, gateway, channel CLI, OS daemon, gateway scheduler tick | **`praisonai` as a PyPI dependency** (optional lazy `_wrapper_bridge` for jobs/UI) |
-| 2c | `src/praisonai-train/` | LLM fine-tuning (Unsloth), agent training, `train` CLI, conda env setup | **`praisonai` as a PyPI dependency** (lazy `_code_bridge` for legacy dispatch) |
-| 2d | `src/praisonai-browser/` | Extension bridge, CDP/hybrid automation, `browser` CLI | **`praisonai` as a PyPI dependency** (none required; depends on `praisonaiagents` only) |
-| 2e | `src/praisonai-mcp/` | MCP server host, auth, transports, `mcp` CLI | **`praisonai` as a PyPI dependency** (lazy `_wrapper_bridge` for full capability registry) |
-| 2f | `src/praisonai-sandbox/` | Sandbox backends (Docker, E2B, Modal, Sandlock, SSH), `SandboxRegistry` | **`praisonai` as a PyPI dependency** (lazy `_code_bridge` for `PluginRegistry`) |
-| 2g | `src/praisonai-deploy/` | Deploy API/Docker/cloud, `deploy` CLI, scheduler integration | **`praisonai` as a PyPI dependency** (lazy `_plugin_registry` via `_code_bridge`) |
-| 3 | `src/praisonai/` | `framework_adapters/`, serve, dashboard, async jobs API | — |
+| 1 | `src/octic-ai-agent-agents/` | Agent, tools, memory, hooks, `frameworks/` protocols, sandbox protocols | `octic-ai-agent`, `octic-ai-agent-code`, `octic-ai-agent-bot`, `octic-ai-agent-train`, `octic-ai-agent-browser`, `octic-ai-agent-mcp`, `octic-ai-agent-sandbox`, `octic-ai-agent-deploy` |
+| 2a | `src/octic-ai-agent-code/` | `run`/`chat`/`code`, Typer, runtime, LLM, tool resolution | **`octic-ai-agent` as a PyPI dependency** (optional lazy imports via `_wrapper_bridge` only) |
+| 2b | `src/octic-ai-agent-bot/` | Bots, gateway, channel CLI, OS daemon, gateway scheduler tick | **`octic-ai-agent` as a PyPI dependency** (optional lazy `_wrapper_bridge` for jobs/UI) |
+| 2c | `src/octic-ai-agent-train/` | LLM fine-tuning (Unsloth), agent training, `train` CLI, conda env setup | **`octic-ai-agent` as a PyPI dependency** (lazy `_code_bridge` for legacy dispatch) |
+| 2d | `src/octic-ai-agent-browser/` | Extension bridge, CDP/hybrid automation, `browser` CLI | **`octic-ai-agent` as a PyPI dependency** (none required; depends on `octic-ai-agentagents` only) |
+| 2e | `src/octic-ai-agent-mcp/` | MCP server host, auth, transports, `mcp` CLI | **`octic-ai-agent` as a PyPI dependency** (lazy `_wrapper_bridge` for full capability registry) |
+| 2f | `src/octic-ai-agent-sandbox/` | Sandbox backends (Docker, E2B, Modal, Sandlock, SSH), `SandboxRegistry` | **`octic-ai-agent` as a PyPI dependency** (lazy `_code_bridge` for `PluginRegistry`) |
+| 2g | `src/octic-ai-agent-deploy/` | Deploy API/Docker/cloud, `deploy` CLI, scheduler integration | **`octic-ai-agent` as a PyPI dependency** (lazy `_plugin_registry` via `_code_bridge`) |
+| 3 | `src/octic-ai-agent/` | `framework_adapters/`, serve, dashboard, async jobs API | — |
 
 ### Repo infra (not PyPI)
 
@@ -129,37 +129,37 @@ Deployment packaging that stays in the git checkout, not in any tier-2 wheel:
 
 | Path | Runtime owner | Orchestration |
 |------|---------------|---------------|
-| `src/praisonai-bot/infra/helm/praisonai-gateway/` | `praisonai-bot` (gateway) | C14 `deploy helm` wrapper |
-| `src/praisonai-deploy/infra/helm/praisonai-agents-api/` | Generated API from C14 | C14 cross-link |
-| `src/praisonai-deploy/infra/compose/agents-stack/` | Docker Compose | `praisonai deploy compose up/down` |
-| `src/praisonai-deploy/infra/starters/` | Starter scaffolds | `praisonai deploy create --template` |
+| `src/octic-ai-agent-bot/infra/helm/octic-ai-agent-gateway/` | `octic-ai-agent-bot` (gateway) | C14 `deploy helm` wrapper |
+| `src/octic-ai-agent-deploy/infra/helm/octic-ai-agent-agents-api/` | Generated API from C14 | C14 cross-link |
+| `src/octic-ai-agent-deploy/infra/compose/agents-stack/` | Docker Compose | `octic-ai-agent deploy compose up/down` |
+| `src/octic-ai-agent-deploy/infra/starters/` | Starter scaffolds | `octic-ai-agent deploy create --template` |
 | `docker/` | Mixed (wrapper/bot dev stacks) | Not C14 — see bot manifest for `docker/bots/` |
 
-Same boundary as C14: Helm/K8s manifests are **repo infra**, not `pip install praisonai-deploy` content.
+Same boundary as C14: Helm/K8s manifests are **repo infra**, not `pip install octic-ai-agent-deploy` content.
 
-**Config kernel:** Phase 0 `praisonai/common/` was skipped; shared config lives in
-`praisonai_code/cli/configuration/` and is reached by the bot tier via lazy
-`_code_bridge` (see `src/praisonai/tests/CONFIG_KERNEL.md`).
+**Config kernel:** Phase 0 `octic-ai-agent/common/` was skipped; shared config lives in
+`octic-ai-agent_code/cli/configuration/` and is reached by the bot tier via lazy
+`_code_bridge` (see `src/octic-ai-agent/tests/CONFIG_KERNEL.md`).
 
 ### Dependency rule (validated)
 
 | Question | Answer |
 |----------|--------|
-| Does `praisonai-code` declare `praisonai` in `pyproject.toml`? | **No** — only `praisonaiagents` + CLI/runtime deps |
-| Does `praisonai` declare `praisonai-code`? | **Yes** — one-way chain, no PyPI cycle |
-| Can `praisonai-code` import `praisonai.*` at runtime? | **Only lazily** via `praisonai_code._wrapper_bridge` for optional features; **not** on the agentic hot path |
-| Does standalone `pip install praisonai-code` work? | **Yes** — CI smoke validates imports + `praisonai-code run` without the wrapper |
+| Does `octic-ai-agent-code` declare `octic-ai-agent` in `pyproject.toml`? | **No** — only `octic-ai-agentagents` + CLI/runtime deps |
+| Does `octic-ai-agent` declare `octic-ai-agent-code`? | **Yes** — one-way chain, no PyPI cycle |
+| Can `octic-ai-agent-code` import `octic-ai-agent.*` at runtime? | **Only lazily** via `octic-ai-agent_code._wrapper_bridge` for optional features; **not** on the agentic hot path |
+| Does standalone `pip install octic-ai-agent-code` work? | **Yes** — CI smoke validates imports + `octic-ai-agent-code run` without the wrapper |
 
 ### CLI routing
 
 ```mermaid
 flowchart LR
   User[User] --> Entry{Entry point}
-  Entry -->|pip install praisonai-code| CodeCLI["praisonai-code run/chat/code"]
-  Entry -->|pip install praisonai| WrapperCLI["praisonai …"]
-  WrapperCLI --> Router["praisonai.__main__"]
-  Router --> CodePath["praisonai_code.cli.app"]
-  Router --> Legacy["praisonai.cli.main"]
+  Entry -->|pip install octic-ai-agent-code| CodeCLI["octic-ai-agent-code run/chat/code"]
+  Entry -->|pip install octic-ai-agent| WrapperCLI["octic-ai-agent …"]
+  WrapperCLI --> Router["octic-ai-agent.__main__"]
+  Router --> CodePath["octic-ai-agent_code.cli.app"]
+  Router --> Legacy["octic-ai-agent.cli.main"]
   CodePath --> HotPath["run / chat / code"]
   CodePath --> Bridge{"wrapper_available?"}
   Bridge -->|yes| WrapperCmds["bot, gateway, pairing, …"]
@@ -168,7 +168,7 @@ flowchart LR
 
 ### Import gates (CI enforced)
 
-- **Hot path:** no module-level `from praisonai` in `main.py`, `app.py`, `run.py`, `chat.py`, `code.py`
+- **Hot path:** no module-level `from octic-ai-agent` in `main.py`, `app.py`, `run.py`, `chat.py`, `code.py`
 - **Regression baseline:** 50 direct wrapper import lines max (`scripts/check_c7_imports.sh`; C8 achieved **0**)
 - **Allowlist:** reviewed files only (`scripts/c7_wrapper_import_allowlist.txt`; empty post-C8)
 - **Hybrid audit:** `scripts/audit_hybrid_modules.py` — repatriated cross-tier import paths
@@ -181,9 +181,9 @@ flowchart LR
 | `_wrapper_bridge` hardening | **Complete** |
 | Import gate + allowlist | **Complete** |
 | Boundary tests + CI smoke | **Complete** |
-| C8 reverse import elimination (225 → 0 direct imports) | **Complete** — see [`C8_BACKLOG.md`](src/praisonai/tests/C8_BACKLOG.md) |
+| C8 reverse import elimination (225 → 0 direct imports) | **Complete** — see [`C8_BACKLOG.md`](src/octic-ai-agent/tests/C8_BACKLOG.md) |
 | C8.4 main.py physical decomposition | **Deferred** (separate epic) |
-| PyPI package splits (`praisonai-bot`, etc.) | **Out of scope** |
+| PyPI package splits (`octic-ai-agent-bot`, etc.) | **Out of scope** |
 
 ---
 
@@ -216,36 +216,36 @@ User/SDK/CLI
 
 The Python SDK is organised as three publishable tiers (see [§2](#2-python-three-tier-package-model-c71)):
 
-- `src/praisonai-agents/` — Core SDK (`Agent`, tools, memory, hooks, protocols)
-- `src/praisonai-code/` — Terminal CLI (`run`, `chat`, `code`, Typer, runtime, LLM)
-- `src/praisonai/` — Wrapper (gateway, bots, `framework_adapters/`, integrations)
+- `src/octic-ai-agent-agents/` — Core SDK (`Agent`, tools, memory, hooks, protocols)
+- `src/octic-ai-agent-code/` — Terminal CLI (`run`, `chat`, `code`, Typer, runtime, LLM)
+- `src/octic-ai-agent/` — Wrapper (gateway, bots, `framework_adapters/`, integrations)
 
-Core execution modules live in `praisonaiagents`:
+Core execution modules live in `octic-ai-agentagents`:
 
-- `src/praisonai-agents/praisonaiagents/agent/` — Agent class, handoff, autonomy
-- `src/praisonai-agents/praisonaiagents/llm/` — Model runtime with provider routing, rate limiting, failover
-- `src/praisonai-agents/praisonaiagents/tools/` — Tool runtime with sandbox, approval, retry
-- `src/praisonai-agents/praisonaiagents/memory/` — Memory runtime (in-memory, SQLite, MongoDB, Mem0 adapters)
-- `src/praisonai-agents/praisonaiagents/knowledge/` — Knowledge management (indexing, retrieval, chunking)
-- `src/praisonai-agents/praisonaiagents/workflows/` — Workflow engine (YAML/SDK-based orchestration)
-- `src/praisonai-agents/praisonaiagents/hooks/`, `src/praisonai-agents/praisonaiagents/bus/` — Hook system and event bus
-- `src/praisonai-agents/praisonaiagents/mcp/` — MCP protocol support
-- `src/praisonai-agents/praisonaiagents/ui/a2a/`, `src/praisonai-agents/praisonaiagents/ui/a2ui/` — Agent-to-agent and agent-to-UI protocols
+- `src/octic-ai-agent-agents/octic-ai-agentagents/agent/` — Agent class, handoff, autonomy
+- `src/octic-ai-agent-agents/octic-ai-agentagents/llm/` — Model runtime with provider routing, rate limiting, failover
+- `src/octic-ai-agent-agents/octic-ai-agentagents/tools/` — Tool runtime with sandbox, approval, retry
+- `src/octic-ai-agent-agents/octic-ai-agentagents/memory/` — Memory runtime (in-memory, SQLite, MongoDB, Mem0 adapters)
+- `src/octic-ai-agent-agents/octic-ai-agentagents/knowledge/` — Knowledge management (indexing, retrieval, chunking)
+- `src/octic-ai-agent-agents/octic-ai-agentagents/workflows/` — Workflow engine (YAML/SDK-based orchestration)
+- `src/octic-ai-agent-agents/octic-ai-agentagents/hooks/`, `src/octic-ai-agent-agents/octic-ai-agentagents/bus/` — Hook system and event bus
+- `src/octic-ai-agent-agents/octic-ai-agentagents/mcp/` — MCP protocol support
+- `src/octic-ai-agent-agents/octic-ai-agentagents/ui/a2a/`, `src/octic-ai-agent-agents/octic-ai-agentagents/ui/a2ui/` — Agent-to-agent and agent-to-UI protocols
 
-Wrapper-only surfaces remain in `src/praisonai/`:
+Wrapper-only surfaces remain in `src/octic-ai-agent/`:
 
   - `gateway/`, `bots/` — Multi-bot orchestration (BotOS)
-  - `framework_adapters/` — CrewAI, AutoGen, PraisonAI adapters
+  - `framework_adapters/` — CrewAI, AutoGen, Octic AI Agent adapters
   - `cli/commands/` — Wrapper commands (`bot`, `gateway`, `pairing`, …)
 
 ### Multi-SDK Layout
 
-- **Python Core SDK** — `src/praisonai-agents/` (`praisonaiagents`)
-- **Python Terminal CLI** — `src/praisonai-code/` (`praisonai-code`)
-- **Python Wrapper** — `src/praisonai/` (`praisonai`)
-- **TypeScript SDK** — JS/TS runtime (`src/praisonai-ts/`)
-- **Rust SDK** — High-performance Rust runtime (`src/praisonai-rust/`)
-- **UI** — Web UI applications (`src/praisonai/praisonai/ui_chat/`, `src/praisonai/praisonai/ui_agents/`, `src/praisonai/praisonai/ui_bot/`, `src/praisonai/praisonai/ui_realtime/`); shared support code lives in `src/praisonai/praisonai/ui/`.
+- **Python Core SDK** — `src/octic-ai-agent-agents/` (`octic-ai-agentagents`)
+- **Python Terminal CLI** — `src/octic-ai-agent-code/` (`octic-ai-agent-code`)
+- **Python Wrapper** — `src/octic-ai-agent/` (`octic-ai-agent`)
+- **TypeScript SDK** — JS/TS runtime (`src/octic-ai-agent-ts/`)
+- **Rust SDK** — High-performance Rust runtime (`src/octic-ai-agent-rust/`)
+- **UI** — Web UI applications (`src/octic-ai-agent/octic-ai-agent/ui_chat/`, `src/octic-ai-agent/octic-ai-agent/ui_agents/`, `src/octic-ai-agent/octic-ai-agent/ui_bot/`, `src/octic-ai-agent/octic-ai-agent/ui_realtime/`); shared support code lives in `src/octic-ai-agent/octic-ai-agent/ui/`.
 
 ---
 
@@ -303,9 +303,9 @@ flowchart TB
 
 ### Interface Layer
 
-- **CLI** — The `praisonai` command-line entry point
-- **SDK** — Python library API (`from praisonai import Agent`)
-- **API Gateway** — HTTP/WebSocket REST API (`praisonai api` or `a2a`/`a2ui`)
+- **CLI** — The `octic-ai-agent` command-line entry point
+- **SDK** — Python library API (`from octic-ai-agent import Agent`)
+- **API Gateway** — HTTP/WebSocket REST API (`octic-ai-agent api` or `a2a`/`a2ui`)
 
 ### Control Plane
 
@@ -460,7 +460,7 @@ def test_agent_workflow():
 
 ### Current Telemetry Stack
 
-PraisonAI already includes:
+Octic AI Agent already includes:
 
 - **OpenTelemetry integration** — Manual and auto-instrumentation for
   traces, metrics, and logs.
@@ -530,7 +530,7 @@ sequenceDiagram
 
 | Project | Description | Status |
 |---------|-------------|--------|
-| C7 hot path | Standalone `praisonai-code run/chat/code` without wrapper import | **Complete** |
+| C7 hot path | Standalone `octic-ai-agent-code run/chat/code` without wrapper import | **Complete** |
 | C7.1 boundaries | Three-tier ownership, `_wrapper_bridge`, import gates | **Complete** |
 | CI parity | Smoke standalone block + pre-existing test fixes (#2560) | **Complete** |
 
@@ -554,7 +554,7 @@ sequenceDiagram
 
 ```mermaid
 gantt
-    title PraisonAI Architecture Program (2 Quarters)
+    title Octic AI Agent Architecture Program (2 Quarters)
     dateFormat  YYYY-MM-DD
     section Quarter 1
     Reliability hardening + parity CI       :a1, 2026-07-01, 45d

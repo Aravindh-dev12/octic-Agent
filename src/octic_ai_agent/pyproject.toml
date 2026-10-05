@@ -335,10 +335,9 @@ override-dependencies = [
 requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["octic_ai_agent*"]
-exclude = []
+[tool.setuptools]
+package-dir = { "octic_ai_agent" = "." }
+packages = ["octic_ai_agent"]
 
 [tool.setuptools.package-data]
 "octic_ai_agent" = ["*.yaml", "*.yml", "*.json"]

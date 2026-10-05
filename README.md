@@ -198,7 +198,6 @@ agent.start("Deploy to staging, then list the files you can read")
 ```
 
 ### Layer 4 · Loop — *When do we stop?*
-
 Hard iteration caps, budget ceilings, no-progress detection and completion checks — every brake is explicit.
 
 ```python
@@ -397,8 +396,7 @@ Powered by 100+ LLMs (OpenAI, Anthropic, Gemini & local models).
 | Together AI | [Example](examples/python/providers/together/together_ai_example.py) |
 | OpenRouter | [Example](examples/python/providers/openrouter/openrouter_example.py) |
 | HuggingFace | [Example](examples/python/providers/huggingface/huggingface_example.py) |
-| Azure OpenAI | [Example](examples/python/providers/azure/azure_openai_example.py) |
-| AWS Bedrock | [Example](examples/python/providers/aws/aws_bedrock_example.py) |
+| Azure OpenAI | [Example](examples/python/providers/azure/azure_openai_example.py) || AWS Bedrock | [Example](examples/python/providers/aws/aws_bedrock_example.py) |
 | Google Vertex | [Example](examples/python/providers/vertex/vertex_example.py) |
 | Databricks | [Example](examples/python/providers/databricks/databricks_example.py) |
 | Cloudflare | [Example](examples/python/providers/cloudflare/cloudflare_example.py) |
@@ -598,7 +596,6 @@ Copy `.env.example` to `.env` and configure the following variables:
 | `TAVILY_API_KEY` | Yes (Claw) | Tavily key for the built-in web-search tool. Get one free at https://app.tavily.com |
 
 Open **http://localhost:8082** — the dashboard comes with 13 built-in pages: Chat, Agents, Memory, Knowledge, Channels, Guardrails, Cron, and more. Add messaging channels directly from the UI.
-
 > 📖 [Full Claw docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/claw) — platform tokens, CLI options, Docker, and YAML agent mode
 
 ### 7. Langflow Integration 🔗 (Visual Flow Builder)
@@ -797,8 +794,7 @@ octic-ai-agent agents.yaml
 | Deep Research Agents | [Example](examples/python/agents/research-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/deep-research) |
 | Query Rewriter Agent | [Example](examples/python/agents/query-rewriter-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/query-rewriter) |
 | Native Web Search | [Example](examples/python/agents/websearch-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/websearch) |
-| Built-in Search Tools | [Example](examples/python/agents/websearch-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/tools/tavily) |
-| Unified Web Search | [Example](examples/python/web_search_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/tools/web-search) |
+| Built-in Search Tools | [Example](examples/python/agents/websearch-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/tools/tavily) || Unified Web Search | [Example](examples/python/web_search_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/tools/web-search) |
 | Web Fetch (Anthropic) | [Example](examples/python/agents/web-fetch-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/model-capabilities) |
 
 </details>
@@ -998,259 +994,7 @@ agent.start('Write a movie script about a robot in Mars');
 
 ---
 
-## ⚡ Performance
 
-Octic AI Agent is built for speed, with agent instantiation in around 14μs. This reduces overhead, improves responsiveness, and helps multi-agent systems scale efficiently in real-world production workloads.
+## Kaggle Notebook
 
-| Performance Metric | Octic AI Agent |
-|--------------------|-----------|
-| Avg Instantiation Time | **14 μs** |
-
----
-
-
-
----
-
-## ⭐ Star History
-
-[![Star History Chart](https://api.star-history.com/svg?repos=MervinPraison/Octic AI Agent&type=Date)](https://github.com/Aravindh-dev12/octic-Agent)
-
----
-
-<p align="center">
-  <img src=".github/images/agentflow.gif" alt="Octic AI Agent AgentFlow" width="800" />
-</p>
-
-<p align="center">
-  <img src=".github/images/latest_ai_news_and_crawl_each_url_to_find_info.gif" alt="Octic AI Agent command execution" width="800" />
-</p>
-
-\* `export TAVILY_API_KEY=xxxxx`
-
-## 🔍 Langfuse Tracing
-
-```bash
-pip install "octic-ai-agent[langfuse]"
-octic-ai-agent langfuse
-```
-
-<p align="center">
-  <img src=".github/images/langfuse.png" alt="Octic AI Agent Langfuse Tracing" width="800" />
-</p>
-
----
-
-## 🎓 Video Tutorials
-
-Learn Octic AI Agent through our comprehensive video series:
-
-<details>
-<summary><strong>View all 22 video tutorials</strong></summary>
-
-| Topic | Video |
-|-------|--------|
-| AI Agents with Self Reflection | [![Self Reflection](https://img.youtube.com/vi/vLXobEN2Vc8/0.jpg)](https://www.youtube.com/watch?v=vLXobEN2Vc8) |
-| Reasoning Data Generating Agent | [![Reasoning Data](https://img.youtube.com/vi/fUT332Y2zA8/0.jpg)](https://www.youtube.com/watch?v=fUT332Y2zA8) |
-| AI Agents with Reasoning | [![Reasoning](https://img.youtube.com/vi/KNDVWGN3TpM/0.jpg)](https://www.youtube.com/watch?v=KNDVWGN3TpM) |
-| Multimodal AI Agents | [![Multimodal](https://img.youtube.com/vi/hjAWmUT1qqY/0.jpg)](https://www.youtube.com/watch?v=hjAWmUT1qqY) |
-| AI Agents Workflow | [![Workflow](https://img.youtube.com/vi/yWTH44QPl2A/0.jpg)](https://www.youtube.com/watch?v=yWTH44QPl2A) |
-| Async AI Agents | [![Async](https://img.youtube.com/vi/VhVQfgo00LE/0.jpg)](https://www.youtube.com/watch?v=VhVQfgo00LE) |
-| Mini AI Agents | [![Mini](https://img.youtube.com/vi/OkvYp5aAGSg/0.jpg)](https://www.youtube.com/watch?v=OkvYp5aAGSg) |
-| AI Agents with Memory | [![Memory](https://img.youtube.com/vi/1hVfVxvPnnQ/0.jpg)](https://www.youtube.com/watch?v=1hVfVxvPnnQ) |
-| Repetitive Agents | [![Repetitive](https://img.youtube.com/vi/dAYGxsjDOPg/0.jpg)](https://www.youtube.com/watch?v=dAYGxsjDOPg) |
-| Introduction | [![Introduction](https://img.youtube.com/vi/Fn1lQjC0GO0/0.jpg)](https://www.youtube.com/watch?v=Fn1lQjC0GO0) |
-| Tools Overview | [![Tools Overview](https://img.youtube.com/vi/XaQRgRpV7jo/0.jpg)](https://www.youtube.com/watch?v=XaQRgRpV7jo) |
-| Custom Tools | [![Custom Tools](https://img.youtube.com/vi/JSU2Rndh06c/0.jpg)](https://www.youtube.com/watch?v=JSU2Rndh06c) |
-| Firecrawl Integration | [![Firecrawl](https://img.youtube.com/vi/UoqUDcLcOYo/0.jpg)](https://www.youtube.com/watch?v=UoqUDcLcOYo) |
-| User Interface | [![UI](https://img.youtube.com/vi/tg-ZjNl3OCg/0.jpg)](https://www.youtube.com/watch?v=tg-ZjNl3OCg) |
-| Crawl4AI Integration | [![Crawl4AI](https://img.youtube.com/vi/KAvuVUh0XU8/0.jpg)](https://www.youtube.com/watch?v=KAvuVUh0XU8) |
-| Chat Interface | [![Chat](https://img.youtube.com/vi/sw3uDqn2h1Y/0.jpg)](https://www.youtube.com/watch?v=sw3uDqn2h1Y) |
-| Code Interface | [![Code](https://img.youtube.com/vi/_5jQayO-MQY/0.jpg)](https://www.youtube.com/watch?v=_5jQayO-MQY) |
-| Mem0 Integration | [![Mem0](https://img.youtube.com/vi/KIGSgRxf1cY/0.jpg)](https://www.youtube.com/watch?v=KIGSgRxf1cY) |
-| Training | [![Training](https://img.youtube.com/vi/aLawE8kwCrI/0.jpg)](https://www.youtube.com/watch?v=aLawE8kwCrI) |
-| Realtime Voice Interface | [![Realtime](https://img.youtube.com/vi/frRHfevTCSw/0.jpg)](https://www.youtube.com/watch?v=frRHfevTCSw) |
-| Call Interface | [![Call](https://img.youtube.com/vi/m1cwrUG2iAk/0.jpg)](https://www.youtube.com/watch?v=m1cwrUG2iAk) |
-| Reasoning Extract Agents | [![Reasoning Extract](https://img.youtube.com/vi/2PPamsADjJA/0.jpg)](https://www.youtube.com/watch?v=2PPamsADjJA) |
-
-</details>
-
----
-
-## 👥 Contributing
-
-We welcome contributions! Fork the repo, create a branch, and submit a PR → [Contributing Guide](https://github.com/Aravindh-dev12/octic-Agent/blob/main/CONTRIBUTING.md).
-
----
-
-## ❓ FAQ & Troubleshooting
-
-<details>
-<summary><strong>ModuleNotFoundError: No module named 'praisonaiagents'</strong></summary>
-
-Install the package:
-```bash
-pip install praisonaiagents
-```
-
-</details>
-
-<details>
-<summary><strong>API key not found / Authentication error</strong></summary>
-
-Ensure your API key is set:
-```bash
-export OPENAI_API_KEY=your_key_here
-```
-
-For other providers, see [Models docs](https://github.com/Aravindh-dev12/octic-Agent/docs/models).
-
-</details>
-
-<details>
-<summary><strong>How do I use a local model (Ollama)?</strong></summary>
-
-```bash
-# Start Ollama and pull a model
-ollama serve
-ollama pull llama3.2
-```
-
-```python
-from praisonaiagents import Agent
-
-agent = Agent(instructions="You are a helpful assistant", llm="ollama/llama3.2")
-agent.start("Why is the sky blue?")
-```
-
-The `ollama/` prefix is what selects Ollama's handling — tool-call repair,
-tool-result formatting and the streaming rules small local models need. Or set
-it by environment instead:
-
-```bash
-export OPENAI_MODEL_NAME=ollama/llama3.2
-```
-
-Setting only `OPENAI_BASE_URL` is not enough: with no model named, the OpenAI
-default (`gpt-4o-mini`) is sent to Ollama, which answers
-`404 model 'gpt-4o-mini' not found`. Always name the model.
-
-Point at a non-default host with `base_url=` or `OLLAMA_HOST`:
-
-```python
-agent = Agent(instructions="...", llm="ollama/llama3.2", base_url="http://192.168.1.10:11434")
-```
-
-The same shape works for other local runtimes — `lm_studio/`, `vllm/` and
-`hosted_vllm/` with their server's `base_url`.
-
-See [Models docs](https://github.com/Aravindh-dev12/octic-Agent/docs/models) for more details.
-
-</details>
-
-<details>
-<summary><strong>How do I persist conversations to a database?</strong></summary>
-
-Use the `db` parameter:
-```python
-from praisonaiagents import Agent, db
-
-agent = Agent(
-    name="Assistant",
-    memory={
-        "db": db(database_url="postgresql://localhost/mydb"),
-        "session_id": "my-session",
-    },
-)
-```
-
-See [Persistence docs](https://github.com/Aravindh-dev12/octic-Agent/docs/databases/overview) for supported databases.
-
-</details>
-
-<details>
-<summary><strong>How do I enable agent memory?</strong></summary>
-
-```python
-from praisonaiagents import Agent
-
-agent = Agent(
-    name="Assistant",
-    # Enables file-based memory (no extra deps!)
-    memory={"user_id": "user123"},
-)
-```
-
-See [Memory docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/memory) for more options.
-
-</details>
-
-<details>
-<summary><strong>How do I run multiple agents together?</strong></summary>
-
-```python
-from praisonaiagents import Agent, Agents
-
-agent1 = Agent(instructions="Research topics")
-agent2 = Agent(instructions="Summarize findings")
-agents = Agents(agents=[agent1, agent2])
-agents.start()
-```
-
-See [Agents docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agents) for more examples.
-
-</details>
-
-<details>
-<summary><strong>How do I use MCP tools?</strong></summary>
-
-```python
-from praisonaiagents import Agent, MCP
-
-agent = Agent(
-    tools=MCP("npx @modelcontextprotocol/server-memory")
-)
-```
-
-See [MCP docs](https://github.com/Aravindh-dev12/octic-Agent/docs/mcp/transports) for all transport options.
-
-</details>
-
-### Getting Help
-
-- 📚 [Full Documentation](https://github.com/Aravindh-dev12/octic-Agent)
-- 🐛 [Report Issues](https://github.com/Aravindh-dev12/octic-Agent/issues)
-- 💬 [Discussions](https://github.com/Aravindh-dev12/octic-Agent/discussions)
-
----
-
-<div align="center">
-  <p><strong>Made with ❤️ by the Octic AI Agent Team</strong></p>
-  <p>
-    <a href="https://github.com/Aravindh-dev12/octic-Agent">📚 Documentation</a> •
-    <a href="https://github.com/Aravindh-dev12/octic-Agent">GitHub</a> •
-    <a href="https://youtube.com/@MervinPraison">▶️ YouTube</a> •
-    <a href="https://x.com/MervinPraison">𝕏 X</a> •
-    <a href="https://linkedin.com/in/mervinpraison">💼 LinkedIn</a>
-  </p>
-</div>
-
-
-## Octic Product Runtime
-
-The repository includes a production API, a GitHub-native Gradio UI, a Hugging Face Space bundle, reproducible Kaggle notebooks, and CI validation.
-
-UI: ui/app.py
-API: src/octic_ai_agent/api_server.py
-Hugging Face Space source: huggingface_space/
-Kaggle notebooks: kaggle/
-CI: .github/workflows/octic-ai-agent-ci.yml
-
-### Run the UI
-
-    python -m pip install -e "src/octic_ai_agent[ui]"
-    python ui/app.py
-
-### Publish the Hugging Face Space
-
-Add a GitHub Actions secret named HF_TOKEN with Hugging Face write access. Optionally add a repository variable named HF_SPACE_ID (default: Aravindhan11/octic-ai-agent), then run the Publish Octic AI Agent to Hugging Face workflow.
+https://www.kaggle.com/code/thearavindh/notebook89669f157b

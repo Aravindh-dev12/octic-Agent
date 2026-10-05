@@ -1,0 +1,779 @@
+"""Unit tests for n8n agent invoke API endpoint."""
+
+import pytest
+import json
+from unittest.mock import Mock, patch, AsyncMock
+
+
+class TestAgentInvokeAPI:
+    """Test the agent invoke API endpoint for n8n integration."""
+    
+    def test_import_agent_invoke(self):
+        """Test that agent invoke module can be imported."""
+        try:
+            from praisonai.api.agent_invoke import (
+                register_agent, 
+                get_agent, 
+                unregister_agent,
+                list_registered_agents,
+                invoke_agent_standalone
+            )
+            assert callable(register_agent)
+            assert callable(get_agent)
+            assert callable(unregister_agent)
+            assert callable(list_registered_agents)
+            assert callable(invoke_agent_standalone)
+        except ImportError as e:
+            pytest.fail(f"Failed to import agent invoke module: {e}")
+    
+    def test_agent_registry_operations(self):
+        """Test agent registration and retrieval."""
+        from praisonai.api.agent_invoke import (
+            register_agent, 
+            get_agent, 
+            unregister_agent,
+            list_registered_agents
+        )
+        
+        # Create mock agent
+        mock_agent = Mock()
+        mock_agent.name = "test-agent"
+        mock_agent.start.return_value = "Test response"
+        
+        # Test registration
+        register_agent("test-agent", mock_agent)
+        assert get_agent("test-agent") == mock_agent
+        assert "test-agent" in list_registered_agents()
+        
+        # Test retrieval
+        retrieved_agent = get_agent("test-agent")
+        assert retrieved_agent == mock_agent
+        
+        # Test unregistration
+        success = unregister_agent("test-agent")
+        assert success is True
+        assert get_agent("test-agent") is None
+        assert "test-agent" not in list_registered_agents()
+        
+        # Test unregistering non-existent agent
+        success = unregister_agent("non-existent")
+        assert success is False
+    
+    @pytest.mark.asyncio
+    async def test_invoke_agent_standalone_sync(self):
+        """Test standalone agent invocation with sync agent."""
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            invoke_agent_standalone,
+            unregister_agent
+        )
+        
+        # Create mock sync agent
+        mock_agent = Mock()
+        mock_agent.start.return_value = "Hello from sync agent!"
+        
+        # Register agent
+        register_agent("sync-agent", mock_agent)
+        
+        try:
+            # Test invocation
+            result = await invoke_agent_standalone(
+                agent_id="sync-agent",
+                message="Hello agent",
+                session_id="test-session"
+            )
+            
+            assert result["status"] == "success"
+            assert result["result"] == "Hello from sync agent!"
+            assert result["session_id"] == "test-session"
+            assert result["agent_id"] == "sync-agent"
+            
+            # Verify agent was called correctly
+            mock_agent.start.assert_called_once_with("Hello agent")
+            
+        finally:
+            unregister_agent("sync-agent")
+    
+    @pytest.mark.asyncio
+    async def test_invoke_agent_standalone_async(self):
+        """Test standalone agent invocation with async agent."""
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            invoke_agent_standalone,
+            unregister_agent
+        )
+        
+        # Create mock async agent
+        mock_agent = Mock()
+        mock_agent.astart = AsyncMock(return_value="Hello from async agent!")
+        
+        # Register agent
+        register_agent("async-agent", mock_agent)
+        
+        try:
+            # Test invocation
+            result = await invoke_agent_standalone(
+                agent_id="async-agent",
+                message="Hello async agent",
+                session_id="async-session"
+            )
+            
+            assert result["status"] == "success"
+            assert result["result"] == "Hello from async agent!"
+            assert result["session_id"] == "async-session"
+            assert result["agent_id"] == "async-agent"
+            
+            # Verify agent was called correctly
+            mock_agent.astart.assert_called_once_with("Hello async agent")
+            
+        finally:
+            unregister_agent("async-agent")
+    
+    @pytest.mark.asyncio
+    async def test_invoke_agent_standalone_not_found(self):
+        """Test standalone invocation with non-existent agent."""
+        from praisonai.api.agent_invoke import invoke_agent_standalone
+        
+        result = await invoke_agent_standalone(
+            agent_id="non-existent",
+            message="Hello"
+        )
+        
+        assert result["status"] == "error"
+        assert "not found" in result["error"]
+        assert "available_agents" in result
+    
+    @pytest.mark.asyncio
+    async def test_invoke_agent_standalone_error(self):
+        """Test standalone invocation with agent that raises an exception."""
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            invoke_agent_standalone,
+            unregister_agent
+        )
+        
+        # Create mock agent that raises an exception
+        mock_agent = Mock()
+        mock_agent.start.side_effect = Exception("Agent error")
+        
+        # Register agent
+        register_agent("error-agent", mock_agent)
+        
+        try:
+            # Test invocation
+            result = await invoke_agent_standalone(
+                agent_id="error-agent",
+                message="Hello"
+            )
+            
+            assert result["status"] == "error"
+            assert "Agent error" in result["error"]
+            assert result["agent_id"] == "error-agent"
+            
+        finally:
+            unregister_agent("error-agent")
+
+
+@pytest.mark.skipif(not pytest.importorskip("fastapi", minversion="0.68.0"), reason="FastAPI not available")
+class TestAgentInvokeFastAPI:
+    """Test the FastAPI agent invoke endpoints."""
+    
+    @pytest.fixture
+    def client(self):
+        """Create a test client for the agent invoke API."""
+        try:
+            from fastapi.testclient import TestClient
+            from praisonai.api.agent_invoke import router
+            from fastapi import FastAPI
+            
+            app = FastAPI()
+            app.include_router(router)
+            return TestClient(app)
+        except (ImportError, RuntimeError):
+            pytest.skip("FastAPI test dependencies not available")
+    
+    def test_list_agents_endpoint(self, client):
+        """Test the list agents endpoint."""
+        from praisonai.api.agent_invoke import register_agent, unregister_agent
+        
+        # Register test agent
+        mock_agent = Mock()
+        register_agent("test-agent", mock_agent)
+        
+        try:
+            # Test endpoint
+            response = client.get("/api/v1/agents")
+            assert response.status_code == 200
+            
+            data = response.json()
+            assert data["status"] == "success"
+            assert "test-agent" in data["agents"]
+            assert data["count"] >= 1
+            
+        finally:
+            unregister_agent("test-agent")
+    
+    def test_get_agent_info_endpoint(self, client):
+        """Test the get agent info endpoint."""
+        from praisonai.api.agent_invoke import register_agent, unregister_agent
+        
+        # Create mock agent with attributes
+        mock_agent = Mock()
+        mock_agent.name = "Test Agent"
+        mock_agent.instructions = "You are a test agent for unit testing."
+        mock_agent.tools = [Mock(), Mock()]  # Two mock tools
+        
+        register_agent("info-agent", mock_agent)
+        
+        try:
+            # Test endpoint
+            response = client.get("/api/v1/agents/info-agent")
+            assert response.status_code == 200
+            
+            data = response.json()
+            assert data["agent_id"] == "info-agent"
+            assert data["name"] == "Test Agent"
+            assert data["status"] == "registered"
+            assert "instructions" in data
+            assert "tools" in data
+            
+        finally:
+            unregister_agent("info-agent")
+    
+    def test_get_agent_info_not_found(self, client):
+        """Test get agent info for non-existent agent."""
+        response = client.get("/api/v1/agents/non-existent")
+        assert response.status_code == 404
+        
+        data = response.json()
+        assert "not found" in data["detail"]
+    
+    def test_invoke_agent_endpoint_sync(self, client):
+        """Test the invoke agent endpoint with sync agent."""
+        from praisonai.api.agent_invoke import register_agent, unregister_agent
+        
+        # Create mock sync agent
+        mock_agent = Mock()
+        mock_agent.start.return_value = "Hello from endpoint!"
+        
+        register_agent("endpoint-agent", mock_agent)
+        
+        try:
+            # Test endpoint
+            response = client.post(
+                "/api/v1/agents/endpoint-agent/invoke",
+                json={
+                    "message": "Hello endpoint",
+                    "session_id": "endpoint-session"
+                }
+            )
+            
+            assert response.status_code == 200
+            
+            data = response.json()
+            assert data["status"] == "success"
+            assert data["result"] == "Hello from endpoint!"
+            assert data["session_id"] == "endpoint-session"
+            assert "metadata" in data
+            
+            # Verify agent was called
+            mock_agent.start.assert_called_once_with("Hello endpoint")
+            
+        finally:
+            unregister_agent("endpoint-agent")
+    
+    def test_invoke_agent_endpoint_not_found(self, client):
+        """Test invoke endpoint with non-existent agent."""
+        response = client.post(
+            "/api/v1/agents/non-existent/invoke",
+            json={"message": "Hello"}
+        )
+        
+        assert response.status_code == 404
+        data = response.json()
+        assert "not found" in data["detail"]
+    
+    def test_invoke_agent_endpoint_missing_message(self, client):
+        """Test invoke endpoint with missing message."""
+        from praisonai.api.agent_invoke import register_agent, unregister_agent
+        
+        mock_agent = Mock()
+        register_agent("message-test", mock_agent)
+        
+        try:
+            # Test with missing message field
+            response = client.post(
+                "/api/v1/agents/message-test/invoke",
+                json={}
+            )
+            
+            assert response.status_code == 422  # Validation error
+            
+        finally:
+            unregister_agent("message-test")
+    
+    def test_unregister_agent_endpoint(self, client):
+        """Test the unregister agent endpoint."""
+        from praisonai.api.agent_invoke import register_agent
+        
+        # Register agent
+        mock_agent = Mock()
+        register_agent("unregister-test", mock_agent)
+        
+        # Test unregistration
+        response = client.delete("/api/v1/agents/unregister-test")
+        assert response.status_code == 200
+        
+        data = response.json()
+        assert data["status"] == "success"
+        assert "unregistered successfully" in data["message"]
+        
+        # Test unregistering again (should fail)
+        response = client.delete("/api/v1/agents/unregister-test")
+        assert response.status_code == 404
+
+
+class TestSessionIsolation:
+    """Verify session_id yields isolated + continuous conversations (Issue #3105)."""
+
+    def test_resolve_session_agent_falls_back_for_mocks(self):
+        """Non-Agent objects (mocks) stay on the shared instance for back-compat."""
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            unregister_agent,
+            resolve_session_agent,
+        )
+
+        mock_agent = Mock(spec=["start", "name"])
+        register_agent("mock-fallback", mock_agent)
+        try:
+            resolved = resolve_session_agent("mock-fallback", "s1")
+            assert resolved is mock_agent
+        finally:
+            unregister_agent("mock-fallback")
+
+    def test_resolve_session_agent_missing_returns_none(self):
+        from praisonai.api.agent_invoke import resolve_session_agent
+
+        assert resolve_session_agent("does-not-exist", "s1") is None
+
+    def test_real_agent_clones_are_isolated(self, tmp_path, monkeypatch):
+        """Two session_ids produce distinct, isolated agent clones."""
+        praisonaiagents = pytest.importorskip("praisonaiagents")
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            unregister_agent,
+            resolve_session_agent,
+        )
+
+        agent = praisonaiagents.Agent(
+            name="iso-agent",
+            instructions="test",
+            llm="gpt-4o-mini",
+        )
+        register_agent("iso-agent", agent)
+        try:
+            a = resolve_session_agent("iso-agent", "A")
+            b = resolve_session_agent("iso-agent", "B")
+
+            # Distinct clones, distinct histories, correct session binding.
+            assert a is not b
+            assert a is not agent
+            assert a._session_id == "A"
+            assert b._session_id == "B"
+            assert a.chat_history is not b.chat_history
+
+            # Mutating one clone's history does not affect the other or template.
+            a.chat_history.append({"role": "user", "content": "hi from A"})
+            assert b.chat_history == []
+            assert agent.chat_history == []
+        finally:
+            unregister_agent("iso-agent")
+
+    def test_no_session_id_is_ephemeral(self):
+        """Absent session_id yields an unbound (ephemeral) clone."""
+        praisonaiagents = pytest.importorskip("praisonaiagents")
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            unregister_agent,
+            resolve_session_agent,
+        )
+
+        agent = praisonaiagents.Agent(
+            name="ephemeral-agent",
+            instructions="test",
+            llm="gpt-4o-mini",
+        )
+        register_agent("ephemeral-agent", agent)
+        try:
+            clone = resolve_session_agent("ephemeral-agent", None)
+            assert clone is not agent
+            assert clone._session_id is None
+            assert clone.chat_history == []
+        finally:
+            unregister_agent("ephemeral-agent")
+
+    def test_agent_subclass_is_isolated(self):
+        """Application-defined ``Agent`` subclasses are isolated, not shared."""
+        praisonaiagents = pytest.importorskip("praisonaiagents")
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            unregister_agent,
+            resolve_session_agent,
+        )
+
+        class MyAgent(praisonaiagents.Agent):
+            pass
+
+        agent = MyAgent(name="sub-agent", instructions="test", llm="gpt-4o-mini")
+        register_agent("sub-agent", agent)
+        try:
+            a = resolve_session_agent("sub-agent", "A")
+            b = resolve_session_agent("sub-agent", "B")
+            # Subclass must be recognised and cloned per session, not shared.
+            assert a is not agent
+            assert isinstance(a, MyAgent)
+            assert a is not b
+            assert a._session_id == "A"
+            assert b._session_id == "B"
+            assert a.chat_history is not b.chat_history
+        finally:
+            unregister_agent("sub-agent")
+
+    def test_clone_failure_raises_instead_of_sharing(self, monkeypatch):
+        """A clone failure must raise, never fall back to the shared template."""
+        praisonaiagents = pytest.importorskip("praisonaiagents")
+        from praisonai.api import agent_invoke
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            unregister_agent,
+            resolve_session_agent,
+        )
+
+        agent = praisonaiagents.Agent(
+            name="clonefail-agent",
+            instructions="test",
+            llm="gpt-4o-mini",
+        )
+        register_agent("clonefail-agent", agent)
+
+        def _boom(_agent):
+            raise RuntimeError("clone exploded")
+
+        monkeypatch.setattr(agent_invoke, "_clone_agent", _boom)
+        try:
+            with pytest.raises(RuntimeError):
+                resolve_session_agent("clonefail-agent", "A")
+        finally:
+            unregister_agent("clonefail-agent")
+
+
+def _make_isolatable_clone():
+    """Build a mock that ``_supports_session_isolation`` accepts as a clone.
+
+    Cleanup ownership is derived from the resolved agent itself
+    (``_supports_session_isolation``), not a second registry lookup, so a clone
+    the helper should close must look session-isolatable: a real ``Agent``
+    instance exposing ``_session_id``, ``chat_history`` and ``clone_for_channel``.
+    """
+    from praisonaiagents import Agent
+
+    clone = Mock(spec=Agent)
+    clone._session_id = None
+    clone.chat_history = []
+    clone.clone_for_channel = Mock()
+    return clone
+
+
+class TestAgentInvokeCleanup:
+    """Every invoke path must release its per-request agent clone (issue #5076)."""
+
+    @pytest.mark.asyncio
+    async def test_standalone_closes_cloned_agent(self):
+        """A session-isolatable clone gets aclose()/close() after invoke."""
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            unregister_agent,
+            invoke_agent_standalone,
+        )
+        import praisonai.api.agent_invoke as agent_invoke
+
+        template = Mock()
+        clone = _make_isolatable_clone()
+        clone.astart = AsyncMock(return_value="ok")
+        clone.aclose = AsyncMock()
+
+        register_agent("clean-agent", template)
+        try:
+            with patch.object(agent_invoke, "resolve_session_agent", return_value=clone):
+                result = await invoke_agent_standalone("clean-agent", "hi")
+            assert result["status"] == "success"
+            clone.aclose.assert_awaited_once()
+        finally:
+            unregister_agent("clean-agent")
+
+    @pytest.mark.asyncio
+    async def test_standalone_closes_clone_on_failure(self):
+        """Cleanup still runs when the agent invocation raises."""
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            unregister_agent,
+            invoke_agent_standalone,
+        )
+        import praisonai.api.agent_invoke as agent_invoke
+
+        template = Mock()
+        clone = _make_isolatable_clone()
+        clone.astart = AsyncMock(side_effect=RuntimeError("boom"))
+        clone.aclose = AsyncMock()
+
+        register_agent("fail-agent", template)
+        try:
+            with patch.object(agent_invoke, "resolve_session_agent", return_value=clone):
+                result = await invoke_agent_standalone("fail-agent", "hi")
+            assert result["status"] == "error"
+            clone.aclose.assert_awaited_once()
+        finally:
+            unregister_agent("fail-agent")
+
+    @pytest.mark.asyncio
+    async def test_shared_template_not_closed(self):
+        """The shared registry instance (mock fallback) must NOT be closed."""
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            unregister_agent,
+            invoke_agent_standalone,
+        )
+        import praisonai.api.agent_invoke as agent_invoke
+
+        # resolve_session_agent returns the SAME object for a non-isolatable agent.
+        template = Mock()
+        template.start.return_value = "ok"
+        template.aclose = AsyncMock()
+        template.close = Mock()
+
+        register_agent("shared-agent", template)
+        try:
+            with patch.object(agent_invoke, "resolve_session_agent", return_value=template):
+                result = await invoke_agent_standalone("shared-agent", "hi")
+            assert result["status"] == "success"
+            template.aclose.assert_not_called()
+            template.close.assert_not_called()
+        finally:
+            unregister_agent("shared-agent")
+
+    @pytest.mark.asyncio
+    async def test_cleanup_error_does_not_mask_response(self):
+        """A close() failure is swallowed; the successful result is returned."""
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            unregister_agent,
+            invoke_agent_standalone,
+        )
+        import praisonai.api.agent_invoke as agent_invoke
+
+        template = Mock()
+        clone = _make_isolatable_clone()
+        clone.astart = AsyncMock(return_value="ok")
+        clone.aclose = AsyncMock(side_effect=RuntimeError("cleanup failed"))
+
+        register_agent("noisy-agent", template)
+        try:
+            with patch.object(agent_invoke, "resolve_session_agent", return_value=clone):
+                result = await invoke_agent_standalone("noisy-agent", "hi")
+            assert result["status"] == "success"
+            clone.aclose.assert_awaited_once()
+        finally:
+            unregister_agent("noisy-agent")
+
+    @pytest.mark.asyncio
+    async def test_safe_close_agent_prefers_aclose(self):
+        """_safe_close_agent uses aclose when it is a coroutine function."""
+        from praisonai.api.agent_invoke import _safe_close_agent
+
+        clone = _make_isolatable_clone()
+        clone.aclose = AsyncMock()
+        clone.close = Mock()
+        await _safe_close_agent(clone)
+        clone.aclose.assert_awaited_once()
+        clone.close.assert_not_called()
+
+    @pytest.mark.asyncio
+    async def test_safe_close_agent_falls_back_to_sync_close(self):
+        """_safe_close_agent uses close() when no async aclose is available."""
+        from praisonai.api.agent_invoke import _safe_close_agent
+
+        clone = _make_isolatable_clone()
+        # No coroutine ``aclose`` on this clone -> sync close() path.
+        clone.aclose = None
+        clone.close = Mock()
+        await _safe_close_agent(clone)
+        clone.close.assert_called_once()
+
+    @pytest.mark.asyncio
+    async def test_safe_close_agent_skips_non_isolatable(self):
+        """_safe_close_agent never closes a shared, non-isolatable instance."""
+        from praisonai.api.agent_invoke import _safe_close_agent
+
+        # A plain mock is not session-isolatable -> it is the shared registry
+        # instance and must be left untouched, regardless of registry timing.
+        shared = Mock()
+        shared.aclose = AsyncMock()
+        shared.close = Mock()
+        await _safe_close_agent(shared)
+        shared.aclose.assert_not_called()
+        shared.close.assert_not_called()
+
+    @pytest.mark.asyncio
+    async def test_agent_aclose_releases_llm_client(self):
+        """Agent.aclose() must tear down a live LLM client before marking closed.
+
+        Regression for issue #5076: the invoke cleanup prefers aclose(); if
+        aclose() skips LLM-client teardown, each per-request clone leaks its
+        client pool. A live ``_llm_instance`` must be closed (async preferred).
+        """
+        from praisonaiagents import Agent
+
+        agent = Agent(name="leaky", instructions="test")
+        llm_client = Mock()
+        llm_client.aclose = AsyncMock()
+        # Seed an already-materialised client (bypass lazy creation).
+        agent._llm_instance = llm_client
+
+        await agent.aclose()
+
+        llm_client.aclose.assert_awaited_once()
+        assert agent._closed is True
+
+    @pytest.mark.asyncio
+    async def test_agent_aclose_does_not_lazily_create_client(self):
+        """aclose() must not instantiate an LLM client just to close it."""
+        from praisonaiagents import Agent
+
+        agent = Agent(name="lazy", instructions="test")
+        # No client was ever materialised.
+        agent._llm_instance = None
+
+        # Should complete cleanly without building an LLM instance.
+        await agent.aclose()
+        assert agent._llm_instance is None
+        assert agent._closed is True
+
+
+@pytest.mark.skipif(not pytest.importorskip("fastapi", minversion="0.68.0"), reason="FastAPI not available")
+class TestAgentInvokeRouteCleanup:
+    """The FastAPI invoke route must also release its per-request clone (#5076)."""
+
+    @pytest.fixture
+    def client(self, monkeypatch):
+        # Disable auth for localhost so the route runs without a token; this
+        # isolates the cleanup behaviour under test from the auth layer.
+        monkeypatch.setenv("PRAISONAI_CALL_AUTH", "disabled")
+        monkeypatch.setenv("PRAISONAI_CALL_BIND_HOST", "127.0.0.1")
+
+        from fastapi.testclient import TestClient
+        from praisonai.api.agent_invoke import router
+        from fastapi import FastAPI
+
+        app = FastAPI()
+        app.include_router(router)
+        return TestClient(app)
+
+    def _register_with_clone(self, monkeypatch, agent_id, clone):
+        import praisonai.api.agent_invoke as agent_invoke
+
+        template = Mock()
+        agent_invoke.register_agent(agent_id, template)
+        monkeypatch.setattr(agent_invoke, "resolve_session_agent",
+                            lambda *a, **k: clone)
+        return template
+
+    def test_route_closes_cloned_agent_on_success(self, client, monkeypatch):
+        """Route closes the resolved clone after a successful invocation."""
+        from praisonai.api.agent_invoke import unregister_agent
+
+        clone = _make_isolatable_clone()
+        del clone.astart  # force the sync start() path
+        clone.start = Mock(return_value="hello")
+        clone.aclose = AsyncMock()
+
+        self._register_with_clone(monkeypatch, "route-clean", clone)
+        try:
+            resp = client.post("/api/v1/agents/route-clean/invoke",
+                               json={"message": "hi"})
+            assert resp.status_code == 200
+            assert resp.json()["result"] == "hello"
+            clone.aclose.assert_awaited_once()
+        finally:
+            unregister_agent("route-clean")
+
+    def test_route_closes_cloned_agent_on_failure(self, client, monkeypatch):
+        """Route still closes the clone when invocation raises (500)."""
+        from praisonai.api.agent_invoke import unregister_agent
+
+        clone = _make_isolatable_clone()
+        clone.astart = AsyncMock(side_effect=RuntimeError("boom"))
+        clone.aclose = AsyncMock()
+
+        self._register_with_clone(monkeypatch, "route-fail", clone)
+        try:
+            resp = client.post("/api/v1/agents/route-fail/invoke",
+                               json={"message": "hi"})
+            assert resp.status_code == 500
+            clone.aclose.assert_awaited_once()
+        finally:
+            unregister_agent("route-fail")
+
+    def test_route_does_not_close_shared_template(self, client, monkeypatch):
+        """Route leaves a shared, non-isolatable instance untouched."""
+        from praisonai.api.agent_invoke import register_agent, unregister_agent
+        import praisonai.api.agent_invoke as agent_invoke
+
+        shared = Mock()
+        shared.start.return_value = "ok"
+        shared.aclose = AsyncMock()
+        shared.close = Mock()
+        register_agent("route-shared", shared)
+        monkeypatch.setattr(agent_invoke, "resolve_session_agent",
+                            lambda *a, **k: shared)
+        try:
+            resp = client.post("/api/v1/agents/route-shared/invoke",
+                               json={"message": "hi"})
+            assert resp.status_code == 200
+            shared.aclose.assert_not_called()
+            shared.close.assert_not_called()
+        finally:
+            unregister_agent("route-shared")
+
+
+def test_agent_invoke_smoke_test():
+    """Smoke test to verify agent invoke module can be imported and used."""
+    try:
+        from praisonai.api.agent_invoke import (
+            register_agent,
+            get_agent,
+            list_registered_agents,
+            AgentInvokeRequest,
+            AgentInvokeResponse,
+            ErrorResponse
+        )
+        
+        # Test that classes can be instantiated
+        if AgentInvokeRequest is not object:  # Only if Pydantic is available
+            request = AgentInvokeRequest(message="test")
+            assert request.message == "test"
+            assert request.session_id is None
+        
+        # Test basic registry functions
+        assert callable(register_agent)
+        assert callable(get_agent)
+        assert isinstance(list_registered_agents(), list)
+        
+    except Exception as e:
+        pytest.fail(f"Agent invoke smoke test failed: {e}")
+
+
+if __name__ == "__main__":
+    # Run smoke test when executed directly
+    test_agent_invoke_smoke_test()
+    print("✅ Agent invoke API smoke test passed")

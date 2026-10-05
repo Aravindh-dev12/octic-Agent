@@ -60,6 +60,7 @@ openai-compat = "praisonai.endpoints.providers.openai_compat:OpenAICompatProvide
 [project.optional-dependencies]
 ui = [
     "aiui>=0.3.121,<0.4",
+    "gradio>=5.0,<7",
 ]
 gradio = ["gradio>=4.26.0"]
 api = [

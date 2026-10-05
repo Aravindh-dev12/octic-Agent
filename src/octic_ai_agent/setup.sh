@@ -85,13 +85,13 @@ run_ui_interface() {
     if [[ $QUICK == true ]]; then
         print_message "Quick starting UI interface with chainlit..."
         setup_chainlit
-        octic-ai-agent ui
+        praisonai ui
     else
         print_message "Starting UI interface..."
         read -p "Use chainlit interface? (y/N): " use_chainlit
         if [[ $use_chainlit =~ ^[Yy]$ ]]; then
             setup_chainlit
-            octic-ai-agent ui
+            praisonai ui
         else
             read -p "Enter your initial prompt (or press enter for default): " prompt
             if [ -z "$prompt" ]; then
@@ -99,9 +99,9 @@ run_ui_interface() {
             fi
             read -p "Use AG2 (Formerly AutoGen) framework? (y/N): " use_ag2
             if [[ $use_ag2 =~ ^[Yy]$ ]]; then
-                octic-ai-agent --framework autogen --init "$prompt"
+                praisonai --framework autogen --init "$prompt"
             else
-                octic-ai-agent --init "$prompt"
+                praisonai --init "$prompt"
             fi
         fi
     fi
@@ -112,7 +112,7 @@ run_chat_interface() {
     check_openai_key
     setup_model_config
     print_message "Starting Chat interface..."
-    python3 -m octic-ai-agent chat
+    python3 -m praisonai chat
 }
 
 # Function to run Code interface
@@ -120,7 +120,7 @@ run_code_interface() {
     check_openai_key
     setup_model_config
     print_message "Starting Code interface..."
-    octic-ai-agent code
+    praisonai code
 }
 
 # Function to run Realtime interface
@@ -128,7 +128,7 @@ run_realtime_interface() {
     check_openai_key
     setup_model_config
     print_message "Starting Realtime voice interaction..."
-    python3 -m octic-ai-agent realtime
+    python3 -m praisonai realtime
 }
 
 # Function to check system dependencies
@@ -355,13 +355,13 @@ done
 
 # Clone repository and checkout tag if not in CICD mode
 if [[ $CICD == false ]]; then
-    print_message "Cloning Octic AI Agent repository and checking out ${TAG}..."
-    if [ ! -d "Octic AI Agent" ]; then
-        git clone https://github.com/Aravindh-dev12/Octic AI Agent.git
-        cd Octic AI Agent
+    print_message "Cloning PraisonAI repository and checking out ${TAG}..."
+    if [ ! -d "PraisonAI" ]; then
+        git clone https://github.com/MervinPraison/PraisonAI.git
+        cd PraisonAI
         git checkout ${TAG}
     else
-        cd Octic AI Agent
+        cd PraisonAI
         git checkout ${TAG}
     fi
 fi
@@ -395,11 +395,11 @@ if [[ $UI == true || $CHAT == true || $CODE == true || $REALTIME == true ]]; the
         install_interface_deps "realtime"
     fi
 
-    # Check if octic-ai-agent is already installed
-    if ! pip show octic-ai-agent &> /dev/null; then
-        print_message "Installing Octic AI Agent components..."
-        pip install octic-ai-agent
-        pip install octic-ai-agentagents
+    # Check if praisonai is already installed
+    if ! pip show praisonai &> /dev/null; then
+        print_message "Installing PraisonAI components..."
+        pip install praisonai
+        pip install praisonaiagents
         
         # Install only the required components based on selected interfaces
         components=()
@@ -410,10 +410,10 @@ if [[ $UI == true || $CHAT == true || $CODE == true || $REALTIME == true ]]; the
         
         # Install selected components
         for component in "${components[@]}"; do
-            pip install "octic-ai-agent[$component]"
+            pip install "praisonai[$component]"
         done
     else
-        print_message "Octic AI Agent is already installed. Skipping installation."
+        print_message "PraisonAI is already installed. Skipping installation."
     fi
 
     print_message "Setup completed successfully!"

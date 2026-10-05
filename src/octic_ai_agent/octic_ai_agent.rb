@@ -1,8 +1,8 @@
-class OcticAiAgent < Formula
+class Praisonai < Formula
     include Language::Python::Virtualenv
   
-    desc "Octic AI Agent - AI agent framework"
-    homepage "https://github.com/Aravindh-dev12/octic-Agent"
+    desc "AI tools for various AI applications"
+    homepage "https://github.com/MervinPraison/PraisonAI"
     url "https://github.com/MervinPraison/PraisonAI/archive/refs/tags/v4.7.12.tar.gz"
     sha256 `curl -sL https://github.com/MervinPraison/PraisonAI/archive/refs/tags/v4.7.12.tar.gz | shasum -a 256`.split.first
     license "MIT"
@@ -14,7 +14,7 @@ class OcticAiAgent < Formula
     end
   
     test do
-      system "#{bin}/octic-ai-agent", "--version"
+      system "#{bin}/praisonai", "--version"
     end
   end
   

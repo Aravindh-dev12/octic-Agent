@@ -1,21 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.MervinPraison/praisonai",
-  "title": "PraisonAI",
-  "description": "AI Agents Framework with Self Reflection and MCP support",
-  "repository": {
-    "url": "https://github.com/MervinPraison/PraisonAI",
-    "source": "github"
-  },
-  "version": "2.3.42",
-  "packages": [
-    {
-      "registryType": "pypi",
-      "identifier": "praisonai",
-      "version": "2.3.42",
-      "transport": {
-        "type": "stdio"
-      }
-    }
-  ]
+  "name": "io.github.Aravindh-dev12/octic-ai-agent",
+  "title": "Octic AI Agent",
+  "description": "Production-oriented AI agent runtime with API, UI, tools, memory, knowledge, MCP and multi-agent workflows.",
+  "repository": {"url": "https://github.com/Aravindh-dev12/octic-Agent", "source": "github"},
+  "version": "0.1.0",
+  "packages": [{"registryType": "pypi", "identifier": "octic-ai-agent", "version": "0.1.0", "transport": {"type": "stdio"}}]
 }

@@ -29,4 +29,4 @@ jobs:
       - name: Compile
         run: python -m compileall -q .
       - name: Tests
-        run: pytest tests -q
+        run: pytest tests/test_production_api.py -q

@@ -65,7 +65,7 @@ curl -fsSL https://praison.ai/install.sh | bash
 ```
 
 <div align="center">
-  <a href="https://docs.praison.ai">
+  <a href="https://github.com/Aravindh-dev12/octic-Agent">
     <p align="center">
       <img src="https://img.shields.io/badge/📚_Documentation-Visit_docs.praison.ai-blue?style=for-the-badge&logo=bookstack&logoColor=white" alt="Documentation" />
     </p>
@@ -174,7 +174,7 @@ agent = Agent(
 )
 ```
 
-> **Isolate** is `handoffs=[specialist]` — a sub-agent inherits the last few messages and the intersection of your tools, not your whole transcript. [📖 Handoffs](https://docs.praison.ai/docs/concepts/handoffs)
+> **Isolate** is `handoffs=[specialist]` — a sub-agent inherits the last few messages and the intersection of your tools, not your whole transcript. [📖 Handoffs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/handoffs)
 
 ### Layer 3 · Harness — *Can it act, and be checked?*
 
@@ -217,7 +217,7 @@ print(result.completion_reason)
 #  surfaced here as completion_reason="error")
 ```
 
-> **Doom-loop detection is on by default.** Repeated identical tool calls and A→B→A→B oscillation get caught — while a poller whose output keeps changing does not. [📖 Doom Loop Detection](https://docs.praison.ai/docs/features/doom-loop-detection)
+> **Doom-loop detection is on by default.** Repeated identical tool calls and A→B→A→B oscillation get caught — while a poller whose output keeps changing does not. [📖 Doom Loop Detection](https://github.com/Aravindh-dev12/octic-Agent/docs/features/doom-loop-detection)
 
 ### Layer 5 · Graph — *Who runs when, and who checks whom?*
 
@@ -237,7 +237,7 @@ flow = AgentFlow(steps=[
 flow.run("Ticket #123: login fails on Safari")
 ```
 
-> The same graph is expressible in YAML with no Python at all. [📖 AgentFlow](https://docs.praison.ai/docs/concepts/agentflow)
+> The same graph is expressible in YAML with no Python at all. [📖 AgentFlow](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agentflow)
 
 ### ⬡ Outside the stack: Managed Agents — *Where does it actually run?*
 
@@ -426,13 +426,13 @@ Powered by 100+ LLMs (OpenAI, Anthropic, Gemini & local models).
 |--|---------|-----|
 | 🔌 | **MCP Protocol** — stdio, HTTP, WebSocket, SSE | `tools=MCP("npx ...")` |
 | 🧠 | **Planning Mode** — plan → execute → reason | `planning=True` |
-| 🔍 | **Deep Research** — multi-step autonomous research | [Docs](https://docs.praison.ai/docs/agents/deep-research) |
-| 🤖 | **External Agents** — orchestrate Claude Code, Gemini CLI, Codex | [Docs](https://docs.praison.ai/docs/code/external-agents) |
+| 🔍 | **Deep Research** — multi-step autonomous research | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/deep-research) |
+| 🤖 | **External Agents** — orchestrate Claude Code, Gemini CLI, Codex | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/code/external-agents) |
 | 🔄 | **Agent Handoffs** — seamless conversation passing | `handoffs=[other_agent]` |
-| 🛡️ | **Guardrails** — input/output validation | [Docs](https://docs.praison.ai/docs/concepts/guardrails) |
+| 🛡️ | **Guardrails** — input/output validation | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/guardrails) |
 |  | **Web Search + Fetch** — native browsing | `web=True` |
-| 🪞 | **Self Reflection** — agent reviews its own output | [Docs](https://docs.praison.ai/docs/concepts/reflection) |
-| 🔀 | **Workflow Patterns** — route, parallel, loop, repeat | [Docs](https://docs.praison.ai/docs/concepts/agentflow) |
+| 🪞 | **Self Reflection** — agent reviews its own output | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/reflection) |
+| 🔀 | **Workflow Patterns** — route, parallel, loop, repeat | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agentflow) |
 | 🧠 | **Memory (zero deps)** — works out of the box | `memory=True` |
 
 <details>
@@ -443,18 +443,18 @@ Powered by 100+ LLMs (OpenAI, Anthropic, Gemini & local models).
 | 💡 | **Prompt Caching** — reduce latency + cost | `caching=True` |
 | 💾 | **Sessions + Auto-Save** — persistent state across restarts | `auto_save="my-project"` |
 | 💭 | **Thinking Budgets** — control reasoning depth | `agent.thinking_budget = 1024` |
-| 📚 | **RAG + Quality-Based RAG** — auto quality scoring retrieval | [Docs](https://docs.praison.ai/docs/concepts/rag) |
-| 📊 | **Model Router** — auto-routes to cheapest capable model | [Docs](https://docs.praison.ai/docs/features/model-router) |
-| 🧊 | **Shadow Git Checkpoints** — auto-rollback on failure | [Docs](https://docs.praison.ai/docs/features/checkpoints) |
-| 📡 | **A2A Protocol** — agent-to-agent interop | [Docs](https://docs.praison.ai/docs/features/a2a) |
-| 📏 | **Context Compaction** — never hit token limits | [Docs](https://docs.praison.ai/docs/features/context-compaction) |
-| 📡 | **Telemetry** — OpenTelemetry traces, spans, metrics | [Docs](https://docs.praison.ai/docs/features/telemetry) |
-| 📜 | **Policy Engine** — declarative agent behavior control | [Docs](https://docs.praison.ai/docs/features/policy-engine) |
-| 🔄 | **Background Tasks** — fire-and-forget agents | [Docs](https://docs.praison.ai/docs/features/background-tasks) |
-| 🔁 | **Doom Loop Detection** — auto-recovery from stuck agents | [Docs](https://docs.praison.ai/docs/features/doom-loop-detection) |
-| 🕸️ | **Graph Memory** — Neo4j-style relationship tracking | [Docs](https://docs.praison.ai/docs/features/graph-memory) |
-| 🏖️ | **Sandbox Execution** — isolated code execution | [Docs](https://docs.praison.ai/docs/features/sandbox) |
-| 🖥️ | **Bot Gateway** — multi-agent routing across channels | [Docs](https://docs.praison.ai/docs/features/bot-gateway) |
+| 📚 | **RAG + Quality-Based RAG** — auto quality scoring retrieval | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/rag) |
+| 📊 | **Model Router** — auto-routes to cheapest capable model | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/model-router) |
+| 🧊 | **Shadow Git Checkpoints** — auto-rollback on failure | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/checkpoints) |
+| 📡 | **A2A Protocol** — agent-to-agent interop | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/a2a) |
+| 📏 | **Context Compaction** — never hit token limits | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/context-compaction) |
+| 📡 | **Telemetry** — OpenTelemetry traces, spans, metrics | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/telemetry) |
+| 📜 | **Policy Engine** — declarative agent behavior control | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/policy-engine) |
+| 🔄 | **Background Tasks** — fire-and-forget agents | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/background-tasks) |
+| 🔁 | **Doom Loop Detection** — auto-recovery from stuck agents | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/doom-loop-detection) |
+| 🕸️ | **Graph Memory** — Neo4j-style relationship tracking | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/graph-memory) |
+| 🏖️ | **Sandbox Execution** — isolated code execution | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/sandbox) |
+| 🖥️ | **Bot Gateway** — multi-agent routing across channels | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/bot-gateway) |
 
 </details>
 
@@ -508,7 +508,7 @@ agent = Agent(
 )
 ```
 
-> 📖 [Full MCP docs](https://docs.praison.ai/docs/mcp/transports) — stdio, HTTP, WebSocket, SSE transports
+> 📖 [Full MCP docs](https://github.com/Aravindh-dev12/octic-Agent/docs/mcp/transports) — stdio, HTTP, WebSocket, SSE transports
 
 ### 4. Custom Tools
 
@@ -560,7 +560,7 @@ agent.start("Search for AI news and calculate 15*4")
 ```
 
 > ⚠️ **Security Note:** Never use `eval()`, `exec()`, or `subprocess` in tool functions that process LLM-generated or user-supplied input. Always validate and sanitize inputs to prevent code injection attacks.
-> 📖 [Full tools docs](https://docs.praison.ai/docs/tools/tools) — BaseTool, tool packages, 100+ built-in tools
+> 📖 [Full tools docs](https://github.com/Aravindh-dev12/octic-Agent/docs/tools/tools) — BaseTool, tool packages, 100+ built-in tools
 
 ### 5. Persistence (Databases)
 
@@ -577,7 +577,7 @@ agent = Agent(
 agent.chat("Hello!")  # Auto-persists messages, runs, traces
 ```
 
-> 📖 [Full persistence docs](https://docs.praison.ai/docs/databases/overview) — PostgreSQL, MySQL, SQLite, MongoDB, Redis, and 20+ more
+> 📖 [Full persistence docs](https://github.com/Aravindh-dev12/octic-Agent/docs/databases/overview) — PostgreSQL, MySQL, SQLite, MongoDB, Redis, and 20+ more
 
 ### 6. Octic AI Agent Claw 🦞 (Dashboard UI)
 
@@ -599,7 +599,7 @@ Copy `.env.example` to `.env` and configure the following variables:
 
 Open **http://localhost:8082** — the dashboard comes with 13 built-in pages: Chat, Agents, Memory, Knowledge, Channels, Guardrails, Cron, and more. Add messaging channels directly from the UI.
 
-> 📖 [Full Claw docs](https://docs.praison.ai/docs/concepts/claw) — platform tokens, CLI options, Docker, and YAML agent mode
+> 📖 [Full Claw docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/claw) — platform tokens, CLI options, Docker, and YAML agent mode
 
 ### 7. Langflow Integration 🔗 (Visual Flow Builder)
 
@@ -612,7 +612,7 @@ octic-ai-agent flow
 
 Open **http://localhost:7861** — use the **Agent** and **Agent Team** components to create sequential or parallel workflows. Connect Chat Input → Agent Team → Chat Output for instant multi-agent pipelines.
 
-> 📖 [Full Flow docs](https://docs.praison.ai/docs/concepts/agentflow) — visual agent building, component reference, and deployment
+> 📖 [Full Flow docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agentflow) — visual agent building, component reference, and deployment
 
 ### 8. Octic AI Agent UI 🤖 (Clean Chat)
 
@@ -716,7 +716,7 @@ octic-ai-agent agents.yaml
 | **Development** | `commit`, `docs`, `checkpoint`, `hooks` |
 | **Scheduling** | `schedule start`, `schedule list`, `schedule stop` |
 
-> 📖 [Full CLI reference](https://docs.praison.ai/docs/cli/cli-reference)
+> 📖 [Full CLI reference](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/cli-reference)
 
 ---
 
@@ -727,12 +727,12 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Single Agent | [Example](examples/python/agents/single-agent.py) | [📖](https://docs.praison.ai/docs/agents/single) |
-| Multi Agents | [Example](examples/python/general/mini_agents_example.py) | [📖](https://docs.praison.ai/docs/concepts/agents) |
-| Auto Agents | [Example](examples/python/general/auto_agents_example.py) | [📖](https://docs.praison.ai/docs/features/autoagents) |
-| Self Reflection AI Agents | [Example](examples/python/concepts/self-reflection-details.py) | [📖](https://docs.praison.ai/docs/concepts/reflection) |
-| Reasoning AI Agents | [Example](examples/python/concepts/reasoning-extraction.py) | [📖](https://docs.praison.ai/docs/features/reasoning) |
-| Multi Modal AI Agents | [Example](examples/python/general/multimodal.py) | [📖](https://docs.praison.ai/docs/features/multimodal) |
+| Single Agent | [Example](examples/python/agents/single-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/single) |
+| Multi Agents | [Example](examples/python/general/mini_agents_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agents) |
+| Auto Agents | [Example](examples/python/general/auto_agents_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/autoagents) |
+| Self Reflection AI Agents | [Example](examples/python/concepts/self-reflection-details.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/reflection) |
+| Reasoning AI Agents | [Example](examples/python/concepts/reasoning-extraction.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/reasoning) |
+| Multi Modal AI Agents | [Example](examples/python/general/multimodal.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/multimodal) |
 
 </details>
 
@@ -741,16 +741,16 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Simple Workflow | [Example](examples/python/workflows/simple_workflow.py) | [📖](https://docs.praison.ai/docs/concepts/agentflow) |
-| Workflow with Agents | [Example](examples/python/workflows/workflow_with_agents.py) | [📖](https://docs.praison.ai/docs/concepts/agentflow) |
-| Agentic Routing (`route()`) | [Example](examples/python/workflows/workflow_routing.py) | [📖](https://docs.praison.ai/docs/features/routing) |
-| Parallel Execution (`parallel()`) | [Example](examples/python/workflows/workflow_parallel.py) | [📖](https://docs.praison.ai/docs/features/parallelisation) |
-| Loop over List/CSV (`loop()`) | [Example](examples/python/workflows/workflow_loop_csv.py) | [📖](https://docs.praison.ai/docs/features/repetitive) |
-| Evaluator-Optimizer (`repeat()`) | [Example](examples/python/workflows/workflow_repeat.py) | [📖](https://docs.praison.ai/docs/concepts/evaluation) |
-| Conditional Steps | [Example](examples/python/workflows/workflow_conditional.py) | [📖](https://docs.praison.ai/docs/concepts/agentflow) |
-| Workflow Branching | [Example](examples/python/workflows/workflow_branching.py) | [📖](https://docs.praison.ai/docs/concepts/agentflow) |
-| Workflow Early Stop | [Example](examples/python/workflows/workflow_early_stop.py) | [📖](https://docs.praison.ai/docs/concepts/agentflow) |
-| Workflow Checkpoints | [Example](examples/python/workflows/workflow_checkpoints.py) | [📖](https://docs.praison.ai/docs/concepts/agentflow) |
+| Simple Workflow | [Example](examples/python/workflows/simple_workflow.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agentflow) |
+| Workflow with Agents | [Example](examples/python/workflows/workflow_with_agents.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agentflow) |
+| Agentic Routing (`route()`) | [Example](examples/python/workflows/workflow_routing.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/routing) |
+| Parallel Execution (`parallel()`) | [Example](examples/python/workflows/workflow_parallel.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/parallelisation) |
+| Loop over List/CSV (`loop()`) | [Example](examples/python/workflows/workflow_loop_csv.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/repetitive) |
+| Evaluator-Optimizer (`repeat()`) | [Example](examples/python/workflows/workflow_repeat.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/evaluation) |
+| Conditional Steps | [Example](examples/python/workflows/workflow_conditional.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agentflow) |
+| Workflow Branching | [Example](examples/python/workflows/workflow_branching.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agentflow) |
+| Workflow Early Stop | [Example](examples/python/workflows/workflow_early_stop.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agentflow) |
+| Workflow Checkpoints | [Example](examples/python/workflows/workflow_checkpoints.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agentflow) |
 
 </details>
 
@@ -759,13 +759,13 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Code Interpreter Agents | [Example](examples/python/agents/code-agent.py) | [📖](https://docs.praison.ai/docs/features/codeagent) |
-| AI Code Editing Tools | [Example](examples/python/code/code_editing_example.py) | [📖](https://docs.praison.ai/docs/code/editing) |
-| External Agents (All) | [Example](examples/python/code/external_agents_example.py) | [📖](https://docs.praison.ai/docs/code/external-agents) |
-| Claude Code CLI | [Example](examples/python/code/claude_code_example.py) | [📖](https://docs.praison.ai/docs/code/claude-code) |
-| Gemini CLI | [Example](examples/python/code/gemini_cli_example.py) | [📖](https://docs.praison.ai/docs/code/gemini-cli) |
-| Codex CLI | [Example](examples/python/code/codex_cli_example.py) | [📖](https://docs.praison.ai/docs/code/codex-cli) |
-| Cursor CLI | [Example](examples/python/code/cursor_cli_example.py) | [📖](https://docs.praison.ai/docs/code/cursor-cli) |
+| Code Interpreter Agents | [Example](examples/python/agents/code-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/codeagent) |
+| AI Code Editing Tools | [Example](examples/python/code/code_editing_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/code/editing) |
+| External Agents (All) | [Example](examples/python/code/external_agents_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/code/external-agents) |
+| Claude Code CLI | [Example](examples/python/code/claude_code_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/code/claude-code) |
+| Gemini CLI | [Example](examples/python/code/gemini_cli_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/code/gemini-cli) |
+| Codex CLI | [Example](examples/python/code/codex_cli_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/code/codex-cli) |
+| Cursor CLI | [Example](examples/python/code/cursor_cli_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/code/cursor-cli) |
 
 </details>
 
@@ -774,18 +774,18 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Memory (Short & Long Term) | [Example](examples/python/general/memory_example.py) | [📖](https://docs.praison.ai/docs/concepts/memory) |
-| File-Based Memory | [Example](examples/python/general/memory_example.py) | [📖](https://docs.praison.ai/docs/concepts/memory) |
-| Claude Memory Tool | [Example](examples/python/memory/claude_memory_example.py) | [📖](https://docs.praison.ai/docs/features/claude-memory-tool) |
-| Add Custom Knowledge | [Example](examples/python/concepts/knowledge-agents.py) | [📖](https://docs.praison.ai/docs/concepts/knowledge) |
-| RAG Agents | [Example](examples/python/concepts/rag-agents.py) | [📖](https://docs.praison.ai/docs/concepts/rag) |
-| Chat with PDF Agents | [Example](examples/python/concepts/chat-with-pdf.py) | [📖](https://docs.praison.ai/docs/features/chat-with-pdf) |
-| Data Readers (PDF, DOCX, etc.) | [CLI](https://docs.praison.ai/docs/cli/knowledge) | [📖](https://docs.praison.ai/docs/features/chunking-strategies) |
-| Vector Store Selection | [CLI](https://docs.praison.ai/docs/cli/knowledge) | [📖](https://docs.praison.ai/docs/features/knowledge-backends) |
-| Retrieval Strategies | [CLI](https://docs.praison.ai/docs/cli/knowledge) | [📖](https://docs.praison.ai/docs/features/retrieval-strategies) |
-| Rerankers | [CLI](https://docs.praison.ai/docs/cli/knowledge) | [📖](https://docs.praison.ai/docs/features/smart-retrieval) |
-| Index Types (Vector/Keyword/Hybrid) | [CLI](https://docs.praison.ai/docs/cli/knowledge) | [📖](https://docs.praison.ai/docs/features/incremental-indexing) |
-| Query Engines (Sub-Question, etc.) | [CLI](https://docs.praison.ai/docs/cli/knowledge) | [📖](https://docs.praison.ai/docs/features/retrieval) |
+| Memory (Short & Long Term) | [Example](examples/python/general/memory_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/memory) |
+| File-Based Memory | [Example](examples/python/general/memory_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/memory) |
+| Claude Memory Tool | [Example](examples/python/memory/claude_memory_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/claude-memory-tool) |
+| Add Custom Knowledge | [Example](examples/python/concepts/knowledge-agents.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/knowledge) |
+| RAG Agents | [Example](examples/python/concepts/rag-agents.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/rag) |
+| Chat with PDF Agents | [Example](examples/python/concepts/chat-with-pdf.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/chat-with-pdf) |
+| Data Readers (PDF, DOCX, etc.) | [CLI](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/knowledge) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/chunking-strategies) |
+| Vector Store Selection | [CLI](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/knowledge) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/knowledge-backends) |
+| Retrieval Strategies | [CLI](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/knowledge) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/retrieval-strategies) |
+| Rerankers | [CLI](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/knowledge) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/smart-retrieval) |
+| Index Types (Vector/Keyword/Hybrid) | [CLI](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/knowledge) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/incremental-indexing) |
+| Query Engines (Sub-Question, etc.) | [CLI](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/knowledge) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/retrieval) |
 
 </details>
 
@@ -794,12 +794,12 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Deep Research Agents | [Example](examples/python/agents/research-agent.py) | [📖](https://docs.praison.ai/docs/agents/deep-research) |
-| Query Rewriter Agent | [Example](examples/python/agents/query-rewriter-agent.py) | [📖](https://docs.praison.ai/docs/agents/query-rewriter) |
-| Native Web Search | [Example](examples/python/agents/websearch-agent.py) | [📖](https://docs.praison.ai/docs/agents/websearch) |
-| Built-in Search Tools | [Example](examples/python/agents/websearch-agent.py) | [📖](https://docs.praison.ai/docs/tools/tavily) |
-| Unified Web Search | [Example](examples/python/web_search_example.py) | [📖](https://docs.praison.ai/docs/tools/web-search) |
-| Web Fetch (Anthropic) | [Example](examples/python/agents/web-fetch-agent.py) | [📖](https://docs.praison.ai/docs/features/model-capabilities) |
+| Deep Research Agents | [Example](examples/python/agents/research-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/deep-research) |
+| Query Rewriter Agent | [Example](examples/python/agents/query-rewriter-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/query-rewriter) |
+| Native Web Search | [Example](examples/python/agents/websearch-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/websearch) |
+| Built-in Search Tools | [Example](examples/python/agents/websearch-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/tools/tavily) |
+| Unified Web Search | [Example](examples/python/web_search_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/tools/web-search) |
+| Web Fetch (Anthropic) | [Example](examples/python/agents/web-fetch-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/model-capabilities) |
 
 </details>
 
@@ -808,12 +808,12 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Planning Mode | [Example](examples/python/agents/planning-agent.py) | [📖](https://docs.praison.ai/docs/concepts/planning) |
-| Planning Tools | [Example](examples/python/agents/planning-agent.py) | [📖](https://docs.praison.ai/docs/concepts/planning) |
-| Planning Reasoning | [Example](examples/python/agents/planning-agent.py) | [📖](https://docs.praison.ai/docs/concepts/planning) |
-| Prompt Chaining | [Example](examples/python/general/prompt_chaining.py) | [📖](https://docs.praison.ai/docs/features/promptchaining) |
-| Evaluator Optimiser | [Example](examples/python/general/evaluator-optimiser.py) | [📖](https://docs.praison.ai/docs/concepts/evaluation) |
-| Orchestrator Workers | [Example](examples/python/general/orchestrator-workers.py) | [📖](https://docs.praison.ai/docs/concepts/orchestration) |
+| Planning Mode | [Example](examples/python/agents/planning-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/planning) |
+| Planning Tools | [Example](examples/python/agents/planning-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/planning) |
+| Planning Reasoning | [Example](examples/python/agents/planning-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/planning) |
+| Prompt Chaining | [Example](examples/python/general/prompt_chaining.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/promptchaining) |
+| Evaluator Optimiser | [Example](examples/python/general/evaluator-optimiser.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/evaluation) |
+| Orchestrator Workers | [Example](examples/python/general/orchestrator-workers.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/orchestration) |
 
 </details>
 
@@ -822,15 +822,15 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Data Analyst Agent | [Example](examples/python/agents/data-analyst-agent.py) | [📖](https://docs.praison.ai/docs/agents/data-analyst) |
-| Finance Agent | [Example](examples/python/agents/finance-agent.py) | [📖](https://docs.praison.ai/docs/agents/finance) |
-| Shopping Agent | [Example](examples/python/agents/shopping-agent.py) | [📖](https://docs.praison.ai/docs/agents/shopping) |
-| Recommendation Agent | [Example](examples/python/agents/recommendation-agent.py) | [📖](https://docs.praison.ai/docs/agents/recommendation) |
-| Wikipedia Agent | [Example](examples/python/agents/wikipedia-agent.py) | [📖](https://docs.praison.ai/docs/agents/wikipedia) |
-| Programming Agent | [Example](examples/python/agents/programming-agent.py) | [📖](https://docs.praison.ai/docs/agents/programming) |
-| Math Agents | [Example](examples/python/agents/math-agent.py) | [📖](https://docs.praison.ai/docs/features/mathagent) |
-| Markdown Agent | [Example](examples/python/agents/markdown-agent.py) | [📖](https://docs.praison.ai/docs/agents/markdown) |
-| Prompt Expander Agent | [Example](examples/python/agents/prompt-expander-agent.py) | [📖](https://docs.praison.ai/docs/agents/prompt-expander) |
+| Data Analyst Agent | [Example](examples/python/agents/data-analyst-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/data-analyst) |
+| Finance Agent | [Example](examples/python/agents/finance-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/finance) |
+| Shopping Agent | [Example](examples/python/agents/shopping-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/shopping) |
+| Recommendation Agent | [Example](examples/python/agents/recommendation-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/recommendation) |
+| Wikipedia Agent | [Example](examples/python/agents/wikipedia-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/wikipedia) |
+| Programming Agent | [Example](examples/python/agents/programming-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/programming) |
+| Math Agents | [Example](examples/python/agents/math-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/mathagent) |
+| Markdown Agent | [Example](examples/python/agents/markdown-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/markdown) |
+| Prompt Expander Agent | [Example](examples/python/agents/prompt-expander-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/prompt-expander) |
 
 </details>
 
@@ -839,10 +839,10 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Image Generation Agent | [Example](examples/python/image/image-agent.py) | [📖](https://docs.praison.ai/docs/features/image-generation) |
-| Image to Text Agent | [Example](examples/python/agents/image-to-text-agent.py) | [📖](https://docs.praison.ai/docs/agents/image-to-text) |
-| Video Agent | [Example](examples/python/agents/video-agent.py) | [📖](https://docs.praison.ai/docs/agents/video) |
-| Camera Integration | [Example](examples/python/camera/) | [📖](https://docs.praison.ai/docs/features/camera-integration) |
+| Image Generation Agent | [Example](examples/python/image/image-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/image-generation) |
+| Image to Text Agent | [Example](examples/python/agents/image-to-text-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/image-to-text) |
+| Video Agent | [Example](examples/python/agents/video-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/agents/video) |
+| Camera Integration | [Example](examples/python/camera/) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/camera-integration) |
 
 </details>
 
@@ -851,12 +851,12 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| MCP Transports | [Example](examples/python/mcp/mcp-transports-overview.py) | [📖](https://docs.praison.ai/docs/mcp/transports) |
-| WebSocket MCP | [Example](examples/python/mcp/websocket-mcp.py) | [📖](https://docs.praison.ai/docs/mcp/sse-transport) |
-| MCP Security | [Example](examples/python/mcp/mcp-security.py) | [📖](https://docs.praison.ai/docs/mcp/transports) |
-| MCP Resumability | [Example](examples/python/mcp/mcp-resumability.py) | [📖](https://docs.praison.ai/docs/mcp/sse-transport) |
-| MCP Config Management | [Docs](https://docs.praison.ai/docs/cli/mcp) | [📖](https://docs.praison.ai/docs/cli/mcp) |
-| LangChain Integrated Agents | [Example](examples/python/general/langchain_example.py) | [📖](https://docs.praison.ai/docs/features/langchain) |
+| MCP Transports | [Example](examples/python/mcp/mcp-transports-overview.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/mcp/transports) |
+| WebSocket MCP | [Example](examples/python/mcp/websocket-mcp.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/mcp/sse-transport) |
+| MCP Security | [Example](examples/python/mcp/mcp-security.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/mcp/transports) |
+| MCP Resumability | [Example](examples/python/mcp/mcp-resumability.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/mcp/sse-transport) |
+| MCP Config Management | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/mcp) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/mcp) |
+| LangChain Integrated Agents | [Example](examples/python/general/langchain_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/langchain) |
 
 </details>
 
@@ -865,9 +865,9 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Guardrails | [Example](examples/python/guardrails/comprehensive-guardrails-example.py) | [📖](https://docs.praison.ai/docs/concepts/guardrails) |
-| Human Approval | [Example](examples/python/general/human_approval_example.py) | [📖](https://docs.praison.ai/docs/concepts/approval) |
-| Rules & Instructions | [Docs](https://docs.praison.ai/docs/features/rules) | [📖](https://docs.praison.ai/docs/features/rules) |
+| Guardrails | [Example](examples/python/guardrails/comprehensive-guardrails-example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/guardrails) |
+| Human Approval | [Example](examples/python/general/human_approval_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/approval) |
+| Rules & Instructions | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/features/rules) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/rules) |
 
 </details>
 
@@ -876,16 +876,16 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Async & Parallel Processing | [Example](examples/python/general/async_example.py) | [📖](https://docs.praison.ai/docs/features/async) |
-| Parallelisation | [Example](examples/python/general/parallelisation.py) | [📖](https://docs.praison.ai/docs/features/parallelisation) |
-| Repetitive Agents | [Example](examples/python/concepts/repetitive-agents.py) | [📖](https://docs.praison.ai/docs/features/repetitive) |
-| Agent Handoffs | [Example](examples/python/handoff/handoff_basic.py) | [📖](https://docs.praison.ai/docs/concepts/handoffs) |
-| Stateful Agents | [Example](examples/python/stateful/workflow-state-example.py) | [📖](https://docs.praison.ai/docs/features/stateful-agents) |
-| Autonomous Workflow | [Example](examples/python/general/autonomous-agent.py) | [📖](https://docs.praison.ai/docs/concepts/autonomy) |
-| Structured Output Agents | [Example](examples/python/general/structured_agents_example.py) | [📖](https://docs.praison.ai/docs/features/structured) |
-| Model Router | [Example](examples/python/agents/router-agent-cost-optimization.py) | [📖](https://docs.praison.ai/docs/features/model-router) |
-| Prompt Caching | [Example](examples/python/agents/prompt-caching-agent.py) | [📖](https://docs.praison.ai/docs/features/model-capabilities) |
-| Fast Context | [Example](examples/context/00_agent_fast_context_basic.py) | [📖](https://docs.praison.ai/docs/features/fast-context) |
+| Async & Parallel Processing | [Example](examples/python/general/async_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/async) |
+| Parallelisation | [Example](examples/python/general/parallelisation.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/parallelisation) |
+| Repetitive Agents | [Example](examples/python/concepts/repetitive-agents.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/repetitive) |
+| Agent Handoffs | [Example](examples/python/handoff/handoff_basic.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/handoffs) |
+| Stateful Agents | [Example](examples/python/stateful/workflow-state-example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/stateful-agents) |
+| Autonomous Workflow | [Example](examples/python/general/autonomous-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/autonomy) |
+| Structured Output Agents | [Example](examples/python/general/structured_agents_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/structured) |
+| Model Router | [Example](examples/python/agents/router-agent-cost-optimization.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/model-router) |
+| Prompt Caching | [Example](examples/python/agents/prompt-caching-agent.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/model-capabilities) |
+| Fast Context | [Example](examples/context/00_agent_fast_context_basic.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/fast-context) |
 
 </details>
 
@@ -894,21 +894,21 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| 100+ Custom Tools | [Example](examples/python/general/tools_example.py) | [📖](https://docs.praison.ai/docs/tools/tools) |
-| YAML Configuration | [Example](examples/cookbooks/yaml/secondary_market_research_agents.yaml) | [📖](https://docs.praison.ai/docs/developers/agents-playbook) |
-| 100+ LLM Support | [Example](examples/python/providers/openai/openai_gpt4_example.py) | [📖](https://docs.praison.ai/docs/models) |
-| Callback Agents | [Example](examples/python/general/advanced-callback-systems.py) | [📖](https://docs.praison.ai/docs/concepts/hooks) |
-| Hooks | [Example](examples/python/hooks/hooks_example.py) | [📖](https://docs.praison.ai/docs/concepts/hooks) |
-| Middleware System | [Example](examples/middleware/basic_middleware.py) | [📖](https://docs.praison.ai/docs/features/middleware) |
-| Configurable Model | [Example](examples/middleware/configurable_model.py) | [📖](https://docs.praison.ai/docs/features/configurable-model) |
-| Rate Limiter | [Example](examples/middleware/rate_limiter.py) | [📖](https://docs.praison.ai/docs/features/rate-limiter) |
-| Injected Tool State | [Example](examples/middleware/injected_state.py) | [📖](https://docs.praison.ai/docs/features/injected-state) |
-| Shadow Git Checkpoints | [Example](examples/checkpoints/basic_checkpoint.py) | [📖](https://docs.praison.ai/docs/features/checkpoints) |
-| Background Tasks | [Example](examples/background/basic_background.py) | [📖](https://docs.praison.ai/docs/features/background-tasks) |
-| Policy Engine | [Example](examples/policy/basic_policy.py) | [📖](https://docs.praison.ai/docs/features/policy-engine) |
-| Thinking Budgets | [Example](examples/thinking/basic_thinking.py) | [📖](https://docs.praison.ai/docs/features/thinking-budgets) |
-| Output Styles | [Example](examples/output/basic_output.py) | [📖](https://docs.praison.ai/docs/features/output-styles) |
-| Context Compaction | [Example](examples/compaction/basic_compaction.py) | [📖](https://docs.praison.ai/docs/features/context-compaction) |
+| 100+ Custom Tools | [Example](examples/python/general/tools_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/tools/tools) |
+| YAML Configuration | [Example](examples/cookbooks/yaml/secondary_market_research_agents.yaml) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/developers/agents-playbook) |
+| 100+ LLM Support | [Example](examples/python/providers/openai/openai_gpt4_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/models) |
+| Callback Agents | [Example](examples/python/general/advanced-callback-systems.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/hooks) |
+| Hooks | [Example](examples/python/hooks/hooks_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/hooks) |
+| Middleware System | [Example](examples/middleware/basic_middleware.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/middleware) |
+| Configurable Model | [Example](examples/middleware/configurable_model.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/configurable-model) |
+| Rate Limiter | [Example](examples/middleware/rate_limiter.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/rate-limiter) |
+| Injected Tool State | [Example](examples/middleware/injected_state.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/injected-state) |
+| Shadow Git Checkpoints | [Example](examples/checkpoints/basic_checkpoint.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/checkpoints) |
+| Background Tasks | [Example](examples/background/basic_background.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/background-tasks) |
+| Policy Engine | [Example](examples/policy/basic_policy.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/policy-engine) |
+| Thinking Budgets | [Example](examples/thinking/basic_thinking.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/thinking-budgets) |
+| Output Styles | [Example](examples/output/basic_output.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/output-styles) |
+| Context Compaction | [Example](examples/compaction/basic_compaction.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/context-compaction) |
 
 </details>
 
@@ -917,14 +917,14 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Sessions Management | [Example](examples/python/sessions/comprehensive-session-management.py) | [📖](https://docs.praison.ai/docs/concepts/session-management) |
-| Auto-Save Sessions | [Docs](https://docs.praison.ai/docs/cli/session) | [📖](https://docs.praison.ai/docs/cli/session) |
-| History in Context | [Docs](https://docs.praison.ai/docs/cli/session) | [📖](https://docs.praison.ai/docs/cli/session) |
-| Telemetry | [Example](examples/python/telemetry/production-telemetry-example.py) | [📖](https://docs.praison.ai/docs/features/telemetry) |
-| Langfuse Tracing | [Docs](https://docs.praison.ai/docs/observability/langfuse) | [📖](https://docs.praison.ai/docs/observability/langfuse) |
-| Project Docs (.praison/docs/) | [Docs](https://docs.praison.ai/docs/cli/docs) | [📖](https://docs.praison.ai/docs/cli/docs) |
-| AI Commit Messages | [Docs](https://docs.praison.ai/docs/cli/commit) | [📖](https://docs.praison.ai/docs/cli/commit) |
-| @Mentions in Prompts | [Docs](https://docs.praison.ai/docs/cli/mentions) | [📖](https://docs.praison.ai/docs/cli/mentions) |
+| Sessions Management | [Example](examples/python/sessions/comprehensive-session-management.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/session-management) |
+| Auto-Save Sessions | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/session) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/session) |
+| History in Context | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/session) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/session) |
+| Telemetry | [Example](examples/python/telemetry/production-telemetry-example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/features/telemetry) |
+| Langfuse Tracing | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/observability/langfuse) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/observability/langfuse) |
+| Project Docs (.praison/docs/) | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/docs) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/docs) |
+| AI Commit Messages | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/commit) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/commit) |
+| @Mentions in Prompts | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/mentions) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/mentions) |
 
 </details>
 
@@ -933,20 +933,20 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Slash Commands | [Example](examples/python/cli/slash_commands_example.py) | [📖](https://docs.praison.ai/docs/cli/slash-commands) |
-| Autonomy Modes | [Example](examples/python/cli/autonomy_modes_example.py) | [📖](https://docs.praison.ai/docs/cli/autonomy-modes) |
-| Cost Tracking | [Example](examples/python/cli/cost_tracking_example.py) | [📖](https://docs.praison.ai/docs/cli/cost-tracking) |
-| Repository Map | [Example](examples/python/cli/repo_map_example.py) | [📖](https://docs.praison.ai/docs/cli/repo-map) |
-| Interactive TUI | [Example](examples/python/cli/interactive_tui_example.py) | [📖](https://docs.praison.ai/docs/cli/interactive-tui) |
-| Git Integration | [Example](examples/python/cli/git_integration_example.py) | [📖](https://docs.praison.ai/docs/cli/git-integration) |
-| Sandbox Execution | [Example](examples/python/cli/sandbox_execution_example.py) | [📖](https://docs.praison.ai/docs/cli/sandbox-execution) |
-| CLI Compare | [Example](examples/compare/cli_compare_basic.py) | [📖](https://docs.praison.ai/docs/cli/compare) |
-| Profile/Benchmark | [Docs](https://docs.praison.ai/docs/cli/profile) | [📖](https://docs.praison.ai/docs/cli/profile) |
-| Auto Mode | [Docs](https://docs.praison.ai/docs/cli/auto) | [📖](https://docs.praison.ai/docs/cli/auto) |
-| Init | [Docs](https://docs.praison.ai/docs/cli/init) | [📖](https://docs.praison.ai/docs/cli/init) |
-| File Input | [Docs](https://docs.praison.ai/docs/cli/file-input) | [📖](https://docs.praison.ai/docs/cli/file-input) |
-| Final Agent | [Docs](https://docs.praison.ai/docs/cli/final-agent) | [📖](https://docs.praison.ai/docs/cli/final-agent) |
-| Max Tokens | [Docs](https://docs.praison.ai/docs/cli/max-tokens) | [📖](https://docs.praison.ai/docs/cli/max-tokens) |
+| Slash Commands | [Example](examples/python/cli/slash_commands_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/slash-commands) |
+| Autonomy Modes | [Example](examples/python/cli/autonomy_modes_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/autonomy-modes) |
+| Cost Tracking | [Example](examples/python/cli/cost_tracking_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/cost-tracking) |
+| Repository Map | [Example](examples/python/cli/repo_map_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/repo-map) |
+| Interactive TUI | [Example](examples/python/cli/interactive_tui_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/interactive-tui) |
+| Git Integration | [Example](examples/python/cli/git_integration_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/git-integration) |
+| Sandbox Execution | [Example](examples/python/cli/sandbox_execution_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/sandbox-execution) |
+| CLI Compare | [Example](examples/compare/cli_compare_basic.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/compare) |
+| Profile/Benchmark | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/profile) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/profile) |
+| Auto Mode | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/auto) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/auto) |
+| Init | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/init) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/init) |
+| File Input | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/file-input) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/file-input) |
+| Final Agent | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/final-agent) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/final-agent) |
+| Max Tokens | [Docs](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/max-tokens) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/max-tokens) |
 
 </details>
 
@@ -955,10 +955,10 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Accuracy Evaluation | [Example](examples/eval/accuracy_example.py) | [📖](https://docs.praison.ai/docs/cli/eval) |
-| Performance Evaluation | [Example](examples/eval/performance_example.py) | [📖](https://docs.praison.ai/docs/cli/eval) |
-| Reliability Evaluation | [Example](examples/eval/reliability_example.py) | [📖](https://docs.praison.ai/docs/cli/eval) |
-| Criteria Evaluation | [Example](examples/eval/criteria_example.py) | [📖](https://docs.praison.ai/docs/cli/eval) |
+| Accuracy Evaluation | [Example](examples/eval/accuracy_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/eval) |
+| Performance Evaluation | [Example](examples/eval/performance_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/eval) |
+| Reliability Evaluation | [Example](examples/eval/reliability_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/eval) |
+| Criteria Evaluation | [Example](examples/eval/criteria_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/eval) |
 
 </details>
 
@@ -967,8 +967,8 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Skills Management | [Example](examples/skills/basic_skill_usage.py) | [📖](https://docs.praison.ai/docs/concepts/skills) |
-| Custom Skills | [Example](examples/skills/custom_skill_example.py) | [📖](https://docs.praison.ai/docs/concepts/skills) |
+| Skills Management | [Example](examples/skills/basic_skill_usage.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/skills) |
+| Custom Skills | [Example](examples/skills/custom_skill_example.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/skills) |
 
 </details>
 
@@ -977,7 +977,7 @@ octic-ai-agent agents.yaml
 
 | Feature | Code | Docs |
 |---------|:----:|:----:|
-| Agent Scheduler | [Example](examples/python/scheduled_agents/news_checker_live.py) | [📖](https://docs.praison.ai/docs/cli/scheduler) |
+| Agent Scheduler | [Example](examples/python/scheduled_agents/news_checker_live.py) | [📖](https://github.com/Aravindh-dev12/octic-Agent/docs/cli/scheduler) |
 
 </details>
 
@@ -1014,7 +1014,7 @@ Octic AI Agent is built for speed, with agent instantiation in around 14μs. Thi
 
 ## ⭐ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=MervinPraison/Octic AI Agent&type=Date)](https://docs.praison.ai)
+[![Star History Chart](https://api.star-history.com/svg?repos=MervinPraison/Octic AI Agent&type=Date)](https://github.com/Aravindh-dev12/octic-Agent)
 
 ---
 
@@ -1103,7 +1103,7 @@ Ensure your API key is set:
 export OPENAI_API_KEY=your_key_here
 ```
 
-For other providers, see [Models docs](https://docs.praison.ai/docs/models).
+For other providers, see [Models docs](https://github.com/Aravindh-dev12/octic-Agent/docs/models).
 
 </details>
 
@@ -1144,7 +1144,7 @@ agent = Agent(instructions="...", llm="ollama/llama3.2", base_url="http://192.16
 The same shape works for other local runtimes — `lm_studio/`, `vllm/` and
 `hosted_vllm/` with their server's `base_url`.
 
-See [Models docs](https://docs.praison.ai/docs/models) for more details.
+See [Models docs](https://github.com/Aravindh-dev12/octic-Agent/docs/models) for more details.
 
 </details>
 
@@ -1164,7 +1164,7 @@ agent = Agent(
 )
 ```
 
-See [Persistence docs](https://docs.praison.ai/docs/databases/overview) for supported databases.
+See [Persistence docs](https://github.com/Aravindh-dev12/octic-Agent/docs/databases/overview) for supported databases.
 
 </details>
 
@@ -1181,7 +1181,7 @@ agent = Agent(
 )
 ```
 
-See [Memory docs](https://docs.praison.ai/docs/concepts/memory) for more options.
+See [Memory docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/memory) for more options.
 
 </details>
 
@@ -1197,7 +1197,7 @@ agents = Agents(agents=[agent1, agent2])
 agents.start()
 ```
 
-See [Agents docs](https://docs.praison.ai/docs/concepts/agents) for more examples.
+See [Agents docs](https://github.com/Aravindh-dev12/octic-Agent/docs/concepts/agents) for more examples.
 
 </details>
 
@@ -1212,13 +1212,13 @@ agent = Agent(
 )
 ```
 
-See [MCP docs](https://docs.praison.ai/docs/mcp/transports) for all transport options.
+See [MCP docs](https://github.com/Aravindh-dev12/octic-Agent/docs/mcp/transports) for all transport options.
 
 </details>
 
 ### Getting Help
 
-- 📚 [Full Documentation](https://docs.praison.ai)
+- 📚 [Full Documentation](https://github.com/Aravindh-dev12/octic-Agent)
 - 🐛 [Report Issues](https://github.com/Aravindh-dev12/octic-Agent/issues)
 - 💬 [Discussions](https://github.com/Aravindh-dev12/octic-Agent/discussions)
 
@@ -1227,10 +1227,30 @@ See [MCP docs](https://docs.praison.ai/docs/mcp/transports) for all transport op
 <div align="center">
   <p><strong>Made with ❤️ by the Octic AI Agent Team</strong></p>
   <p>
-    <a href="https://docs.praison.ai">📚 Documentation</a> •
+    <a href="https://github.com/Aravindh-dev12/octic-Agent">📚 Documentation</a> •
     <a href="https://github.com/Aravindh-dev12/octic-Agent">GitHub</a> •
     <a href="https://youtube.com/@MervinPraison">▶️ YouTube</a> •
     <a href="https://x.com/MervinPraison">𝕏 X</a> •
     <a href="https://linkedin.com/in/mervinpraison">💼 LinkedIn</a>
   </p>
 </div>
+
+
+## Octic Product Runtime
+
+The repository includes a production API, a GitHub-native Gradio UI, a Hugging Face Space bundle, reproducible Kaggle notebooks, and CI validation.
+
+UI: ui/app.py
+API: src/octic_ai_agent/api_server.py
+Hugging Face Space source: huggingface_space/
+Kaggle notebooks: kaggle/
+CI: .github/workflows/octic-ai-agent-ci.yml
+
+### Run the UI
+
+    python -m pip install -e "src/octic_ai_agent[ui]"
+    python ui/app.py
+
+### Publish the Hugging Face Space
+
+Add a GitHub Actions secret named HF_TOKEN with Hugging Face write access. Optionally add a repository variable named HF_SPACE_ID (default: Aravindhan11/octic-ai-agent), then run the Publish Octic AI Agent to Hugging Face workflow.

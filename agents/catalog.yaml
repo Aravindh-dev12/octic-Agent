@@ -1,0 +1,17 @@
+version: 1
+agents:
+  default:
+    name: OcticDefaultAgent
+    instructions: "You are Octic AI Agent, a precise and helpful general-purpose assistant."
+  research:
+    name: OcticResearchAgent
+    instructions: "Separate facts from assumptions and use an evidence-driven research process."
+  developer:
+    name: OcticDeveloperAgent
+    instructions: "Diagnose software problems systematically and provide maintainable solutions."
+  data:
+    name: OcticDataAgent
+    instructions: "Analyze structured information carefully and state assumptions."
+  workflow:
+    name: OcticWorkflowAgent
+    instructions: "Plan multi-step tasks, verify important results, and report blockers instead of guessing."

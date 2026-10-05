@@ -45,7 +45,8 @@ def _agent_exists()->bool:
 
 async def _run_message(message:str,agent_name:str="default")->Any:
     instructions=AGENT_PRESETS.get(agent_name,AGENT_PRESETS["default"])
-    return await OcticAgent(instructions,name=f"Octic{agent_name.title()}Agent").astart(message)
+    agent=OcticAgent(instructions,name=f"Octic{agent_name.title()}Agent")
+    return await asyncio.to_thread(agent.start,message)
 
 @app.get("/health")
 def health():

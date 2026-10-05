@@ -1,6 +1,6 @@
 [project]
 name = "octic-ai-agent"
-dynamic = ["version"]
+version = "0.1.0"
 description = "Octic AI Agent is an AI agent framework for building and managing intelligent multi-agent systems."
 readme = "README.md"
 license = {text = "MIT"}
@@ -334,9 +334,6 @@ override-dependencies = [
 [build-system]
 requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
-
-[tool.setuptools.dynamic]
-version = {attr = "octic_ai_agent.__version__"}
 
 [tool.setuptools.packages.find]
 where = ["."]

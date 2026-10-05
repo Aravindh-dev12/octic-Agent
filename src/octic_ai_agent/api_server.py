@@ -1,21 +1,21 @@
 """
-Auto-generated API server for PraisonAI agents.
+Auto-generated API server for Octic AI Agent agents.
 
 Security defaults
 -----------------
 
 Authentication is enabled by default and the server binds to localhost.
 To run unauthenticated (e.g. inside a trusted private network behind an
-authenticating proxy) set ``PRAISONAI_API_AUTH=disabled`` explicitly.
+authenticating proxy) set ``OCTIC_AI_AGENT_API_AUTH=disabled`` explicitly.
 
 Configuration via environment variables:
 
-* ``PRAISONAI_API_AUTH``   - ``enabled`` (default) or ``disabled``.
-* ``PRAISONAI_API_TOKEN``  - bearer token required when auth is enabled.
+* ``OCTIC_AI_AGENT_API_AUTH``   - ``enabled`` (default) or ``disabled``.
+* ``OCTIC_AI_AGENT_API_TOKEN``  - bearer token required when auth is enabled.
                              If unset, a random token is generated at
                              startup and printed to stderr.
-* ``PRAISONAI_API_HOST``   - bind host (default ``127.0.0.1``).
-* ``PRAISONAI_API_PORT``   - bind port (default ``8080``).
+* ``OCTIC_AI_AGENT_API_HOST``   - bind host (default ``127.0.0.1``).
+* ``OCTIC_AI_AGENT_API_PORT``   - bind port (default ``8080``).
 """
 from flask import Flask, request, jsonify
 from flask_cors import CORS
@@ -30,17 +30,17 @@ app = Flask(__name__)
 CORS(app)
 
 # Authentication is ON by default. Operators can opt out explicitly with
-# ``PRAISONAI_API_AUTH=disabled`` if they front the server with another
+# ``OCTIC_AI_AGENT_API_AUTH=disabled`` if they front the server with another
 # authenticator. When enabled, a bearer token is required: either set
-# ``PRAISONAI_API_TOKEN`` or accept the random one generated at startup.
-AUTH_ENABLED = os.environ.get("PRAISONAI_API_AUTH", "enabled").strip().lower() != "disabled"
-AUTH_TOKEN = os.environ.get("PRAISONAI_API_TOKEN") or None
+# ``OCTIC_AI_AGENT_API_TOKEN`` or accept the random one generated at startup.
+AUTH_ENABLED = os.environ.get("OCTIC_AI_AGENT_API_AUTH", "enabled").strip().lower() != "disabled"
+AUTH_TOKEN = os.environ.get("OCTIC_AI_AGENT_API_TOKEN") or None
 
 if AUTH_ENABLED and not AUTH_TOKEN:
     AUTH_TOKEN = secrets.token_urlsafe(32)
     # Print to stderr so it shows up in logs but never in HTTP responses.
     print(
-        f"[praisonai-api] generated API token (set PRAISONAI_API_TOKEN to override): {AUTH_TOKEN}",
+        f"[octic-ai-agent-api] generated API token (set OCTIC_AI_AGENT_API_TOKEN to override): {AUTH_TOKEN}",
         file=sys.stderr,
         flush=True,
     )
@@ -65,7 +65,7 @@ def check_auth():
 @app.route('/health', methods=['GET'])
 def health():
     """Health check endpoint."""
-    return jsonify({"status": "ok", "service": "praisonai-api"})
+    return jsonify({"status": "ok", "service": "octic-ai-agent-api"})
 
 @app.route('/chat', methods=['POST'])
 def chat():
@@ -104,10 +104,10 @@ def list_agents():
 
 if __name__ == '__main__':
     # Bind to localhost by default. Operators that need to expose the
-    # server externally must opt in via ``PRAISONAI_API_HOST=0.0.0.0`` and
+    # server externally must opt in via ``OCTIC_AI_AGENT_API_HOST=0.0.0.0`` and
     # should always pair that with authentication or a fronting proxy.
     app.run(
-        host=os.environ.get("PRAISONAI_API_HOST", "127.0.0.1"),
-        port=int(os.environ.get("PRAISONAI_API_PORT", "8080")),
+        host=os.environ.get("OCTIC_AI_AGENT_API_HOST", "127.0.0.1"),
+        port=int(os.environ.get("OCTIC_AI_AGENT_API_PORT", "8080")),
         debug=False,
     )

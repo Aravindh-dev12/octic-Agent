@@ -5,7 +5,8 @@ class OcticAgent:
     def __init__(self, instructions: str, *, name: str = "OcticAgent", model: str | None = None, tools: Sequence[Any] | None = None) -> None:
         from praisonaiagents import Agent
         kwargs: dict[str, Any] = {"name": name, "instructions": instructions}
-        if model: kwargs["llm"] = model
+        effective_model = model or __import__("os").environ.get("OCTIC_AI_AGENT_MODEL")
+        if effective_model: kwargs["llm"] = effective_model
         if tools is not None: kwargs["tools"] = list(tools)
         self._agent = Agent(**kwargs)
     def start(self, prompt: str) -> Any:

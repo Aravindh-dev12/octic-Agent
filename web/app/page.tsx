@@ -134,6 +134,7 @@ export default function Page() {
   }, []);
 
   function resetSession() {
+    window.localStorage.removeItem(STORAGE_KEY);
     setMessages([]);
     setInput("");
     setLastError("");

@@ -1,6 +1,6 @@
 # Octic AI Agent Train
 
-Training for [Octic AI Agent](https://github.com/mervinpraison/Octic AI Agent) — fine-tune LLMs and iteratively train agents, as a standalone package or as part of the full `praisonai` stack.
+Training for [Octic AI Agent](https://github.com/Aravindh-dev12/octic-Agent) — fine-tune LLMs and iteratively train agents, as a standalone package or as part of the full `praisonai` stack.
 
 ## What it does
 

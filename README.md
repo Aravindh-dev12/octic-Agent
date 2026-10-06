@@ -6,11 +6,11 @@
   </picture>
 </p>
 
-<!-- mcp-name: io.github.MervinPraison/octic-ai-agent -->
+<!-- mcp-name: io.github.Aravindh-dev12/octic-ai-agent -->
 
 <p align="center">
 <a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://static.pepy.tech/badge/Octic AI Agent" alt="Total Downloads" /></a>
-<a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://img.shields.io/github/v/release/MervinPraison/Octic AI Agent" alt="Latest Stable Version" /></a>
+<a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://img.shields.io/github/v/release/Aravindh-dev12/octic-Agent" alt="Latest Stable Version" /></a>
 <a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License" /></a>
 </p>
 
@@ -18,14 +18,14 @@
 
 # Octic AI Agent 🦞
 
-<a href="https://trendshift.io/repositories/9130" target="_blank"><img src="https://trendshift.io/api/badge/repositories/9130" alt="MervinPraison%2FOctic AI Agent | Trendshift" style="width: 250px; height: 55px;" width="250" height="55"/></a>
+<a href="https://trendshift.io/repositories/9130" target="_blank"><img src="https://trendshift.io/api/badge/repositories/9130" alt="Aravindh-dev12%2Foctic-Agent" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 
 </div>
 
 Octic AI Agent 🦞 — **Hire a 24/7 AI Workforce.** Stop writing boilerplate and start shipping autonomous, self-improving agents that research, plan, and execute tasks across your apps. From one agent to an entire organization, deployed in 5 lines of code.
 
 ```bash
-curl -fsSL https://praison.ai/install.sh | bash
+pip install octic-ai-agent
 ```
 
 <div align="center">
@@ -67,7 +67,7 @@ curl -fsSL https://praison.ai/install.sh | bash
 <div align="center">
   <a href="https://github.com/Aravindh-dev12/octic-Agent">
     <p align="center">
-      <img src="https://img.shields.io/badge/📚_Documentation-Visit_docs.praison.ai-blue?style=for-the-badge&logo=bookstack&logoColor=white" alt="Documentation" />
+      <img src="https://img.shields.io/badge/📚_Documentation-Octic_Agent_Docs-blue?style=for-the-badge&logo=bookstack&logoColor=white" alt="Documentation" />
     </p>
   </a>
 </div>

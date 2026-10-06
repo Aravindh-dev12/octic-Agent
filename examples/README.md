@@ -1,6 +1,6 @@
-# PraisonAI Examples
+# Octic AI Agent Examples
 
-This folder contains examples for PraisonAI. For detailed documentation, visit [docs.praison.ai](https://docs.praison.ai).
+This folder contains examples for Octic AI Agent. For detailed documentation, visit [docs.praison.ai](https://docs.praison.ai).
 
 ## Structure
 
@@ -68,7 +68,7 @@ Agent-centric API with unified parameter resolution. Precedence: Instance > Conf
 ## Running Examples
 
 ```bash
-# Install PraisonAI
+# Install Octic AI Agent
 pip install praisonai
 
 # Set API key

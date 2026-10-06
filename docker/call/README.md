@@ -1,4 +1,4 @@
-# Praison AI Call Docker
+# Octic AI Agent Call Docker
 
 1. Build the Docker image:
 ```

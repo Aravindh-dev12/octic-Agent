@@ -1,6 +1,6 @@
 # Creator Suite Examples
 
-Examples for the PraisonAI Creator Automation Suite - a complete toolkit for AI content creators.
+Examples for the Octic AI Agent Creator Automation Suite - a complete toolkit for AI content creators.
 
 ## Quick Start
 

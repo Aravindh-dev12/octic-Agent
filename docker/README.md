@@ -1,6 +1,6 @@
-# PraisonAI Docker Setup
+# Octic AI Agent Docker Setup
 
-This directory contains Docker configurations for running PraisonAI services in containerized environments. The setup addresses directory management issues and provides comprehensive multi-service deployment options.
+This directory contains Docker configurations for running Octic AI Agent services in containerized environments. The setup addresses directory management issues and provides comprehensive multi-service deployment options.
 
 ## 🐳 Available Services
 
@@ -8,7 +8,7 @@ This directory contains Docker configurations for running PraisonAI services in 
 - **UI Service** (`port 8082`) - Chainlit-based web interface
 - **Chat Service** (`port 8083`) - Dedicated chat interface  
 - **API Service** (`port 8080`) - REST API endpoint
-- **Agents Service** - Standalone PraisonAI Agents runtime
+- **Agents Service** - Standalone Octic Agents runtime
 
 ### Docker Files
 - `Dockerfile` - Basic API service
@@ -56,14 +56,14 @@ docker-compose down
 The original issue was that files like `chainlit.md`, `.chainlit` directory, and `public` folder were cluttering the root directory.
 
 ### Solution Implemented
-All PraisonAI configuration and runtime files are now stored in `~/.praison/`:
+All Octic AI Agent configuration and runtime files are now stored in `~/.praison/`:
 
 ```bash
 ~/.praison/
 ├── database.sqlite      # Chainlit database
 ├── chainlit.md         # Chainlit configuration 
 ├── .chainlit/          # Chainlit runtime files
-└── config/             # PraisonAI configuration
+└── config/             # Octic AI Agent configuration
 ```
 
 ### Environment Variables
@@ -121,8 +121,8 @@ healthcheck:
 ## 📦 Package Versions
 
 All Docker images use consistent, up-to-date versions:
-- PraisonAI: `>=2.2.95`
-- PraisonAI Agents: `>=0.0.92`
+- Octic AI Agent: `>=2.2.95`
+- Octic Agents: `>=0.0.92`
 - Python: `3.11-slim`
 
 ## 🔒 Security Features
@@ -262,4 +262,4 @@ server {
 }
 ```
 
-This Docker setup provides a clean, organized, and scalable way to deploy PraisonAI services while solving the directory management issues mentioned in the original request.
+This Docker setup provides a clean, organized, and scalable way to deploy Octic AI Agent services while solving the directory management issues mentioned in the original request.

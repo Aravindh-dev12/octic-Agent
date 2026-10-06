@@ -1,6 +1,6 @@
 # RAG Examples
 
-This directory contains comprehensive examples demonstrating RAG (Retrieval Augmented Generation) with PraisonAI Agents.
+This directory contains comprehensive examples demonstrating RAG (Retrieval Augmented Generation) with Octic Agents.
 
 ## Core RAG Concepts
 

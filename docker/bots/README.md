@@ -1,4 +1,4 @@
-# PraisonAI Bot Docker Deployment
+# Octic AI Agent Bot Docker Deployment
 
 Deploy Slack, Discord, or Telegram bots using Docker.
 

@@ -1,10 +1,10 @@
 # ACP (Agent Client Protocol) Examples
 
-This directory contains examples for using PraisonAI with the Agent Client Protocol (ACP).
+This directory contains examples for using Octic AI Agent with the Agent Client Protocol (ACP).
 
 ## What is ACP?
 
-The Agent Client Protocol (ACP) is a standardized JSON-RPC 2.0 protocol that allows code editors and IDEs to communicate with AI coding agents. It enables seamless integration between PraisonAI and editors like:
+The Agent Client Protocol (ACP) is a standardized JSON-RPC 2.0 protocol that allows code editors and IDEs to communicate with AI coding agents. It enables seamless integration between Octic AI Agent and editors like:
 
 - **Zed**
 - **JetBrains IDEs** (IntelliJ, PyCharm, WebStorm, etc.)
@@ -53,7 +53,7 @@ Add to `~/.config/zed/settings.json`:
 ```json
 {
   "agent_servers": {
-    "PraisonAI": {
+    "Octic AI Agent": {
       "command": "praisonai",
       "args": ["acp"],
       "env": {}
@@ -69,7 +69,7 @@ Add to `~/.jetbrains/acp.json`:
 ```json
 {
   "agent_servers": {
-    "PraisonAI": {
+    "Octic AI Agent": {
       "command": "praisonai",
       "args": ["acp"],
       "env": {}

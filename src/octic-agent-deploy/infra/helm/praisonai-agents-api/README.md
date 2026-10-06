@@ -1,6 +1,6 @@
-# PraisonAI agents API (platform Helm chart)
+# Octic AI Agent agents API (platform Helm chart)
 
-Deploys the PraisonAI agents HTTP API (`/health`, `/chat`) with optional in-cluster Postgres (pgvector).
+Deploys the Octic AI Agent agents HTTP API (`/health`, `/chat`) with optional in-cluster Postgres (pgvector).
 
 ## Install
 

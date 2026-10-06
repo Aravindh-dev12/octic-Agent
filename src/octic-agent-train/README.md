@@ -1,6 +1,6 @@
-# PraisonAI Train
+# Octic AI Agent Train
 
-Training for [PraisonAI](https://github.com/mervinpraison/PraisonAI) — fine-tune LLMs and iteratively train agents, as a standalone package or as part of the full `praisonai` stack.
+Training for [Octic AI Agent](https://github.com/mervinpraison/Octic AI Agent) — fine-tune LLMs and iteratively train agents, as a standalone package or as part of the full `praisonai` stack.
 
 ## What it does
 
@@ -20,7 +20,7 @@ pip install praisonai-train
 # + LLM fine-tuning (heavy ML stack: torch, unsloth, trl, ...)
 pip install "praisonai-train[llm]"
 
-# Or as part of the full PraisonAI stack (same commands via `praisonai train ...`)
+# Or as part of the full Octic AI Agent stack (same commands via `praisonai train ...`)
 pip install "praisonai[train]"
 ```
 
@@ -75,7 +75,7 @@ praisonai-train llm dataset.json --model llama-3.1
 
 Tuning knobs (LoRA rank, epochs, quantization, Ollama/HuggingFace export) live in `config.yaml` — see the template in `praisonai_train/setup/config.yaml`.
 
-## How it fits the PraisonAI stack
+## How it fits the Octic AI Agent stack
 
 ```
 praisonaiagents  (core SDK)

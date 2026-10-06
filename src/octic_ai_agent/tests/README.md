@@ -1,6 +1,6 @@
-# PraisonAI Agents - Comprehensive Testing Suite
+# Octic Agents - Comprehensive Testing Suite
 
-This directory contains a comprehensive testing suite for PraisonAI Agents, organized into different categories to ensure thorough coverage of all functionality.
+This directory contains a comprehensive testing suite for Octic Agents, organized into different categories to ensure thorough coverage of all functionality.
 
 ## 📁 Test Structure
 

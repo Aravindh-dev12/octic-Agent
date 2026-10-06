@@ -1,6 +1,6 @@
-# PraisonAI MCP
+# Octic AI Agent MCP
 
-Host PraisonAI agents and tools as an [MCP](https://modelcontextprotocol.io) server for Cursor, Claude Desktop, and other MCP clients.
+Host Octic AI Agent agents and tools as an [MCP](https://modelcontextprotocol.io) server for Cursor, Claude Desktop, and other MCP clients.
 
 ## Install
 

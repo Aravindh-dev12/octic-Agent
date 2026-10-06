@@ -1,6 +1,6 @@
 # praisonai-sandbox
 
-Isolated agent code execution for PraisonAI — Docker, subprocess, E2B, Modal, Novita, Sandlock, and SSH backends.
+Isolated agent code execution for Octic AI Agent — Docker, subprocess, E2B, Modal, Novita, Sandlock, and SSH backends.
 
 ## Install
 

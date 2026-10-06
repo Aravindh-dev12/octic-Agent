@@ -1,4 +1,4 @@
-# PraisonAI deployment infra (C14 — not PyPI)
+# Octic AI Agent deployment infra (C14 — not PyPI)
 
 Checkout-only deployment assets for `praisonai-deploy`. Not shipped in the PyPI wheel.
 

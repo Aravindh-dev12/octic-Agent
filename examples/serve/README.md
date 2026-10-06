@@ -1,6 +1,6 @@
-# PraisonAI Serve Examples
+# Octic AI Agent Serve Examples
 
-Examples for all PraisonAI server types and the unified endpoints CLI.
+Examples for all Octic AI Agent server types and the unified endpoints CLI.
 
 ## Examples
 

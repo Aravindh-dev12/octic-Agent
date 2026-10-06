@@ -52,7 +52,7 @@ into every `{topic}` placeholder).
 ## Python equivalent
 
 ```python
-from praisonaiagents import Agent, Task, PraisonAIAgents
+from praisonaiagents import Agent, Task, Octic AI AgentAgents
 
 researcher = Agent(role="Senior Researcher", goal="Find accurate information")
 writer = Agent(role="Report Writer", goal="Turn research into summaries")
@@ -60,5 +60,5 @@ writer = Agent(role="Report Writer", goal="Turn research into summaries")
 t1 = Task(description="Research renewable energy and list 5 key facts", agent=researcher)
 t2 = Task(description="Write a 3-sentence summary from the research", agent=writer, context=[t1])
 
-PraisonAIAgents(agents=[researcher, writer], tasks=[t1, t2]).start()
+Octic AI AgentAgents(agents=[researcher, writer], tasks=[t1, t2]).start()
 ```

@@ -1,6 +1,6 @@
-# Terminal-Bench 2.1 Integration with PraisonAI
+# Terminal-Bench 2.1 Integration with Octic AI Agent
 
-This directory contains adapters for benchmarking PraisonAI on **Terminal-Bench 2.1** via the **Harbor framework**. Everything lives in the examples/benchmark layer + CI — there are **zero changes to the `praisonaiagents` / `praisonai` SDK surface**.
+This directory contains adapters for benchmarking Octic AI Agent on **Terminal-Bench 2.1** via the **Harbor framework**. Everything lives in the examples/benchmark layer + CI — there are **zero changes to the `praisonaiagents` / `praisonai` SDK surface**.
 
 ## Overview
 
@@ -8,7 +8,7 @@ This directory contains adapters for benchmarking PraisonAI on **Terminal-Bench 
 
 ## Setup
 
-Install Harbor and PraisonAI into **one venv** and run from the repo root with `PYTHONPATH=.` so the adapter import path resolves:
+Install Harbor and Octic AI Agent into **one venv** and run from the repo root with `PYTHONPATH=.` so the adapter import path resolves:
 
 ```bash
 pip install harbor
@@ -24,7 +24,7 @@ export PYTHONPATH=.
 - **Run**:
   ```bash
   PYTHONPATH=. harbor run -d terminal-bench/terminal-bench-2-1 \
-    --agent "examples.terminal_bench.praisonai_code_agent:PraisonAICodeAgent" \
+    --agent "examples.terminal_bench.praisonai_code_agent:Octic AI AgentCodeAgent" \
     -m openai/gpt-4o-mini \
     --ae OPENAI_API_KEY=$OPENAI_API_KEY \
     -n 4
@@ -39,7 +39,7 @@ export PYTHONPATH=.
 ### 2. Wrapper Agent (CLI-Based)
 - **File**: `praisonai_wrapper_agent.py`
 - **Purpose**: Uses `praisonai "TASK"` CLI pattern instead of direct Agent class
-- **Usage**: Run with `--agent-import-path examples.terminal_bench.praisonai_wrapper_agent:PraisonAIWrapperAgent`
+- **Usage**: Run with `--agent-import-path examples.terminal_bench.praisonai_wrapper_agent:Octic AI AgentWrapperAgent`
 - **Approach**: Installs `praisonai` CLI inside container and runs tasks via subprocess
 - **Best for**: Users who prefer CLI-style interface matching standard `praisonai` usage
 
@@ -56,7 +56,7 @@ export PYTHONPATH=.
 # Install Harbor framework
 pip install harbor
 
-# Install PraisonAI with shell tools
+# Install Octic AI Agent with shell tools
 pip install praisonaiagents[tools]
 ```
 
@@ -66,9 +66,9 @@ pip install praisonaiagents[tools]
 # Test with oracle agent first
 harbor run -d terminal-bench/terminal-bench-2-1 -a oracle
 
-# Run PraisonAI external agent (uses direct Agent() class)
+# Run Octic AI Agent external agent (uses direct Agent() class)
 PYTHONPATH=. harbor run -d terminal-bench/terminal-bench-2-1 \
-  --agent "examples.terminal_bench.praisonai_external_agent:PraisonAIExternalAgent" \
+  --agent "examples.terminal_bench.praisonai_external_agent:Octic AI AgentExternalAgent" \
   --model openai/gpt-4o-mini \
   --ae OPENAI_API_KEY=$OPENAI_API_KEY \
   -n 4
@@ -77,9 +77,9 @@ PYTHONPATH=. harbor run -d terminal-bench/terminal-bench-2-1 \
 ### Running Wrapper Agent (CLI-Based)
 
 ```bash
-# Run PraisonAI wrapper agent (uses `praisonai "TASK"` CLI pattern)
+# Run Octic AI Agent wrapper agent (uses `praisonai "TASK"` CLI pattern)
 PYTHONPATH=. harbor run -d terminal-bench/terminal-bench-2-1 \
-  --agent "examples.terminal_bench.praisonai_wrapper_agent:PraisonAIWrapperAgent" \
+  --agent "examples.terminal_bench.praisonai_wrapper_agent:Octic AI AgentWrapperAgent" \
   --model openai/gpt-4o-mini \
   --ae OPENAI_API_KEY=$OPENAI_API_KEY \
   -n 4
@@ -89,7 +89,7 @@ PYTHONPATH=. harbor run -d terminal-bench/terminal-bench-2-1 \
 
 ```bash
 PYTHONPATH=. harbor run -d terminal-bench/terminal-bench-2-1 \
-  --agent "examples.terminal_bench.praisonai_external_agent:PraisonAIExternalAgent" \
+  --agent "examples.terminal_bench.praisonai_external_agent:Octic AI AgentExternalAgent" \
   --model openai/gpt-4o-mini \
   --env daytona -n 32 \
   --ae OPENAI_API_KEY=$OPENAI_API_KEY
@@ -97,7 +97,7 @@ PYTHONPATH=. harbor run -d terminal-bench/terminal-bench-2-1 \
 
 ## Key Features
 
-- **Shell Execution Bridge**: Wraps Harbor's `BaseEnvironment.exec()` as PraisonAI tool
+- **Shell Execution Bridge**: Wraps Harbor's `BaseEnvironment.exec()` as Octic AI Agent tool
 - **Auto-Approval**: Bypasses `@require_approval` for container-isolated execution
 - **Token Tracking**: Populates Harbor's `AgentContext` with usage metrics
 - **API Key Forwarding**: Supports environment variable injection
@@ -112,7 +112,7 @@ PYTHONPATH=. harbor run -d terminal-bench/terminal-bench-2-1 \
 ├─────────────────────────────────────────┤
 │  BaseEnvironment.exec() ←→ bash_tool    │
 ├─────────────────────────────────────────┤
-│         PraisonAI Agent                 │
+│         Octic AI Agent Agent                 │
 │  • Uses execute_command tool            │
 │  • Auto-approval for container safety  │
 │  • Token tracking and metrics          │
@@ -154,7 +154,7 @@ Each task provides:
 
 1. Test changes with oracle agent first: `harbor run -d terminal-bench/terminal-bench-2-1 -a oracle`
 2. Run real agentic tests to ensure end-to-end functionality
-3. Follow PraisonAI's AGENTS.md architecture guidelines
+3. Follow Octic AI Agent's AGENTS.md architecture guidelines
 4. Add both unit tests and integration tests
 
 ## Resources

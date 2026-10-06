@@ -1,6 +1,6 @@
 # Integration Tests
 
-This directory contains integration tests for PraisonAI that verify functionality across different frameworks and external dependencies.
+This directory contains integration tests for Octic AI Agent that verify functionality across different frameworks and external dependencies.
 
 ## Test Structure
 
@@ -62,14 +62,14 @@ Located in `autogen/test_autogen_basic.py`
 
 **Test Coverage:**
 - ✅ AutoGen import verification
-- ✅ Basic agent creation through PraisonAI
+- ✅ Basic agent creation through Octic AI Agent
 - ✅ Conversation flow testing
 - ✅ Configuration validation
 
 **Example AutoGen Test:**
 ```python
 def test_basic_autogen_agent_creation(self, mock_completion, mock_autogen_completion):
-    """Test creating basic AutoGen agents through PraisonAI"""
+    """Test creating basic AutoGen agents through Octic AI Agent"""
     yaml_content = """
 framework: autogen
 topic: Test AutoGen Integration
@@ -88,7 +88,7 @@ Located in `crewai/test_crewai_basic.py`
 
 **Test Coverage:**
 - ✅ CrewAI import verification
-- ✅ Basic crew creation through PraisonAI
+- ✅ Basic crew creation through Octic AI Agent
 - ✅ Multi-agent workflow testing
 - ✅ Agent collaboration verification
 - ✅ Configuration validation
@@ -169,8 +169,8 @@ python -m pytest tests/integration/autogen/test_autogen_basic.py::TestAutoGenInt
 ## Test Categories
 
 ### Framework Integration Tests
-- **AutoGen**: Tests PraisonAI integration with Microsoft AutoGen framework
-- **CrewAI**: Tests PraisonAI integration with CrewAI framework
+- **AutoGen**: Tests Octic AI Agent integration with Microsoft AutoGen framework
+- **CrewAI**: Tests Octic AI Agent integration with CrewAI framework
 
 ### Feature Integration Tests
 - **RAG**: Tests Retrieval Augmented Generation functionality

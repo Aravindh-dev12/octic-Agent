@@ -11,12 +11,10 @@
 <p align="center">
 <a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://static.pepy.tech/badge/Octic AI Agent" alt="Total Downloads" /></a>
 <a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://img.shields.io/github/v/release/Aravindh-dev12/octic-Agent" alt="Latest Stable Version" /></a>
-<a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License" /></a>
 </p>
 
 <div align="center">
 
-# Octic AI Agent 🦞
 
 <a href="https://trendshift.io/repositories/9130" target="_blank"><img src="https://trendshift.io/api/badge/repositories/9130" alt="Aravindh-dev12%2Foctic-Agent" style="width: 250px; height: 55px;" width="250" height="55"/></a>
 

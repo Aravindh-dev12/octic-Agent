@@ -1,10 +1,4 @@
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset=".github/images/logo_dark.png" />
-    <source media="(prefers-color-scheme: light)" srcset=".github/images/logo_light.png" />
-    <img alt="Octic AI Agent Logo" src=".github/images/logo_light.png" width="250" />
-  </picture>
-</p>
+
 
 <!-- mcp-name: io.github.Aravindh-dev12/octic-ai-agent -->
 

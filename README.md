@@ -2,8 +2,6 @@
 <div align="center">
 
 
-<a href="https://trendshift.io/repositories/9130" target="_blank"><img src="https://trendshift.io/api/badge/repositories/9130" alt="Aravindh-dev12%2Foctic-Agent" style="width: 250px; height: 55px;" width="250" height="55"/></a>
-
 </div>
 
 Octic AI Agent 🦞 — **Hire a 24/7 AI Workforce.** Stop writing boilerplate and start shipping autonomous, self-improving agents that research, plan, and execute tasks across your apps. From one agent to an entire organization, deployed in 5 lines of code.
@@ -12,26 +10,6 @@ Octic AI Agent 🦞 — **Hire a 24/7 AI Workforce.** Stop writing boilerplate a
 pip install octic-ai-agent
 ```
 
-<div align="center">
-  <br>
-  <a href="https://x.com/elonmusk/status/1893870468249141688" target="_blank">
-    <img src="https://img.shields.io/badge/Highlighted_by_Elon_Musk-000000?style=for-the-badge&logo=x&logoColor=white" alt="Highlighted by Elon Musk" />
-  </a>
-  <br>
-  <br>
-  <a href="https://github.com/Aravindh-dev12/octic-Agent/releases/latest">
-    <img src="https://img.shields.io/badge/Download_for_macOS-000000?style=for-the-badge&logo=apple&logoColor=white" alt="Download for macOS" />
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://github.com/Aravindh-dev12/octic-Agent/releases/latest">
-    <img src="https://img.shields.io/badge/Download_for_Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white" alt="Download for Windows" />
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://github.com/Aravindh-dev12/octic-Agent/releases/latest">
-    <img src="https://img.shields.io/badge/Download_for_Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black" alt="Download for Linux" />
-  </a>
-  <br>
-</div>
 
 <p align="center">
   <img src=".github/images/dashboard.png" alt="Octic AI Agent Dashboard" width="800" />

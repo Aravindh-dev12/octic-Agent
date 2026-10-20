@@ -1,12 +1,4 @@
 
-
-<!-- mcp-name: io.github.Aravindh-dev12/octic-ai-agent -->
-
-<p align="center">
-<a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://static.pepy.tech/badge/Octic AI Agent" alt="Total Downloads" /></a>
-<a href="https://github.com/Aravindh-dev12/octic-Agent"><img src="https://img.shields.io/github/v/release/Aravindh-dev12/octic-Agent" alt="Latest Stable Version" /></a>
-</p>
-
 <div align="center">
 
 

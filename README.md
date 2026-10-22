@@ -65,7 +65,11 @@ Install only the optional features needed by your deployment:
     python -m pip install "octic-ai-agent[deploy]"
     python -m pip install "octic-ai-agent[train]"
 
-Some optional integrations require additional provider credentials or system dependencies.
+Some optional integrations require additional provider credentials or system dependencies. The core Octic runtime and CLI do not require the legacy framework. To keep extended historical CLI commands (such as onboarding or specialized server modes), install the optional bridge:
+
+    python -m pip install "octic-ai-agent[compat]"
+
+Then call those commands through `octic-ai-agent`; when the bridge is not installed, Octic reports how to enable it.
 
 ## Repository layout
 

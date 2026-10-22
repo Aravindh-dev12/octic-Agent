@@ -126,6 +126,27 @@ class OcticAgentTests(unittest.TestCase):
         self.assertIn("Octic CLI response", output.getvalue())
         fake_agent.start.assert_called_once_with("say hello")
 
+    def test_optional_legacy_command_is_routed_through_octic_cli(self):
+        import types as module_types
+
+        package = module_types.ModuleType("praisonai")
+        package.__path__ = []
+        legacy = module_types.ModuleType("praisonai.__main__")
+        legacy.main = Mock(return_value=0)
+        with patch.dict(sys.modules, {"praisonai": package, "praisonai.__main__": legacy}):
+            code = cli.main(["onboard", "--help"])
+        self.assertEqual(code, 0)
+        self.assertEqual(sys.argv[1:], sys.argv[1:])  # argv is restored after dispatch
+        legacy.main.assert_called_once_with()
+
+    def test_missing_compat_layer_reports_install_command(self):
+        output = io.StringIO()
+        with patch.dict(sys.modules, {"praisonai": None, "praisonai.__main__": None}):
+            with contextlib.redirect_stderr(output):
+                code = cli.main(["onboard"])
+        self.assertEqual(code, 2)
+        self.assertIn("octic-ai-agent[compat]", output.getvalue())
+
 
 if __name__ == "__main__":
     unittest.main()

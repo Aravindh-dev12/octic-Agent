@@ -129,9 +129,47 @@ def _doctor() -> int:
     return 0
 
 
+def _dispatch_compat_command(command_args: Sequence[str]) -> int:
+    """Route extended legacy subcommands only when the optional bridge is installed."""
+    try:
+        from praisonai.__main__ import main as compat_main
+    except ImportError as exc:
+        command = " ".join(command_args)
+        print(
+            f"Command 'octic-ai-agent {command}' belongs to an optional integration. "
+            "Install it with 'python -m pip install \"octic-ai-agent[compat]\"' "
+            "or use 'octic-ai-agent --help' for core commands.",
+            file=sys.stderr,
+        )
+        print(f"Details: {exc}", file=sys.stderr)
+        return 2
+
+    saved_argv = sys.argv[:]
+    try:
+        sys.argv = [saved_argv[0], *command_args]
+        result = compat_main()
+        return result if isinstance(result, int) else 0
+    except SystemExit as exc:
+        return exc.code if isinstance(exc.code, int) else 0
+    finally:
+        sys.argv = saved_argv
+
+
 def main(argv: Sequence[str] | None = None) -> int:
+    argv_list = list(argv) if argv is not None else sys.argv[1:]
+    core_commands = {"run", "chat", "serve", "doctor", "--version", "-h", "--help"}
+    if argv_list and not argv_list[0].startswith("-") and argv_list[0] not in core_commands:
+        return _dispatch_compat_command(argv_list)
+    if (
+        len(argv_list) > 1
+        and argv_list[0] == "serve"
+        and not argv_list[1].startswith("-")
+    ):
+        # Preserve optional serve modes such as MCP, A2A and recipe servers.
+        return _dispatch_compat_command(argv_list)
+
     parser = build_parser()
-    args = parser.parse_args(argv)
+    args = parser.parse_args(argv_list)
     if not args.command:
         parser.print_help()
         return 0

@@ -1,6 +1,6 @@
 # Octic AI Agent Train
 
-Training for [Octic AI Agent](https://github.com/Aravindh-dev12/octic-Agent) — fine-tune LLMs and iteratively train agents, as a standalone package or as part of the full `praisonai` stack.
+Training for [Octic AI Agent](https://github.com/Aravindh-dev12/octic-Agent) — fine-tune LLMs and iteratively train agents, as a standalone package or as part of an Octic AI Agent installation.
 
 ## What it does
 
@@ -20,7 +20,7 @@ pip install praisonai-train
 # + LLM fine-tuning (heavy ML stack: torch, unsloth, trl, ...)
 pip install "praisonai-train[llm]"
 
-# Or as part of the full Octic AI Agent stack (same commands via `praisonai train ...`)
+# Optional install through the Octic AI Agent training extra
 pip install "praisonai[train]"
 ```
 
@@ -77,6 +77,8 @@ Tuning knobs (LoRA rank, epochs, quantization, Ollama/HuggingFace export) live i
 
 ## How it fits the Octic AI Agent stack
 
+The identifiers below are existing package, import, and command names used for compatibility. The user-facing product name is **Octic AI Agent**.
+
 ```
 praisonaiagents  (core SDK)
    ├── praisonai-code   (terminal CLI)
@@ -100,7 +102,7 @@ PYTHONPATH="../praisonai-agents:." python -m pytest tests/unit/train -q
 bash ../../scripts/check_c10_train_imports.sh
 ```
 
-Boundary details: `src/praisonai/tests/PRAISONAI_TRAIN_MANIFEST.md`.
+Boundary details: [training package boundary notes](../octic_ai_agent/tests/PRAISONAI_TRAIN_MANIFEST.md).
 
 ## Dataset tooling (generate + validate)
 

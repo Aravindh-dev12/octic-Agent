@@ -1,14 +1,13 @@
-# Creator Suite Examples
+# Octic AI Agent — Creator Suite Examples
 
-Examples for the Octic AI Agent Creator Automation Suite - a complete toolkit for AI content creators.
+Runnable examples for the Octic AI Agent creator-automation recipes.
 
-## Quick Start
+## Quick start
+
+From this directory, set the model provider key and run an example:
 
 ```bash
-# Set your API key
-export OPENAI_API_KEY=your_key_here
-
-# Run an example
+export OPENAI_API_KEY="your-api-key"
 python news_crawler_example.py
 python script_writer_example.py
 python hook_generator_example.py
@@ -17,61 +16,26 @@ python brief_generator_example.py
 
 ## Examples
 
-| Example | Description | API Key Required |
-|---------|-------------|------------------|
-| `news_crawler_example.py` | Crawl AI news from multiple sources | No (HN, arXiv) |
-| `script_writer_example.py` | Generate scripts for YouTube, X, LinkedIn | Yes (OpenAI) |
-| `hook_generator_example.py` | Generate attention-grabbing hooks | Yes (OpenAI) |
-| `brief_generator_example.py` | Generate news briefs | Yes (OpenAI) |
+| Example | Description | API key |
+|---|---|---|
+| `news_crawler_example.py` | Collect AI news from multiple sources | Not required for the listed public sources |
+| `script_writer_example.py` | Generate scripts for YouTube, X, and LinkedIn | OpenAI |
+| `hook_generator_example.py` | Generate attention-grabbing hooks | OpenAI |
+| `brief_generator_example.py` | Generate news briefs | OpenAI |
 
-## Environment Variables
+## Configuration
 
-Copy `.env.example` to `.env` and fill in your API keys:
+Set required API keys through environment variables. Do not commit secrets to this repository. If the example uses a local `.env` file, keep that file untracked.
 
-```bash
-cp .env.example .env
-```
+## Capabilities
 
-## Features Covered
+- News collection, deduplication, and ranking
+- Context enrichment and brief generation
+- Script, story, hook, and call-to-action generation
+- Fact-checking and content packaging
+- Screenshot and screen-recording integrations
+- Video and voiceover workflows
+- Publishing and distribution helpers
+- Content-calendar and feedback-analysis workflows
 
-### News Intelligence Layer
-- AI News Crawler
-- AI News Deduper
-- AI Signal Ranker
-- AI Context Enricher
-- AI Brief Generator
-
-### Script & Story Layer
-- AI Script Writer
-- AI Angle Generator
-- AI Hook Generator
-- AI CTA Generator
-- AI Fact Checker
-
-### Capture & Screen Automation
-- AI Screenshot Capture
-- AI Screen Recorder
-- AI News Capture Pack
-
-### Video Generation
-- AI B-roll Builder
-- AI Voiceover Generator
-- AI Video Merger
-
-### Publishing & Distribution
-- AI Publisher Pack
-- AI Content Calendar
-- AI Post Copy Generator
-- AI Hashtag Optimizer
-
-### Feedback & Learning
-- AI Performance Analyzer
-- AI Comment Miner
-- AI A/B Hook Tester
-
-### Orchestrator
-- AI Daily News Show (end-to-end pipeline)
-
-## Documentation
-
-Full documentation: https://docs.praison.ai/docs/ai-tools/creator-suite/
+For the overall project overview and development instructions, see the [Octic AI Agent README](../../../README.md).

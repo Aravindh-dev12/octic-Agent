@@ -9,10 +9,13 @@ import os
 import sys
 import types
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from unittest.mock import Mock, patch
 
 from octic_ai_agent import OcticAgent
 from octic_ai_agent import cli
+from octic_ai_agent.tools import calculate, current_datetime, default_tools
 
 
 def _response(content=None, tool_calls=None):

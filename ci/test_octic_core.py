@@ -200,6 +200,12 @@ class OcticAgentTests(unittest.TestCase):
                     tools["read_workspace_file"](".env")
                 with self.assertRaises(ValueError):
                     tools["read_workspace_file"]("../outside.txt")
+                (root / ".config").mkdir()
+                (root / ".config" / "token.json").write_text("secret", encoding="utf-8")
+                with self.assertRaises(ValueError):
+                    tools["read_workspace_file"](".config/token.json")
+                with self.assertRaises(ValueError):
+                    tools["read_workspace_file"]("api_key.txt")
 
                 with patch.dict(os.environ, {"OCTIC_AI_AGENT_ALLOW_FILE_WRITES": "1"}):
                     write_tools = {tool.__name__: tool for tool in default_tools()}

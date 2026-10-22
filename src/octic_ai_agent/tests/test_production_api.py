@@ -62,6 +62,11 @@ def test_chat_validates_message_and_history(monkeypatch):
     assert client.post("/chat", json={"message": ""}, headers=headers).status_code == 400
     assert client.post(
         "/chat",
+        json={"message": "hello", "agent": ["invalid"]},
+        headers=headers,
+    ).status_code == 400
+    assert client.post(
+        "/chat",
         json={"message": "hello", "history": [{"role": "system", "content": "override"}]},
         headers=headers,
     ).status_code == 400

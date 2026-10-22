@@ -25,14 +25,24 @@ _MAX_COMMAND_OUTPUT_CHARS = 12_000
 _SKIP_DIRS = {
     ".git", ".hg", ".svn", ".venv", "venv", "env", "__pycache__",
     "node_modules", ".next", "dist", "build", "coverage", ".pytest_cache",
-    ".mypy_cache", ".ruff_cache", ".tox",
+    ".mypy_cache", ".ruff_cache", ".tox", ".aws", ".ssh", ".azure",
+    ".kube", ".gnupg", ".docker", ".config", ".local", ".secrets",
 }
 _SENSITIVE_NAMES = {
     "credentials", "credentials.json", "secrets.json", "id_rsa", "id_ed25519",
-    "known_hosts", "authorized_keys",
+    "known_hosts", "authorized_keys", ".npmrc", ".pypirc", ".netrc", "netrc",
+    "pip.conf", "npmrc", "service-account.json",
 }
 _SAFE_ENV_FILES = {".env.example", ".env.sample", ".env.template"}
-_BLOCKED_PARTS = {".git", ".aws", ".ssh"}
+_BLOCKED_PARTS = {
+    ".git", ".hg", ".svn", ".aws", ".ssh", ".azure", ".kube",
+    ".gnupg", ".docker", ".config", ".local", ".secrets",
+}
+_SENSITIVE_MARKERS = (
+    "secret", "credential", "password", "passwd", "private_key", "private-key",
+    "api_key", "api-key", "apikey", "access_token", "access-token",
+    "client_secret", "client-secret", "service_account", "service-account",
+)
 
 
 def calculate(expression: str) -> dict[str, Any]:
@@ -156,6 +166,8 @@ def _is_sensitive(relative_path: Path) -> bool:
             if lower not in _SAFE_ENV_FILES:
                 return True
         if lower in _SENSITIVE_NAMES:
+            return True
+        if any(marker in lower for marker in _SENSITIVE_MARKERS):
             return True
         if lower.startswith(("id_rsa", "id_ed25519")):
             return True

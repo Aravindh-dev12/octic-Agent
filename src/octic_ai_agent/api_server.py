@@ -92,7 +92,7 @@ def chat():
         return jsonify({"error":"message must be a non-empty string"}),400
     if len(message)>MAX_MESSAGE_LENGTH:
         return jsonify({"error":f"message exceeds {MAX_MESSAGE_LENGTH} characters"}),413
-    if agent_name not in AGENT_PRESETS:
+    if not isinstance(agent_name, str) or agent_name not in AGENT_PRESETS:
         return jsonify({"error":"unknown agent","available_agents":sorted(AGENT_PRESETS)}),400
     try:
         result=asyncio.run(_run_message(message.strip(),agent_name,history))

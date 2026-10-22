@@ -37,9 +37,10 @@
     "virtual-office",
     "multi-agent",
     "autonomous-workforce",
-    "nanoclaw",
-    "claw3d",
-    "openclaw"
+    "octo-core",
+    "octo-3d",
+    "octo-office",
+    "octo-mascot"
   ],
   "author": "Octo Agent Team",
   "license": "MIT"

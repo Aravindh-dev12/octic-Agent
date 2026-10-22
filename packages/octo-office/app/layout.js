@@ -1,22 +1,22 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'OpenClaw Office',
-  description: 'OpenClaw Office Dashboard',
+  title: 'Octo Office',
+  description: 'Octo Agent Office Dashboard & Multi-Agent Visualizer',
 }
 
 function NavBar() {
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-sm border-b border-cyan-500/30">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0d091a]/80 backdrop-blur-sm border-b border-purple-500/30">
       <div className="max-w-7xl mx-auto px-4 h-12 flex items-center justify-between">
         <div className="flex items-center gap-6">
-          <span className="text-cyan-400 font-bold text-lg">OpenClaw</span>
-          <a href="/" className="text-gray-300 hover:text-cyan-400 transition-colors text-sm">
-            🏢 Office
+          <span className="text-purple-400 font-bold text-lg">Octo Agent</span>
+          <a href="/" className="text-slate-300 hover:text-purple-400 transition-colors text-sm">
+            Office
           </a>
         </div>
-        <div className="text-gray-500 text-xs">
-          AI-Powered Operations
+        <div className="text-slate-500 text-xs">
+          3D Multi-Agent Workforce Platform
         </div>
       </div>
     </nav>

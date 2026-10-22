@@ -18,11 +18,11 @@ Octo Agent combines a 3D virtual office workspace, containerized agent engine, a
 ## Monorepo Layout
 
 ```
-octic-Agent/
+octo-agent-workforce/
 ├── packages/
-│   ├── octo-3d/         Claw3D retro virtual office (Three.js / React Three Fiber / Next.js)
-│   ├── octo-core/       NanoClaw containerized agent runtime & CLI (`octo`)
-│   └── octo-office/     OpenClaw 2D isometric dashboard & workflow pipeline (Next.js)
+│   ├── octo-3d/         Octo 3D virtual office (Three.js / React Three Fiber / Next.js)
+│   ├── octo-core/       Octo Core containerized agent runtime & CLI (`octo`)
+│   └── octo-office/     Octo Office 2D isometric dashboard & workflow pipeline (Next.js)
 ├── public/
 │   ├── mascot/          3D octopus model (octopus.wasm) & WebGL interactive viewer
 │   └── logo.svg         Official Octo Agent brand logo

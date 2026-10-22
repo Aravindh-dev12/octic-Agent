@@ -8,7 +8,7 @@
 
 <p align="center">
   <a href="#quick-start"><img src="https://img.shields.io/badge/Status-Production%20Ready-10b981?style=flat-square" alt="Status"></a>
-  <a href="#the-three-pillars"><img src="https://img.shields.io/badge/Architecture-3--in--1%20Monorepo-8b5cf6?style=flat-square" alt="Architecture"></a>
+  <a href="#architecture-pillars"><img src="https://img.shields.io/badge/Architecture-3--in--1%20Monorepo-8b5cf6?style=flat-square" alt="Architecture"></a>
   <a href="public/mascot/index.html"><img src="https://img.shields.io/badge/3D%20Model-octopus.wasm-ec4899?style=flat-square" alt="3D Model"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-3b82f6?style=flat-square" alt="License"></a>
 </p>
@@ -19,41 +19,41 @@
 
 **Octo Agent** provides a persistent 3D spatial workspace, containerized execution runtime, and live telemetry dashboard for autonomous AI agents. Rather than interacting with agents solely through terminal output and log files, Octo Agent establishes spatial presence, room-based routing, and real-time collaboration inside an interactive 3D office.
 
-The platform integrates three open-source foundations into a unified monorepo:
+The platform coordinates your AI workforce across three native pillars:
 
 <table>
   <thead>
     <tr>
       <th align="center">Icon</th>
-      <th align="left">Component</th>
-      <th align="left">Upstream Base</th>
+      <th align="left">Pillar</th>
+      <th align="left">Package</th>
       <th align="left">Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td align="center"><img src="assets/icons/office-3d.svg" width="32" height="32" alt="3D Office" /></td>
-      <td><strong>Octo 3D Workspace</strong><br/><code>packages/octo-3d</code></td>
-      <td>Claw3D</td>
+      <td><strong>Octo 3D Workspace</strong></td>
+      <td><code>packages/octo-3d</code></td>
       <td>Walkable retro 3D office, desk assignments, layout editor, and PR review center rendered via Three.js and React Three Fiber.</td>
     </tr>
     <tr>
       <td align="center"><img src="assets/icons/container-core.svg" width="32" height="32" alt="Core Engine" /></td>
-      <td><strong>Octo Core Engine</strong><br/><code>packages/octo-core</code></td>
-      <td>NanoClaw</td>
-      <td>Secure agent runtime with OS-level Linux container filesystem isolation, SQLite state management, and multi-channel adapters.</td>
+      <td><strong>Octo Core Engine</strong></td>
+      <td><code>packages/octo-core</code></td>
+      <td>Secure agent runtime with OS-level Linux container filesystem isolation, SQLite state management, and multi-channel messaging.</td>
     </tr>
     <tr>
       <td align="center"><img src="assets/icons/pipeline-dashboard.svg" width="32" height="32" alt="Office Dashboard" /></td>
-      <td><strong>Octo Office Dashboard</strong><br/><code>packages/octo-office</code></td>
-      <td>OpenClaw Office</td>
+      <td><strong>Octo Office Dashboard</strong></td>
+      <td><code>packages/octo-office</code></td>
       <td>2D isometric dashboard with multi-step pipeline visualization, token spend metrics, and live task delegation graphs.</td>
     </tr>
     <tr>
       <td align="center"><img src="assets/icons/octopus-mascot.svg" width="32" height="32" alt="3D Mascot" /></td>
-      <td><strong>Chief Octo 3D Model</strong><br/><code>public/mascot</code></td>
-      <td>Octopus GLTF Engine</td>
-      <td>Interactive WebGL 3D model (<code>octopus.wasm</code>) featuring real-time mouse gaze tracking, wave kinematics, and speech bubbles.</td>
+      <td><strong>Chief Octo 3D Model</strong></td>
+      <td><code>public/mascot</code></td>
+      <td>Interactive WebGL 3D model (<code>octopus.wasm</code>) featuring real-time mouse gaze tracking, wave kinematics, and live speech bubbles.</td>
     </tr>
   </tbody>
 </table>
@@ -74,11 +74,11 @@ The chief orchestrator avatar is powered by the binary GLTF/GLB model (`public/m
 ## Monorepo Layout
 
 ```
-octic-Agent/
+octo-agent-workforce/
 ├── packages/
-│   ├── octo-3d/          Claw3D retro virtual office, studio & layout builder
-│   ├── octo-core/        NanoClaw containerized agent engine & CLI (`octo`)
-│   └── octo-office/      OpenClaw 2D isometric dashboard & pipeline visualizer
+│   ├── octo-3d/          Octo 3D retro virtual office, studio & layout builder
+│   ├── octo-core/        Octo Core containerized agent engine & CLI (`octo`)
+│   └── octo-office/      Octo Office 2D isometric dashboard & pipeline visualizer
 ├── public/
 │   ├── mascot/           3D animated octopus model (octopus.wasm & index.html)
 │   └── logo.svg          Flat vector SVG brand logo
@@ -106,8 +106,8 @@ octic-Agent/
 ### 2. Setup
 
 ```bash
-git clone https://github.com/Aravindh-dev12/octic-Agent.git
-cd octic-Agent
+git clone https://github.com/Aravindh-dev12/octo-agent-workforce.git
+cd octo-agent-workforce
 npm install
 ```
 
@@ -116,15 +116,15 @@ npm install
 Run all services together or individually:
 
 ```bash
-# Launch the 3D Retro Virtual Office (Default Port: 3000)
+# Launch the Octo 3D Virtual Office (Default Port: 3000)
 npm run dev:3d
 # URL: http://localhost:3000/office
 
-# Launch the 3D Mascot Model Viewer (Port: 8080)
+# Launch the Octo 3D Mascot Viewer (Port: 8080)
 npm run mascot
 # URL: http://localhost:8080
 
-# Launch the 2D Isometric Office Dashboard (Default Port: 4200)
+# Launch the Octo 2D Office Dashboard (Default Port: 4200)
 npm run dev:office
 # URL: http://localhost:4200
 

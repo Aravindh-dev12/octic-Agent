@@ -1,10 +1,10 @@
 # Octo Agent — Architecture & System Design
 
-**Octo Agent** unites three agent ecosystems into a unified platform:
-1. **Octo 3D Workspace** (derived from Claw3D)
-2. **Containerized Autonomous Runtime** (derived from NanoClaw)
-3. **2D Isometric Workflow Pipeline Dashboard** (derived from OpenClaw Office)
-4. **Interactive 3D Mascot Model** (custom WebGL GLTF shader engine)
+**Octo Agent** provides a unified autonomous workforce and virtual office platform composed of:
+1. **Octo 3D Workspace** — Spatial 3D office and studio editor
+2. **Octo Core Engine** — Containerized autonomous runtime with filesystem isolation
+3. **Octo Office Dashboard** — 2D isometric workflow pipeline and cost telemetry visualizer
+4. **Octo 3D Mascot Model** — Interactive WebGL GLTF shader engine and chief orchestrator avatar
 
 ---
 
@@ -68,18 +68,18 @@ flowchart TD
 - **Live Agent Presence**: Agents move between desks, meeting tables, and the PR review room based on real-time task states.
 - **Chief Octo Mascot (`/mascot`)**: Live WebGL 3D purple octopus model serving as the orchestrator avatar with procedural tentacle kinematics and eye gaze tracking.
 
-### 2. Octo Core (`packages/octo-core`)
+### 2. Octo Core Engine (`packages/octo-core`)
 - **Container Isolation**: Each Octo Agent runs inside its own isolated Linux container with strictly mounted filesystems.
 - **State Management**: Built on high-performance SQLite (`better-sqlite3`), tracking conversation history, task schedules, credentials, and token usage.
 - **Multi-Channel Adapters**: Native support for Slack, Discord, Telegram, WhatsApp (Baileys), Webhooks, and CLI.
 
-### 3. Octo Office (`packages/octo-office`)
+### 3. Octo Office Dashboard (`packages/octo-office`)
 - **Isometric Office Dashboard**: Real-time 2D isometric overview with live desk status and agent sprite animations.
 - **Multi-Step Request Pipeline**: Visualizes task delegation chains (User $\to$ Chief Octo $\to$ Specialist Agent $\to$ Validation).
 - **Cost & Productivity Tracker**: Real-time telemetry monitoring token usage, API savings, and task turnaround time.
 
 ### 4. 3D Mascot Engine (`public/mascot/` & `packages/octo-3d/public/mascot/`)
-- **Binary Model**: `octopus.wasm` (a binary GLTF/GLB 3D asset, 7.5 MB).
+- **Binary Model**: `octopus.wasm` (a binary GLTF/GLB 3D asset, 7.18 MB).
 - **Vertex Shader Deformations**: Procedural harmonic waving across all 8 tentacles using golden-angle phase offsets ($\Delta \theta = 2.399 \text{ rad}$).
 - **Eye & Pupil Tracking**: Jacobian inverse matrix projection mapping mouse screen coordinates into 2D UV texture space for lifelike eye following and natural blinking cycles.
 

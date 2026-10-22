@@ -28,7 +28,9 @@ jobs:
           pip install ".[api,dev]"
       - name: Compile
         run: python -m compileall -q .
-      - name: Tests
+      - name: Core agent tests
+        run: python ../../ci/test_octic_core.py
+      - name: API smoke test
         run: python ../../ci/smoke_test_api.py
       - name: UI syntax
         run: python -m py_compile ../../ui/app.py

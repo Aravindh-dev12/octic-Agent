@@ -9,35 +9,11 @@ authors = [
     { name = "Octic AI Agent Contributors" }
 ]
 dependencies = [
-    "rich>=13.7",
-    "markdown>=3.5",
-    "pyparsing>=3.0.0",
-    "praisonai>=4.7.12,<5",
-    "praisonaiagents>=1.7.10",
-    "praisonai-code>=0.1.9",
-    "praisonai-bot>=0.1.9",
-    "praisonai-train>=0.1.9",
-    "praisonai-browser>=0.1.9",
-    "praisonai-mcp>=0.1.11",
-    "praisonai-sandbox>=0.1.9",
-    "praisonai-deploy>=0.1.9",
-    "python-dotenv>=0.19.0",
     "litellm>=1.83.14,<2",
-    "PyYAML>=6.0",
-    "mcp>=1.20.0",
-    "typer>=0.12.0",
-    "click>=8.4.2",
-    "textual>=0.47.0",
-    "pydantic>=2.0.0",
-    "flask>=3.0.0",
-    "flask-cors>=6.0.0",
-    "toml>=0.10.2",
 ]
 
 [project.scripts]
 octic-ai-agent = "octic_ai_agent.cli:main"
-setup-conda-env = "praisonai.setup.setup_conda_env:main"
-octic-ai-agent-call = "praisonai.api.call:main"
 
 [project.entry-points."praisonai.framework_adapters"]
 crewai = "praisonai.framework_adapters.crewai_adapter:CrewAIAdapter"
@@ -58,6 +34,30 @@ a2u = "praisonai.endpoints.providers.a2u:A2UProvider"
 openai-compat = "praisonai.endpoints.providers.openai_compat:OpenAICompatProvider"
 
 [project.optional-dependencies]
+# Optional bridge for installations that still need the legacy framework modules.
+# The OcticAgent runtime and CLI do not require these packages.
+compat = [
+    "rich>=13.7",
+    "markdown>=3.5",
+    "pyparsing>=3.0.0",
+    "praisonai>=4.7.12,<5",
+    "praisonaiagents>=1.7.10",
+    "praisonai-code>=0.1.9",
+    "praisonai-bot>=0.1.9",
+    "praisonai-train>=0.1.9",
+    "praisonai-browser>=0.1.9",
+    "praisonai-mcp>=0.1.11",
+    "praisonai-sandbox>=0.1.9",
+    "praisonai-deploy>=0.1.9",
+    "python-dotenv>=0.19.0",
+    "PyYAML>=6.0",
+    "mcp>=1.20.0",
+    "typer>=0.12.0",
+    "click>=8.4.2",
+    "textual>=0.47.0",
+    "pydantic>=2.0.0",
+    "toml>=0.10.2",
+]
 ui = [
     "aiui>=0.3.121,<0.4",
     "gradio>=5.0,<7",

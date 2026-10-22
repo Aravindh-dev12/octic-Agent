@@ -9,11 +9,12 @@ client=api_server.app.test_client()
 assert client.get("/health").status_code==200
 assert client.post("/chat",json={"message":"hello"}).status_code==401
 headers={"Authorization":"Bearer ci-test-token"}
-response=client.post("/chat",json={"message":"hello","agent":"research"},headers=headers)
+history=[{"role":"user","content":"Earlier question"},{"role":"assistant","content":"Earlier answer"}]
+response=client.post("/chat",json={"message":"hello","agent":"research","history":history},headers=headers)
 assert response.status_code==200,response.get_data(as_text=True)
 body=response.get_json()
 assert body["response"]["message"]=="hello" and body["agent"]=="research"
-assert body["response"]["history"]==[{"role":"user","content":"Earlier question"},{"role":"assistant","content":"Earlier answer"}]
+assert body["response"]["history"]==history
 assert client.post("/chat",json={},headers=headers).status_code==400
 assert client.post("/chat",json={"message":"hello","agent":"unknown"},headers=headers).status_code==400
 print("Octic AI Agent production API smoke test: PASS")

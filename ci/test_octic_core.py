@@ -145,10 +145,11 @@ class OcticAgentTests(unittest.TestCase):
         package.__path__ = []
         legacy = module_types.ModuleType("praisonai.__main__")
         legacy.main = Mock(return_value=0)
+        original_argv = sys.argv[:]
         with patch.dict(sys.modules, {"praisonai": package, "praisonai.__main__": legacy}):
             code = cli.main(["onboard", "--help"])
         self.assertEqual(code, 0)
-        self.assertEqual(sys.argv[1:], sys.argv[1:])  # argv is restored after dispatch
+        self.assertEqual(sys.argv, original_argv)
         legacy.main.assert_called_once_with()
 
     def test_missing_compat_layer_reports_install_command(self):

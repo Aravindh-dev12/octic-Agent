@@ -38,6 +38,8 @@ compat = [
     "click>=8.4.2",
     "textual>=0.47.0",
     "pydantic>=2.0.0",
+    "flask>=3.0.0",
+    "flask-cors>=6.0.0",
     "toml>=0.10.2",
 ]
 ui = [
@@ -47,6 +49,7 @@ ui = [
 gradio = ["gradio>=4.26.0"]
 api = [
     "flask>=3.0.0",
+    "flask-cors>=6.0.0",
     "fastapi>=0.115.0",
     "uvicorn>=0.34.0",
     "sse-starlette>=1.6.0"

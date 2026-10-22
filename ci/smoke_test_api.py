@@ -7,6 +7,7 @@ async def fake_run_message(message,agent_name="default",history=None):
 api_server._run_message=fake_run_message
 client=api_server.app.test_client()
 assert client.get("/health").status_code==200
+assert client.get("/ready").status_code==200
 assert client.post("/chat",json={"message":"hello"}).status_code==401
 headers={"Authorization":"Bearer ci-test-token"}
 history=[{"role":"user","content":"Earlier question"},{"role":"assistant","content":"Earlier answer"}]

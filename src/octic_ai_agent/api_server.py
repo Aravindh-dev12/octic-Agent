@@ -1,7 +1,6 @@
 """Production HTTP API for Octic AI Agent."""
 from __future__ import annotations
 import asyncio, os, secrets, sys
-from pathlib import Path
 from typing import Any
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -13,7 +12,6 @@ PORT=int(os.environ.get("OCTIC_AI_AGENT_API_PORT","8080"))
 AUTH_ENABLED=os.environ.get("OCTIC_AI_AGENT_API_AUTH","enabled").strip().lower()!="disabled"
 AUTH_TOKEN=os.environ.get("OCTIC_AI_AGENT_API_TOKEN")
 MAX_MESSAGE_LENGTH=int(os.environ.get("OCTIC_AI_AGENT_MAX_MESSAGE_LENGTH","12000"))
-AGENT_FILE=Path(os.environ.get("OCTIC_AI_AGENT_AGENT_FILE",str(Path(__file__).with_name("agents.yaml")))).expanduser().resolve()
 
 AGENT_PRESETS={
  "default":"You are Octic AI Agent, a precise and helpful general-purpose assistant.",
@@ -40,9 +38,6 @@ def _authorized()->bool:
     scheme,_,token=request.headers.get("Authorization","").partition(" ")
     return scheme.lower()=="bearer" and bool(AUTH_TOKEN) and secrets.compare_digest(token,AUTH_TOKEN or "")
 
-def _agent_exists()->bool:
-    return AGENT_FILE.is_file()
-
 async def _run_message(
     message: str,
     agent_name: str = "default",
@@ -62,9 +57,12 @@ def health():
 
 @app.get("/ready")
 def ready():
-    if not _agent_exists():
-        return jsonify({"status":"not_ready","reason":"agent_file_missing"}),503
-    return jsonify({"status":"ready","service":SERVICE_NAME})
+    try:
+        import litellm  # noqa: F401
+    except ImportError:
+        return jsonify({"status":"not_ready","reason":"model_runtime_missing"}),503
+    model = os.environ.get("OCTIC_AI_AGENT_MODEL") or os.environ.get("OPENAI_MODEL") or "gpt-4o-mini"
+    return jsonify({"status":"ready","service":SERVICE_NAME,"model":model})
 
 @app.post("/chat")
 def chat():
@@ -94,8 +92,6 @@ def chat():
         return jsonify({"error":f"message exceeds {MAX_MESSAGE_LENGTH} characters"}),413
     if agent_name not in AGENT_PRESETS:
         return jsonify({"error":"unknown agent","available_agents":sorted(AGENT_PRESETS)}),400
-    if not _agent_exists():
-        return jsonify({"error":"agent configuration is unavailable"}),503
     try:
         result=asyncio.run(_run_message(message.strip(),agent_name,history))
         return jsonify({"response":result,"status":"success","agent":agent_name})
@@ -107,7 +103,7 @@ def chat():
 def list_agents():
     if not _authorized():
         return jsonify({"error":"Unauthorized"}),401
-    return jsonify({"agents":sorted(AGENT_PRESETS),"agent_file":str(AGENT_FILE),"service":SERVICE_NAME})
+    return jsonify({"agents":sorted(AGENT_PRESETS),"service":SERVICE_NAME})
 
 @app.errorhandler(413)
 def request_too_large(_error):

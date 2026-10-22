@@ -22,9 +22,11 @@ def load_api(monkeypatch):
     return api
 
 
-def test_health_is_public(monkeypatch):
+def test_health_and_readiness_are_public(monkeypatch):
     api = load_api(monkeypatch)
-    assert api.app.test_client().get("/health").status_code == 200
+    client = api.app.test_client()
+    assert client.get("/health").status_code == 200
+    assert client.get("/ready").status_code == 200
 
 
 def test_chat_requires_auth(monkeypatch):

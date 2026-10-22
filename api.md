@@ -1,6 +1,6 @@
 # Octic AI Agent API Reference
 
-This reference describes the standalone Octic runtime in `src/octic_ai_agent/`. It replaces the former generated reference for a different framework, which pointed to source paths that are not part of the Octic core.
+This reference describes the standalone Octic runtime in `src/octic_ai_agent/`. Optional legacy integrations are separate from the public core API.
 
 ## Python API
 
@@ -61,7 +61,7 @@ Optional historical integration commands are routed through the compatibility ex
 
 ## HTTP API
 
-Install `octic-ai-agent[api]` (or use the source checkout's editable install) to expose the Flask API.
+From a repository checkout, install the API extra with `python -m pip install -e "src/octic_ai_agent[api]"` to expose the Flask API.
 
 | Method | Endpoint | Purpose |
 |---|---|---|

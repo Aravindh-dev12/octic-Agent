@@ -21,8 +21,8 @@ Python caller / CLI / Gradio UI / Next.js web console
                       workspace tools**
 ```
 
-`* `web_search` is available when the `search` extra is installed.  
-`**` Workspace listing/reading is enabled only when `OCTIC_AI_AGENT_WORKSPACE` points to an existing directory. File writes and command execution require separate environment opt-ins; command execution runs as the current user and is not a sandbox.
+- **Web search:** available when the `search` extra is installed.
+- **Workspace tools:** listing/reading is enabled only when `OCTIC_AI_AGENT_WORKSPACE` points to an existing directory. File writes and command execution require separate environment opt-ins; command execution runs as the current user and is not a sandbox.
 
 ## Core runtime
 

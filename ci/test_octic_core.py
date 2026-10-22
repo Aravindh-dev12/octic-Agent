@@ -78,6 +78,18 @@ class OcticAgentTests(unittest.TestCase):
         agent.reset()
         self.assertEqual(agent.history, [])
 
+    def test_seeded_history_is_sent_to_the_model(self):
+        self.completion.return_value = _response("continued")
+        history = [
+            {"role": "user", "content": "Earlier question"},
+            {"role": "assistant", "content": "Earlier answer"},
+        ]
+        agent = OcticAgent("Remember the conversation.", history=history)
+        self.assertEqual(agent.start("continue"), "continued")
+        messages = self.completion.call_args.kwargs["messages"]
+        self.assertIn({"role": "user", "content": "Earlier question"}, messages)
+        self.assertIn({"role": "assistant", "content": "Earlier answer"}, messages)
+
     def test_async_api_uses_same_runtime(self):
         self.completion.return_value = _response("async answer")
         agent = OcticAgent("Be concise.")

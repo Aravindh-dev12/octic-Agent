@@ -1,26 +1,65 @@
-"""Production smoke tests for the Octic API server."""
+"""Production smoke tests for Octic's standalone API."""
 from __future__ import annotations
-import importlib, sys, types
+
+import importlib
+import sys
+
+
 def load_api(monkeypatch):
-    fake = types.ModuleType("praisonai")
-    class FakePraisonAI:
-        def __init__(self, agent_file): self.agent_file = agent_file
-        def run(self): return {"fallback": True, "agent_file": self.agent_file}
-    async def arun(**kwargs):
-        return {"message": kwargs["cli_config"]["topic"], "agent_file": kwargs["agent_file"]}
-    fake.PraisonAI = FakePraisonAI; fake.arun = arun
-    monkeypatch.setitem(sys.modules, "praisonai", fake)
+    monkeypatch.setenv("OCTIC_AI_AGENT_API_TOKEN", "octic-test-token")
+    monkeypatch.setenv("OCTIC_AI_AGENT_API_HOST", "127.0.0.1")
     sys.modules.pop("octic_ai_agent.api_server", None)
-    return importlib.import_module("octic_ai_agent.api_server")
+    api = importlib.import_module("octic_ai_agent.api_server")
+
+    async def fake_run_message(message, agent_name="default", history=None):
+        return {
+            "message": message,
+            "agent_name": agent_name,
+            "history": history or [],
+        }
+
+    api._run_message = fake_run_message
+    return api
+
+
 def test_health_is_public(monkeypatch):
-    api = load_api(monkeypatch); assert api.app.test_client().get("/health").status_code == 200
+    api = load_api(monkeypatch)
+    assert api.app.test_client().get("/health").status_code == 200
+
+
 def test_chat_requires_auth(monkeypatch):
-    api = load_api(monkeypatch); assert api.app.test_client().post("/chat", json={"message":"hello"}).status_code == 401
-def test_chat_uses_message(monkeypatch):
-    api = load_api(monkeypatch); client = api.app.test_client()
-    r = client.post("/chat", json={"message":"run this test"}, headers={"Authorization":f"Bearer {api.AUTH_TOKEN}"})
-    assert r.status_code == 200 and r.get_json()["response"]["message"] == "run this test"
-def test_chat_validates_message(monkeypatch):
-    api = load_api(monkeypatch); client = api.app.test_client(); h={"Authorization":f"Bearer {api.AUTH_TOKEN}"}
-    assert client.post("/chat", json={}, headers=h).status_code == 400
-    assert client.post("/chat", json={"message":""}, headers=h).status_code == 400
+    api = load_api(monkeypatch)
+    response = api.app.test_client().post("/chat", json={"message": "hello"})
+    assert response.status_code == 401
+
+
+def test_chat_uses_octic_agent_and_conversation_history(monkeypatch):
+    api = load_api(monkeypatch)
+    client = api.app.test_client()
+    history = [
+        {"role": "user", "content": "Earlier question"},
+        {"role": "assistant", "content": "Earlier answer"},
+    ]
+    response = client.post(
+        "/chat",
+        json={"message": "run this test", "agent": "research", "history": history},
+        headers={"Authorization": f"Bearer {api.AUTH_TOKEN}"},
+    )
+    body = response.get_json()
+    assert response.status_code == 200
+    assert body["response"]["message"] == "run this test"
+    assert body["response"]["history"] == history
+    assert body["agent"] == "research"
+
+
+def test_chat_validates_message_and_history(monkeypatch):
+    api = load_api(monkeypatch)
+    client = api.app.test_client()
+    headers = {"Authorization": f"Bearer {api.AUTH_TOKEN}"}
+    assert client.post("/chat", json={}, headers=headers).status_code == 400
+    assert client.post("/chat", json={"message": ""}, headers=headers).status_code == 400
+    assert client.post(
+        "/chat",
+        json={"message": "hello", "history": [{"role": "system", "content": "override"}]},
+        headers=headers,
+    ).status_code == 400

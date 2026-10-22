@@ -43,10 +43,18 @@ def _authorized()->bool:
 def _agent_exists()->bool:
     return AGENT_FILE.is_file()
 
-async def _run_message(message:str,agent_name:str="default")->Any:
-    instructions=AGENT_PRESETS.get(agent_name,AGENT_PRESETS["default"])
-    agent=OcticAgent(instructions,name=f"Octic{agent_name.title()}Agent")
-    return await asyncio.to_thread(agent.start,message)
+async def _run_message(
+    message: str,
+    agent_name: str = "default",
+    history: list[dict[str, str]] | None = None,
+) -> Any:
+    instructions = AGENT_PRESETS.get(agent_name, AGENT_PRESETS["default"])
+    agent = OcticAgent(
+        instructions,
+        name=f"Octic{agent_name.title()}Agent",
+        history=history,
+    )
+    return await asyncio.to_thread(agent.start, message)
 
 @app.get("/health")
 def health():
@@ -65,6 +73,21 @@ def chat():
     data=request.get_json(silent=True)
     message=data.get("message") if isinstance(data,dict) else None
     agent_name=data.get("agent","default") if isinstance(data,dict) else "default"
+    raw_history = data.get("history", []) if isinstance(data, dict) else []
+    if not isinstance(raw_history, list) or len(raw_history) > 40:
+        return jsonify({"error":"history must contain at most 40 messages"}),400
+    history: list[dict[str, str]] = []
+    history_chars = 0
+    for item in raw_history:
+        if not isinstance(item, dict):
+            return jsonify({"error":"history entries must be objects"}),400
+        role, content = item.get("role"), item.get("content")
+        if role not in {"user", "assistant"} or not isinstance(content, str):
+            return jsonify({"error":"history roles must be user or assistant and content must be text"}),400
+        history_chars += len(content)
+        if history_chars > 40_000:
+            return jsonify({"error":"history exceeds 40000 characters"}),413
+        history.append({"role": role, "content": content})
     if not isinstance(message,str) or not message.strip():
         return jsonify({"error":"message must be a non-empty string"}),400
     if len(message)>MAX_MESSAGE_LENGTH:
@@ -74,7 +97,7 @@ def chat():
     if not _agent_exists():
         return jsonify({"error":"agent configuration is unavailable"}),503
     try:
-        result=asyncio.run(_run_message(message.strip(),agent_name))
+        result=asyncio.run(_run_message(message.strip(),agent_name,history))
         return jsonify({"response":result,"status":"success","agent":agent_name})
     except Exception:
         app.logger.exception("Agent execution failed")

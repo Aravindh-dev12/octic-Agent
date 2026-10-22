@@ -160,7 +160,17 @@ export default function Page() {
       const response = await fetch("/api/agent", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ message, agent }),
+        body: JSON.stringify({
+          message,
+          agent,
+          history: messages
+            .filter((item) => item.role === "user" || item.role === "agent")
+            .slice(-40)
+            .map((item) => ({
+              role: item.role === "agent" ? "assistant" : "user",
+              content: item.content,
+            })),
+        }),
       });
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {

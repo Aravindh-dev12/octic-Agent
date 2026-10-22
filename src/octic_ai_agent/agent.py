@@ -145,6 +145,8 @@ class OcticAgent:
         tools: Python callables the model may request.
         max_iterations: Maximum number of model turns per user prompt.
         temperature: Sampling temperature passed to the model provider.
+        history: Optional earlier user/assistant messages to seed a new session.
+            At most 40 messages and 40,000 characters are accepted.
 
     Set the provider's API key in its standard environment variable, such as
     OPENAI_API_KEY. For local or OpenAI-compatible providers, set model to the
@@ -161,6 +163,7 @@ class OcticAgent:
         tools: Sequence[Callable[..., Any]] | None = None,
         max_iterations: int = 8,
         temperature: float = 0.2,
+        history: Sequence[Mapping[str, Any]] | None = None,
     ) -> None:
         if not isinstance(instructions, str) or not instructions.strip():
             raise ValueError("instructions must be a non-empty string.")
@@ -192,6 +195,17 @@ class OcticAgent:
             self._tool_schemas.append(schema)
 
         self._history: list[dict[str, Any]] = []
+        history_chars = 0
+        for message in history or ():
+            if not isinstance(message, Mapping):
+                raise ValueError("history entries must be objects with role and content.")
+            role, content = message.get("role"), message.get("content")
+            if role not in {"user", "assistant"} or not isinstance(content, str):
+                raise ValueError("history roles must be 'user' or 'assistant' and content must be text.")
+            history_chars += len(content)
+            if len(self._history) >= 40 or history_chars > 40_000:
+                raise ValueError("history exceeds Octic's limit of 40 messages / 40000 characters.")
+            self._history.append({"role": role, "content": content})
         self._lock = threading.RLock()
 
     @property

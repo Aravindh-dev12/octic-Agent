@@ -18,10 +18,21 @@ AGENTS={
 def respond(message: str, history: list[dict[str,Any]]|None, agent_name: str, model: str):
  history=list(history or [])
  if not message or not message.strip(): return history,""
- if model.strip(): os.environ["OCTIC_AI_AGENT_MODEL"]=model.strip()
- else: os.environ.pop("OCTIC_AI_AGENT_MODEL",None)
+ conversation=[
+  {"role":item.get("role"),"content":item.get("content")}
+  for item in history
+  if isinstance(item,dict)
+  and item.get("role") in {"user","assistant"}
+  and isinstance(item.get("content"),str)
+ ]
  try:
-  result=OcticAgent(AGENTS[agent_name],name=agent_name.replace(" ","")).start(message.strip())
+  agent=OcticAgent(
+   AGENTS[agent_name],
+   name=agent_name.replace(" ",""),
+   model=model.strip() or None,
+   history=conversation,
+  )
+  result=agent.start(message.strip())
   answer=str(result)
  except Exception as exc:
   answer=f"Execution failed: {type(exc).__name__}. Check provider credentials and runtime configuration."

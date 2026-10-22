@@ -23,6 +23,24 @@ Set the credentials required by your model provider, for example:
 
 Use OCTIC_AI_AGENT_MODEL to set a default model, or pass model to OcticAgent directly.
 
+### Callable tools
+
+```python
+from octic_ai_agent import OcticAgent
+
+def lookup_status(service: str) -> str:
+    """Return the status of a service."""
+    return f"{service}: healthy"
+
+agent = OcticAgent(
+    instructions="Answer clearly and use tools when appropriate.",
+    tools=[lookup_status],
+)
+print(agent.start("Check the status of the billing service."))
+```
+
+Tools are ordinary Python functions executed in the same process as the agent. Register only trusted functions.
+
 ## Command line
 
     octic-ai-agent --help

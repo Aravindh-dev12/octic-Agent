@@ -25,6 +25,26 @@ Create and run an agent:
 
 To select a model, set OCTIC_AI_AGENT_MODEL or pass model when creating the agent.
 
+### Give the agent a tool
+
+Pass ordinary Python callables. Octic builds tool schemas from their signatures and type hints:
+
+```python
+from octic_ai_agent import OcticAgent
+
+def multiply(a: int, b: int) -> int:
+    """Multiply two integers."""
+    return a * b
+
+agent = OcticAgent(
+    instructions="Use the multiply tool when arithmetic is needed.",
+    tools=[multiply],
+)
+print(agent.start("What is 12 times 13?"))
+```
+
+Tools run in your Python process, so register only functions you trust.
+
 ## Command-line interface
 
 See the available commands:

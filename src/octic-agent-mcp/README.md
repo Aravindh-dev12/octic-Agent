@@ -1,47 +1,38 @@
-# Octic AI Agent MCP
+# Octic AI Agent — MCP Compatibility Integration
 
-Host Octic AI Agent agents and tools as an [MCP](https://modelcontextprotocol.io) server for Cursor, Claude Desktop, and other MCP clients.
+This optional integration exposes supported Octic agent capabilities through the Model Context Protocol (MCP), for clients such as Cursor and Claude Desktop. It is not needed for the standalone Octic runtime or HTTP API.
 
 ## Install
 
-```bash
-pip install "praisonai-mcp[all]"
-
-# Or via the umbrella product
-pip install "praisonai[mcp]"
-```
-
-## Quickstart
+From the repository root:
 
 ```bash
-export OPENAI_API_KEY=sk-...
-# Standalone heavy host (full argparse options)
-praisonai-mcp serve --transport stdio
-praisonai-mcp list-tools
-praisonai-mcp doctor
-
-# Via umbrella CLI (same host commands on `praisonai mcp …`)
-praisonai mcp serve --transport stdio
-praisonai mcp list-tools
+python -m pip install -e "src/octic_ai_agent[compat,mcp]"
 ```
 
-Config management (`list`, `add`, `sync`, `tools`, …) works on both `praisonai-mcp` and `praisonai mcp`.
-Full capability registry requires `praisonai` co-install (`_wrapper_bridge`).
+Set the provider credentials required by your selected model.
 
-## Three MCP layers (do not conflate)
+## Quick start
 
-| Layer | Package | Role |
-|-------|---------|------|
-| Client | `praisonaiagents[mcp]` | Connect agents to external MCP servers |
-| Light server | `praisonai-code` (`praisonai serve mcp`) | Basic `ToolsMCPServer` |
-| Heavy host | `praisonai-mcp` (this package) | Full capability/recipe MCP server |
-
-## Stack
-
-```
-praisonaiagents  (MCP client protocols)
-   └── praisonai-mcp  (this package)
-        └── praisonai  (wrapper shims: praisonai.mcp_server.*)
+```bash
+octic-ai-agent mcp serve --transport stdio
+octic-ai-agent mcp list-tools
 ```
 
-Boundary details: `src/praisonai/tests/PRAISONAI_MCP_MANIFEST.md`.
+For help:
+
+```bash
+octic-ai-agent mcp --help
+```
+
+These extended commands are dispatched through the explicit compatibility integration. The underlying separately packaged MCP host still uses its legacy distribution and internal module identifiers for compatibility; those are not the public Octic product name.
+
+## Layers
+
+| Layer | Role |
+|---|---|
+| MCP client | Connects an agent to a remote MCP server |
+| Light server | Exposes selected tools over an MCP transport |
+| Optional compatibility host | Provides the extended host/capability registry integration |
+
+Keep provider secrets out of checked-in configuration. Review each tool's permissions before exposing it to an MCP client.

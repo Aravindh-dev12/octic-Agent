@@ -142,7 +142,9 @@ class OcticAgent:
         name: Display name used in the system prompt.
         model: LiteLLM model identifier. Defaults to OCTIC_AI_AGENT_MODEL,
             then OPENAI_MODEL, then gpt-4o-mini.
-        tools: Python callables the model may request.
+        tools: Python callables the model may request. If omitted (None), Octic
+            loads the safe built-in tools available in this installation and the
+            explicitly configured workspace. Pass an empty list to disable tools.
         max_iterations: Maximum number of model turns per user prompt.
         temperature: Sampling temperature passed to the model provider.
         history: Optional earlier user/assistant messages to seed a new session.
@@ -184,10 +186,16 @@ class OcticAgent:
         )
         self.max_iterations = max_iterations
         self.temperature = temperature
+        if tools is None:
+            from .tools import default_tools
+            selected_tools = default_tools()
+        else:
+            selected_tools = tools
+
         self._tools: dict[str, Callable[..., Any]] = {}
         self._tool_schemas: list[dict[str, Any]] = []
 
-        for tool in tools or ():
+        for tool in selected_tools:
             tool_name, schema = _make_tool_schema(tool)
             if tool_name in self._tools:
                 raise ValueError(f"Duplicate tool name: {tool_name}")

@@ -21,7 +21,7 @@ Set the credentials required by your model provider, for example:
     result = agent.start("Summarize three important AI developments.")
     print(result)
 
-Use OCTIC_AI_AGENT_MODEL to set a default model, or pass model to OcticAgent directly. Octic's CLI, Gradio UI, and HTTP API also load safe built-in calculator and date/time tools; install the `search` extra to add web search.
+Use OCTIC_AI_AGENT_MODEL to set a default model, or pass model to OcticAgent directly. Python-created agents, the Octic CLI, Gradio UI, and HTTP API load safe built-in calculator and date/time tools automatically; install the `search` extra to add web search. Pass `tools=[]` to disable tools.
 
 ### Callable tools
 
@@ -51,13 +51,13 @@ Install optional capabilities as needed:
 
     python -m pip install "octic-ai-agent[api]"
     python -m pip install "octic-ai-agent[ui]"
-    python -m pip install "octic-ai-agent[flow]"
-    python -m pip install "octic-ai-agent[chat]"
-    python -m pip install "octic-ai-agent[browser]"
-    python -m pip install "octic-ai-agent[mcp]"
-    python -m pip install "octic-ai-agent[sandbox]"
-    python -m pip install "octic-ai-agent[deploy]"
-    python -m pip install "octic-ai-agent[train]"
+    python -m pip install -e "src/octic_ai_agent[compat,flow]"
+    python -m pip install -e "src/octic_ai_agent[compat,chat]"
+    python -m pip install -e "src/octic_ai_agent[compat,browser]"
+    python -m pip install -e "src/octic_ai_agent[compat,mcp]"
+    python -m pip install -e "src/octic_ai_agent[compat,sandbox]"
+    python -m pip install -e "src/octic_ai_agent[compat,deploy]"
+    python -m pip install -e "src/octic_ai_agent[compat,train]"
 
 Feature availability may depend on provider credentials and platform-specific dependencies.
 

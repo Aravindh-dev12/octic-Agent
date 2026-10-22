@@ -25,7 +25,7 @@ Create and run an agent:
     result = agent.start("Search the web for three important AI developments and summarize them.")
     print(result)
 
-To select a model, set OCTIC_AI_AGENT_MODEL or pass model when creating the agent. Built-in tools include safe arithmetic and current date/time; the `[search]` extra enables web search.
+To select a model, set OCTIC_AI_AGENT_MODEL or pass model when creating the agent. Python-created agents automatically load Octic's safe built-in calculator and date/time tools. The `[search]` extra enables web search. Pass `tools=[]` to explicitly disable built-in tools.
 
 ### Enable local workspace tools
 
@@ -73,13 +73,13 @@ Install only the optional features needed by your deployment:
 
     python -m pip install -e "src/octic_ai_agent[api,search]"
     python -m pip install -e "src/octic_ai_agent[ui,search]"
-    python -m pip install "octic-ai-agent[flow]"
-    python -m pip install "octic-ai-agent[chat]"
-    python -m pip install "octic-ai-agent[browser]"
-    python -m pip install "octic-ai-agent[mcp]"
-    python -m pip install "octic-ai-agent[sandbox]"
-    python -m pip install "octic-ai-agent[deploy]"
-    python -m pip install "octic-ai-agent[train]"
+    python -m pip install -e "src/octic_ai_agent[compat,flow]"
+    python -m pip install -e "src/octic_ai_agent[compat,chat]"
+    python -m pip install -e "src/octic_ai_agent[compat,browser]"
+    python -m pip install -e "src/octic_ai_agent[compat,mcp]"
+    python -m pip install -e "src/octic_ai_agent[compat,sandbox]"
+    python -m pip install -e "src/octic_ai_agent[compat,deploy]"
+    python -m pip install -e "src/octic_ai_agent[compat,train]"
 
 Some optional integrations require additional provider credentials or system dependencies. The core Octic runtime and CLI do not require the legacy framework. To keep extended historical CLI commands (such as onboarding or specialized server modes), install the optional bridge:
 

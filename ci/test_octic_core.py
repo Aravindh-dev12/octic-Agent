@@ -49,6 +49,20 @@ class OcticAgentTests(unittest.TestCase):
         self.assertEqual(agent.history[-2]["role"], "user")
         self.assertEqual(agent.history[-1]["content"], "Hello from Octic.")
 
+    def test_default_tools_are_loaded_for_python_api_and_can_be_disabled(self):
+        self.completion.return_value = _response("answer")
+        agent = OcticAgent("Be helpful.")
+        self.assertIn("calculate", agent._tools)
+        self.assertIn("current_datetime", agent._tools)
+        self.assertTrue(self.completion.call_count == 0)
+        self.assertEqual(agent.start("hello"), "answer")
+        self.assertIn("tools", self.completion.call_args.kwargs)
+
+        disabled = OcticAgent("Be helpful.", tools=[])
+        self.completion.return_value = _response("no tools")
+        self.assertEqual(disabled.start("hello"), "no tools")
+        self.assertNotIn("tools", self.completion.call_args.kwargs)
+
     def test_callable_tool_is_executed_then_model_finishes(self):
         def add(a: int, b: int) -> int:
             """Add two integers."""

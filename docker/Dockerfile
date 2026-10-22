@@ -17,7 +17,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 COPY src/octic_ai_agent /tmp/octic_ai_agent
-RUN python -m pip install --no-cache-dir "/tmp/octic_ai_agent[api]" gunicorn \
+RUN python -m pip install --no-cache-dir "/tmp/octic_ai_agent[api,search]" gunicorn \
     && rm -rf /tmp/octic_ai_agent
 
 EXPOSE 8080

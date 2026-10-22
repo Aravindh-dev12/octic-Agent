@@ -5,6 +5,7 @@ from typing import Any
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from .agent import OcticAgent
+from .tools import default_tools
 
 SERVICE_NAME="octic-ai-agent-api"
 HOST=os.environ.get("OCTIC_AI_AGENT_API_HOST","127.0.0.1").strip()
@@ -47,6 +48,7 @@ async def _run_message(
     agent = OcticAgent(
         instructions,
         name=f"Octic{agent_name.title()}Agent",
+        tools=default_tools(),
         history=history,
     )
     return await asyncio.to_thread(agent.start, message)

@@ -59,11 +59,13 @@ def build_parser() -> argparse.ArgumentParser:
 
 def _agent_from_args(args: Any) -> Any:
     from .agent import OcticAgent
+    from .tools import default_tools
 
     return OcticAgent(
         instructions=args.instructions,
         name=args.name,
         model=args.model,
+        tools=default_tools(),
         max_iterations=args.max_iterations,
     )
 
@@ -119,6 +121,15 @@ def _doctor() -> int:
     print(f"Octic AI Agent {__version__}")
     print(f"Model: {model}")
     print(f"Provider credentials detected: {', '.join(detected) if detected else 'none'}")
+    try:
+        from .tools import default_tools
+        print(f"Built-in tools: {', '.join(getattr(tool, '__name__', 'tool') for tool in default_tools())}")
+    except Exception as exc:
+        print(f"Tool configuration error: {exc}", file=sys.stderr)
+        return 1
+    print(f"Workspace: {os.environ.get('OCTIC_AI_AGENT_WORKSPACE', 'not configured')}")
+    print(f"File writes: {'enabled' if os.environ.get('OCTIC_AI_AGENT_ALLOW_FILE_WRITES') == '1' else 'disabled'}")
+    print(f"Command execution: {'enabled (not sandboxed)' if os.environ.get('OCTIC_AI_AGENT_ALLOW_COMMANDS') == '1' else 'disabled'}")
     print("Credential presence is checked locally; this command does not make a model request.")
     if not detected and not os.environ.get("OLLAMA_HOST") and not os.environ.get("OPENAI_API_BASE"):
         print(

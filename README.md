@@ -4,9 +4,11 @@ Octic AI Agent is a Python-based interface for building and running AI agents, w
 
 ## Get started
 
-Install the package:
+From a source checkout, install Octic and the optional web-search tool:
 
-    python -m pip install octic-ai-agent
+    git clone https://github.com/Aravindh-dev12/octic-Agent.git
+    cd octic-Agent
+    python -m pip install -e "src/octic_ai_agent[search]"
 
 Set your model provider key:
 
@@ -20,10 +22,24 @@ Create and run an agent:
         instructions="You are a helpful research assistant.",
         name="ResearchAssistant",
     )
-    result = agent.start("Summarize three important AI developments.")
+    result = agent.start("Search the web for three important AI developments and summarize them.")
     print(result)
 
-To select a model, set OCTIC_AI_AGENT_MODEL or pass model when creating the agent.
+To select a model, set OCTIC_AI_AGENT_MODEL or pass model when creating the agent. Built-in tools include safe arithmetic and current date/time; the `[search]` extra enables web search.
+
+### Enable local workspace tools
+
+Configure Octic to list and read files inside a specific local directory:
+
+    export OCTIC_AI_AGENT_WORKSPACE="$PWD"
+    octic-ai-agent run "List the files in this workspace and summarize the project."
+
+File writes and command execution are **disabled by default**. For a trusted local workspace only, you can explicitly enable them:
+
+    export OCTIC_AI_AGENT_ALLOW_FILE_WRITES=1
+    export OCTIC_AI_AGENT_ALLOW_COMMANDS=1
+
+Command execution is not a sandbox: commands run as your user, with your permissions and environment. Never enable it on an Internet-facing service.
 
 ### Give the agent a tool
 
@@ -55,8 +71,8 @@ See the available commands:
 
 Install only the optional features needed by your deployment:
 
-    python -m pip install "octic-ai-agent[api]"
-    python -m pip install "octic-ai-agent[ui]"
+    python -m pip install -e "src/octic_ai_agent[api,search]"
+    python -m pip install -e "src/octic_ai_agent[ui,search]"
     python -m pip install "octic-ai-agent[flow]"
     python -m pip install "octic-ai-agent[chat]"
     python -m pip install "octic-ai-agent[browser]"

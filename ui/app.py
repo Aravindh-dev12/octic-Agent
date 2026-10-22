@@ -8,6 +8,7 @@ ROOT=Path(__file__).resolve().parents[1]
 PKG=ROOT/"src"/"octic_ai_agent"
 if str(PKG) not in sys.path: sys.path.insert(0,str(PKG))
 from octic_ai_agent import OcticAgent
+from octic_ai_agent.tools import default_tools
 AGENTS={
  "General Assistant":"You are Octic Assistant, a precise and helpful general-purpose AI agent.",
  "Research Analyst":"You are Octic Research Analyst. Separate facts from assumptions and use an evidence-driven process.",
@@ -30,6 +31,7 @@ def respond(message: str, history: list[dict[str,Any]]|None, agent_name: str, mo
    AGENTS[agent_name],
    name=agent_name.replace(" ",""),
    model=model.strip() or None,
+   tools=default_tools(),
    history=conversation,
   )
   result=agent.start(message.strip())

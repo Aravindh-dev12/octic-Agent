@@ -92,6 +92,9 @@ services:
       OCTIC_AI_AGENT_API_HOST: 0.0.0.0
       OCTIC_AI_AGENT_API_PORT: "8080"
       OCTIC_AI_AGENT_API_AUTH: "enabled"
+      OCTIC_AI_AGENT_WORKSPACE: /workspace
+    volumes:
+      - ${OCTIC_AGENT_WORKSPACE_PATH:-../workspace}:/workspace:rw
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
       interval: 10s

@@ -1,307 +1,310 @@
-# tools.py
+"""Safe, opt-in tools used by Octic's standalone agent runtime.
 
-from duckduckgo_search import DDGS
+Calculator and clock tools are always available. Web search is enabled when the
+optional `search` extra is installed. Workspace access is enabled only when
+OCTIC_AI_AGENT_WORKSPACE points at a real directory. Writes and commands each
+require a separate explicit opt-in environment variable.
+"""
+from __future__ import annotations
 
-def search_tool(query: str) -> list:
-    """
-    Perform a web search using DuckDuckGo and return relevant results.
+import ast
+import datetime as dt
+import importlib.util
+import json
+import math
+import operator
+import os
+from pathlib import Path
+import subprocess
+from typing import Any
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-    Args:
-        query (str): The search query string to look up information about.
 
-    Returns:
-        list: A list of dictionaries containing search results with the following keys:
-            - title (str): The title of the search result
-            - url (str): The URL of the search result
-            - snippet (str): A brief excerpt or description of the search result
-    """
+_MAX_TEXT_FILE_BYTES = 100_000
+_MAX_COMMAND_OUTPUT_CHARS = 12_000
+_SKIP_DIRS = {
+    ".git", ".hg", ".svn", ".venv", "venv", "env", "__pycache__",
+    "node_modules", ".next", "dist", "build", "coverage", ".pytest_cache",
+    ".mypy_cache", ".ruff_cache", ".tox",
+}
+_SENSITIVE_NAMES = {
+    "credentials", "credentials.json", "secrets.json", "id_rsa", "id_ed25519",
+    "known_hosts", "authorized_keys",
+}
+_SAFE_ENV_FILES = {".env.example", ".env.sample", ".env.template"}
+_BLOCKED_PARTS = {".git", ".aws", ".ssh"}
+
+
+def calculate(expression: str) -> dict[str, Any]:
+    """Evaluate a basic arithmetic expression without executing Python code."""
+    if not isinstance(expression, str) or not expression.strip():
+        raise ValueError("expression must be a non-empty string.")
+    if len(expression) > 240:
+        raise ValueError("expression is limited to 240 characters.")
+
+    binary_ops = {
+        ast.Add: operator.add,
+        ast.Sub: operator.sub,
+        ast.Mult: operator.mul,
+        ast.Div: operator.truediv,
+        ast.FloorDiv: operator.floordiv,
+        ast.Mod: operator.mod,
+        ast.Pow: operator.pow,
+    }
+    unary_ops = {ast.UAdd: operator.pos, ast.USub: operator.neg}
+
+    def visit(node: ast.AST, depth: int = 0) -> int | float:
+        if depth > 24:
+            raise ValueError("expression is too deeply nested.")
+        if isinstance(node, ast.Constant) and type(node.value) in (int, float):
+            value = node.value
+        elif isinstance(node, ast.UnaryOp) and type(node.op) in unary_ops:
+            value = unary_ops[type(node.op)](visit(node.operand, depth + 1))
+        elif isinstance(node, ast.BinOp) and type(node.op) in binary_ops:
+            left = visit(node.left, depth + 1)
+            right = visit(node.right, depth + 1)
+            if isinstance(node.op, ast.Pow) and abs(right) > 100:
+                raise ValueError("exponents must be between -100 and 100.")
+            value = binary_ops[type(node.op)](left, right)
+        else:
+            raise ValueError("Only numeric constants and +, -, *, /, //, %, **, and parentheses are supported.")
+
+        if type(value) not in (int, float):
+            raise ValueError("expression did not produce a number.")
+        if isinstance(value, float) and not math.isfinite(value):
+            raise ValueError("expression produced a non-finite result.")
+        if abs(value) > 10**100:
+            raise ValueError("result exceeds the supported numeric range.")
+        return value
+
     try:
-        results = []
-        ddgs = DDGS()
-        for result in ddgs.text(keywords=query, max_results=10):
-            results.append({
-                "title": result.get("title", ""),
-                "url": result.get("href", ""),
-                "snippet": result.get("body", ""),
-            })
-        return results
-
-    except Exception as e:
-        print(f"Error during DuckDuckGo search: {e}")
-        return []
-
-# # Define tools
-# search_tool = {
-#     "type": "function",
-#     "function": {
-#         "name": "search_tool",
-#         "description": "Use this to perform search queries",
-#         "parameters": {
-#             "type": "object",
-#             "properties": {
-#                 "query": {"type": "string"},
-#             },
-#             "required": ["query"],
-#         },
-#     },
-# }
+        tree = ast.parse(expression, mode="eval")
+        result = visit(tree.body)
+    except (SyntaxError, ZeroDivisionError, OverflowError) as exc:
+        raise ValueError(f"invalid arithmetic expression: {exc}") from exc
+    return {"expression": expression.strip(), "result": result}
 
 
-# from duckduckgo_search import DDGS
-# from praisonai_tools import BaseTool
-# class InternetSearchTool(BaseTool):
-#     name: str = "InternetSearchTool"
-#     description: str = "Search Internet for relevant information based on a query or latest news"
-
-#     def _run(self, query: str):
-#         ddgs = DDGS()
-#         results = ddgs.text(keywords=query, region='wt-wt', safesearch='moderate', max_results=5)
-#         return results
-
-# from google.oauth2.credentials import Credentials
-# from googleapiclient.discovery import build
-# from google.auth.transport.requests import Request
-# from google_auth_oauthlib.flow import Flow
-# from google_auth_oauthlib.flow import InstalledAppFlow
-# import os
-# import json
-# import webbrowser
-# from http.server import HTTPServer, BaseHTTPRequestHandler
-# from urllib.parse import urlparse, parse_qs
-# import threading
-# from datetime import datetime, timedelta
-# import logging
-
-# # Set up logging
-# log_level = os.getenv('LOGLEVEL', 'INFO').upper()
-# logging.basicConfig(level=log_level)
-# logger = logging.getLogger(__name__)
-# logger.setLevel(log_level)
-
-# # Set up Google Calendar API
-# SCOPES = ['https://www.googleapis.com/auth/calendar']
-
-# def get_calendar_service():
-#     logger.debug("Getting calendar service")
-#     creds = None
-#     token_dir = os.path.join(os.path.expanduser('~'), '.praison')
-#     token_path = os.path.join(token_dir, 'token.json')
-#     credentials_path = os.path.join(os.getcwd(), 'credentials.json')
-
-#     if os.path.exists(token_path):
-#         creds = Credentials.from_authorized_user_file(token_path, SCOPES)
-#         logger.debug(f"Credentials loaded from {token_path}")
-
-#     if not creds or not creds.valid:
-#         if creds and creds.expired and creds.refresh_token:
-#             logger.debug(f"Refreshing credentials")
-#             creds.refresh(Request())
-#         else:
-#             logger.debug(f"Starting new OAuth 2.0 flow")
-#             flow = InstalledAppFlow.from_client_secrets_file(credentials_path, SCOPES)
-#             logger.debug(f"Credentials path: {credentials_path}")
-#             creds = flow.run_local_server(port=8090)
-#             logger.debug(f"Setting up flow from {credentials_path}")
-#             # creds = flow.run_local_server(port=8090)  # Use run_local_server from InstalledAppFlow
-
-#         # Ensure the ~/.praison directory exists
-#         os.makedirs(os.path.dirname(token_path), exist_ok=True)
-#         logger.debug(f"Saving credentials to {token_path}")
-#         with open(token_path, 'w') as token:
-#             token.write(creds.to_json())
-
-#     logger.debug("Building calendar service")
-#     return build('calendar', 'v3', credentials=creds)
+def current_datetime(timezone: str = "UTC") -> dict[str, str]:
+    """Return the current local date/time for an IANA time-zone name."""
+    if not isinstance(timezone, str) or len(timezone) > 100:
+        raise ValueError("timezone must be a valid IANA time-zone name.")
+    try:
+        zone = ZoneInfo(timezone)
+    except (ZoneInfoNotFoundError, ValueError) as exc:
+        raise ValueError(f"Unknown time zone: {timezone}") from exc
+    current = dt.datetime.now(zone)
+    return {
+        "timezone": timezone,
+        "datetime": current.isoformat(timespec="seconds"),
+        "date": current.date().isoformat(),
+        "weekday": current.strftime("%A"),
+    }
 
 
-# check_calendar_def = {
-#     "name": "check_calendar",
-#     "description": "Check Google Calendar for events within a specified time range",
-#     "parameters": {
-#         "type": "object",
-#         "properties": {
-#             "start_time": {"type": "string", "description": "Start time in ISO format (e.g., '2023-04-20T09:00:00-07:00')"},
-#             "end_time": {"type": "string", "description": "End time in ISO format (e.g., '2023-04-20T17:00:00-07:00')"}
-#         },
-#         "required": ["start_time", "end_time"]
-#     }
-# }
+def web_search(
+    query: str,
+    max_results: int = 5,
+    time_limit: str = "",
+) -> list[dict[str, str]]:
+    """Search the public web; requires the optional ddgs search package."""
+    if not isinstance(query, str) or not query.strip():
+        raise ValueError("query must be a non-empty string.")
+    if len(query) > 500:
+        raise ValueError("query is limited to 500 characters.")
+    if not isinstance(max_results, int) or isinstance(max_results, bool) or not 1 <= max_results <= 8:
+        raise ValueError("max_results must be an integer from 1 to 8.")
+    if time_limit not in {"", "d", "w", "m", "y"}:
+        raise ValueError("time_limit must be empty, d, w, m, or y.")
 
-# async def check_calendar_handler(start_time, end_time):
-#     try:
-#         service = get_calendar_service()
-#         events_result = service.events().list(calendarId='primary', timeMin=start_time,
-#                                               timeMax=end_time, singleEvents=True,
-#                                               orderBy='startTime').execute()
-#         events = events_result.get('items', [])
-#         logger.debug(f"Found {len(events)} events in the calendar")
-#         logger.debug(f"Events: {events}")
-#         return json.dumps(events)
-#     except Exception as e:
-#         return {"error": str(e)}
+    try:
+        from ddgs import DDGS
+    except ImportError as exc:
+        raise RuntimeError(
+            "Web search is not installed. Install the optional extra with "
+            "'python -m pip install \"octic-ai-agent[search]\"'."
+        ) from exc
 
-# check_calendar = (check_calendar_def, check_calendar_handler)
-
-# add_calendar_event_def = {
-#     "name": "add_calendar_event",
-#     "description": "Add a new event to Google Calendar",
-#     "parameters": {
-#         "type": "object",
-#         "properties": {
-#             "summary": {"type": "string", "description": "Event title"},
-#             "start_time": {"type": "string", "description": "Start time in ISO format"},
-#             "end_time": {"type": "string", "description": "End time in ISO format"},
-#             "description": {"type": "string", "description": "Event description"}
-#         },
-#         "required": ["summary", "start_time", "end_time"]
-#     }
-# }
-
-# async def add_calendar_event_handler(summary, start_time, end_time, description=""):
-#     try:
-#         service = get_calendar_service()
-#         event = {
-#             'summary': summary,
-#             'description': description,
-#             'start': {'dateTime': start_time, 'timeZone': 'UTC'},
-#             'end': {'dateTime': end_time, 'timeZone': 'UTC'},
-#         }
-#         event = service.events().insert(calendarId='primary', body=event).execute()
-#         logger.debug(f"Event added: {event}")
-#         return {"status": "success", "event_id": event['id']}
-#     except Exception as e:
-#         return {"error": str(e)}
-
-# add_calendar_event = (add_calendar_event_def, add_calendar_event_handler)
-
-# list_calendar_events_def = {
-#     "name": "list_calendar_events",
-#     "description": "List Google Calendar events for a specific date",
-#     "parameters": {
-#         "type": "object",
-#         "properties": {
-#             "date": {"type": "string", "description": "Date in YYYY-MM-DD format"}
-#         },
-#         "required": ["date"]
-#     }
-# }
-
-# async def list_calendar_events_handler(date):
-#     try:
-#         service = get_calendar_service()
-#         start_of_day = f"{date}T00:00:00Z"
-#         end_of_day = f"{date}T23:59:59Z"
-#         events_result = service.events().list(calendarId='primary', timeMin=start_of_day,
-#                                               timeMax=end_of_day, singleEvents=True,
-#                                               orderBy='startTime').execute()
-#         events = events_result.get('items', [])
-#         logger.debug(f"Found {len(events)} events in the calendar for {date}")
-#         logger.debug(f"Events: {events}")
-#         return json.dumps(events)
-#     except Exception as e:
-#         return {"error": str(e)}
-
-# list_calendar_events = (list_calendar_events_def, list_calendar_events_handler)
-
-# update_calendar_event_def = {
-#     "name": "update_calendar_event",
-#     "description": "Update an existing Google Calendar event",
-#     "parameters": {
-#         "type": "object",
-#         "properties": {
-#             "event_id": {"type": "string", "description": "ID of the event to update"},
-#             "summary": {"type": "string", "description": "New event title"},
-#             "start_time": {"type": "string", "description": "New start time in ISO format"},
-#             "end_time": {"type": "string", "description": "New end time in ISO format"},
-#             "description": {"type": "string", "description": "New event description"}
-#         },
-#         "required": ["event_id"]
-#     }
-# }
-
-# async def update_calendar_event_handler(event_id, summary=None, start_time=None, end_time=None, description=None):
-#     try:
-#         service = get_calendar_service()
-#         event = service.events().get(calendarId='primary', eventId=event_id).execute()
-        
-#         if summary:
-#             event['summary'] = summary
-#         if description:
-#             event['description'] = description
-#         if start_time:
-#             event['start'] = {'dateTime': start_time, 'timeZone': 'UTC'}
-#         if end_time:
-#             event['end'] = {'dateTime': end_time, 'timeZone': 'UTC'}
-        
-#         updated_event = service.events().update(calendarId='primary', eventId=event_id, body=event).execute()
-#         logger.debug(f"Event updated: {updated_event}")
-#         return {"status": "success", "updated_event": updated_event}
-#     except Exception as e:
-#         return {"error": str(e)}
-
-# update_calendar_event = (update_calendar_event_def, update_calendar_event_handler)
-
-# delete_calendar_event_def = {
-#     "name": "delete_calendar_event",
-#     "description": "Delete a Google Calendar event",
-#     "parameters": {
-#         "type": "object",
-#         "properties": {
-#             "event_id": {"type": "string", "description": "ID of the event to delete"}
-#         },
-#         "required": ["event_id"]
-#     }
-# }
-
-# async def delete_calendar_event_handler(event_id):
-#     try:
-#         service = get_calendar_service()
-#         service.events().delete(calendarId='primary', eventId=event_id).execute()
-#         logger.debug(f"Event deleted: {event_id}")
-#         return {"status": "success", "message": f"Event with ID {event_id} has been deleted"}
-#     except Exception as e:
-#         return {"error": str(e)}
-
-# delete_calendar_event = (delete_calendar_event_def, delete_calendar_event_handler)
+    results = DDGS(timeout=12).text(
+        query=query.strip(),
+        safesearch="moderate",
+        timelimit=time_limit or None,
+        max_results=max_results,
+        backend="auto",
+    )
+    cleaned: list[dict[str, str]] = []
+    for item in results or []:
+        if not isinstance(item, dict):
+            continue
+        title = str(item.get("title") or "").strip()
+        url = str(item.get("href") or item.get("url") or "").strip()
+        snippet = str(item.get("body") or item.get("snippet") or "").strip()
+        if not title and not url and not snippet:
+            continue
+        cleaned.append({
+            "title": title[:500],
+            "url": url[:2000],
+            "snippet": snippet[:2500],
+        })
+    return cleaned
 
 
+def _is_sensitive(relative_path: Path) -> bool:
+    for part in relative_path.parts:
+        lower = part.lower()
+        if lower in _BLOCKED_PARTS or lower in {".env"} or lower.startswith(".env."):
+            if lower not in _SAFE_ENV_FILES:
+                return True
+        if lower in _SENSITIVE_NAMES:
+            return True
+        if lower.startswith(("id_rsa", "id_ed25519")):
+            return True
+    return relative_path.suffix.lower() in {".pem", ".p12", ".pfx", ".key"}
 
-# tools = [
-#     check_calendar,
-#     add_calendar_event,
-#     list_calendar_events,
-#     update_calendar_event,
-#     delete_calendar_event,
-# ]
 
-# # Add this to the imports at the top of the file if not already present
-# from datetime import datetime
+def _get_workspace_root() -> Path:
+    raw = os.environ.get("OCTIC_AI_AGENT_WORKSPACE")
+    if not raw:
+        raise RuntimeError(
+            "Workspace tools are disabled. Set OCTIC_AI_AGENT_WORKSPACE to a directory "
+            "you trust before enabling local file tools."
+        )
+    root = Path(raw).expanduser().resolve()
+    if not root.is_dir():
+        raise ValueError("OCTIC_AI_AGENT_WORKSPACE must point to an existing directory.")
+    return root
 
-# # Add this new tool definition and handler
-# contract_expiry_checker_def = {
-#     "name": "check_contract_expiry",
-#     "description": "Check the expiry date of the contract",
-#     "parameters": {
-#         "type": "object",
-#         "properties": {},
-#         "required": []
-#     }
-# }
 
-# async def check_contract_expiry_handler():
-#     # In a real-world scenario, this would likely query a database or API
-#     # For this example, we'll return a fixed date
-#     expiry_date = datetime(2024, 12, 10).strftime("%d %B %Y")
-#     return {"expiry_date": expiry_date, "message": f"The contract expiry date is {expiry_date}."}
+def _workspace_path(root: Path, relative: str) -> tuple[Path, Path]:
+    if not isinstance(relative, str) or not relative.strip():
+        raise ValueError("path must be a non-empty workspace-relative path.")
+    requested = Path(relative)
+    if requested.is_absolute():
+        raise ValueError("use a relative path inside the configured workspace.")
+    candidate = (root / requested).resolve()
+    try:
+        rel = candidate.relative_to(root)
+    except ValueError as exc:
+        raise ValueError("path escapes the configured workspace.") from exc
+    if not rel.parts:
+        rel = Path(".")
+    if any(part in _BLOCKED_PARTS for part in rel.parts):
+        raise ValueError("access to version-control and credential directories is blocked.")
+    if _is_sensitive(rel):
+        raise ValueError("access to likely secret/key files is blocked.")
+    return candidate, rel
 
-# check_contract_expiry = (contract_expiry_checker_def, check_contract_expiry_handler)
 
-# # Add this to the tools list at the bottom of the file
-# tools = [
-#     check_calendar,
-#     add_calendar_event,
-#     list_calendar_events,
-#     update_calendar_event,
-#     delete_calendar_event,
-#     check_contract_expiry,  # Add this line
-# ]
+def _workspace_tools(root: Path) -> list[Any]:
+    def list_workspace_files(path: str = ".", max_results: int = 100) -> list[str]:
+        """List workspace-relative text/source file paths without entering caches or dependency folders."""
+        if not isinstance(max_results, int) or isinstance(max_results, bool) or not 1 <= max_results <= 200:
+            raise ValueError("max_results must be an integer from 1 to 200.")
+        start, relative_start = _workspace_path(root, path)
+        if not start.is_dir():
+            raise ValueError(f"not a directory: {path}")
+        found: list[str] = []
+        for current, dirs, names in os.walk(start, followlinks=False):
+            dirs[:] = sorted(
+                name for name in dirs
+                if name not in _SKIP_DIRS
+                and not (Path(current) / name).is_symlink()
+            )
+            for name in sorted(names):
+                full = Path(current) / name
+                try:
+                    relative = full.resolve().relative_to(root)
+                except (ValueError, OSError):
+                    continue
+                if _is_sensitive(relative) or full.is_symlink():
+                    continue
+                found.append(relative.as_posix())
+                if len(found) >= max_results:
+                    return found
+        return found
+
+    def read_workspace_file(path: str) -> str:
+        """Read a UTF-8 text file inside the configured workspace (100 KB maximum)."""
+        full, _ = _workspace_path(root, path)
+        if not full.is_file():
+            raise ValueError(f"not a file: {path}")
+        size = full.stat().st_size
+        if size > _MAX_TEXT_FILE_BYTES:
+            raise ValueError(f"file exceeds the {_MAX_TEXT_FILE_BYTES}-byte read limit.")
+        try:
+            return full.read_text(encoding="utf-8")
+        except UnicodeDecodeError as exc:
+            raise ValueError("file is not UTF-8 text.") from exc
+
+    def write_workspace_file(path: str, content: str, overwrite: bool = False) -> dict[str, Any]:
+        """Create or replace a UTF-8 text file inside the workspace; requires Octic write opt-in."""
+        full, _ = _workspace_path(root, path)
+        if not isinstance(content, str):
+            raise ValueError("content must be text.")
+        if len(content.encode("utf-8")) > _MAX_TEXT_FILE_BYTES:
+            raise ValueError(f"content exceeds the {_MAX_TEXT_FILE_BYTES}-byte write limit.")
+        full.parent.mkdir(parents=True, exist_ok=True)
+        # Resolve again after creating parent folders to reject symlink escapes.
+        full, relative = _workspace_path(root, path)
+        if full.exists() and not overwrite:
+            raise FileExistsError(f"{relative.as_posix()} already exists; pass overwrite=true to replace it.")
+        full.write_text(content, encoding="utf-8")
+        return {"path": relative.as_posix(), "bytes_written": len(content.encode("utf-8"))}
+
+    def run_workspace_command(
+        command: list[str],
+        timeout_seconds: int = 20,
+    ) -> dict[str, Any]:
+        """Run a command by argument list inside the configured workspace; requires explicit command opt-in and is not a sandbox."""
+        if not isinstance(command, list) or not command or len(command) > 40:
+            raise ValueError("command must be a non-empty list of at most 40 arguments.")
+        if any(not isinstance(arg, str) or not arg or len(arg) > 2000 for arg in command):
+            raise ValueError("each command argument must be non-empty text of at most 2000 characters.")
+        if not isinstance(timeout_seconds, int) or isinstance(timeout_seconds, bool) or not 1 <= timeout_seconds <= 60:
+            raise ValueError("timeout_seconds must be an integer from 1 to 60.")
+        result = subprocess.run(
+            command,
+            cwd=str(root),
+            shell=False,
+            capture_output=True,
+            text=True,
+            timeout=timeout_seconds,
+            check=False,
+        )
+        stdout = result.stdout or ""
+        stderr = result.stderr or ""
+        return {
+            "command": command,
+            "return_code": result.returncode,
+            "stdout": stdout[:_MAX_COMMAND_OUTPUT_CHARS],
+            "stderr": stderr[:_MAX_COMMAND_OUTPUT_CHARS],
+            "output_truncated": len(stdout) > _MAX_COMMAND_OUTPUT_CHARS or len(stderr) > _MAX_COMMAND_OUTPUT_CHARS,
+        }
+
+    list_workspace_files.__name__ = "list_workspace_files"
+    read_workspace_file.__name__ = "read_workspace_file"
+
+    enabled = [list_workspace_files, read_workspace_file]
+    if os.environ.get("OCTIC_AI_AGENT_ALLOW_FILE_WRITES") == "1":
+        write_workspace_file.__name__ = "write_workspace_file"
+        enabled.append(write_workspace_file)
+    if os.environ.get("OCTIC_AI_AGENT_ALLOW_COMMANDS") == "1":
+        run_workspace_command.__name__ = "run_workspace_command"
+        enabled.append(run_workspace_command)
+    return enabled
+
+
+def default_tools() -> list[Any]:
+    """Build Octic's built-in tools based on installed extras and explicit local configuration."""
+    tools: list[Any] = [calculate, current_datetime]
+    try:
+        if importlib.util.find_spec("ddgs") is not None:
+            tools.append(web_search)
+    except (ImportError, ValueError):
+        # Keep the base runtime usable if an unusual import hook hides optional packages.
+        pass
+
+    workspace = os.environ.get("OCTIC_AI_AGENT_WORKSPACE")
+    if workspace:
+        tools.extend(_workspace_tools(_get_workspace_root()))
+    return tools

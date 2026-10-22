@@ -19,6 +19,10 @@ octic-ai-agent = "octic_ai_agent.cli:main"
 # Optional bridge for installations that still need the legacy framework modules.
 # The OcticAgent runtime and CLI do not require these packages.
 compat = [
+    "aiui>=0.3.121,<0.4",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.34.0",
+    "sse-starlette>=1.6.0",
     "rich>=13.7",
     "markdown>=3.5",
     "pyparsing>=3.0.0",
@@ -43,16 +47,15 @@ compat = [
     "toml>=0.10.2",
 ]
 ui = [
-    "aiui>=0.3.121,<0.4",
     "gradio>=5.0,<7",
+]
+search = [
+    "ddgs>=9.0.0",
 ]
 gradio = ["gradio>=4.26.0"]
 api = [
     "flask>=3.0.0",
     "flask-cors>=6.0.0",
-    "fastapi>=0.115.0",
-    "uvicorn>=0.34.0",
-    "sse-starlette>=1.6.0"
 ]
 os = [
     "fastapi>=0.115.0",

@@ -4,7 +4,7 @@ Octic AI Agent provides a Python interface and command-line entry point for crea
 
 ## Installation
 
-    python -m pip install octic-ai-agent
+    python -m pip install -e "src/octic_ai_agent[search]"
 
 Set the credentials required by your model provider, for example:
 
@@ -21,7 +21,7 @@ Set the credentials required by your model provider, for example:
     result = agent.start("Summarize three important AI developments.")
     print(result)
 
-Use OCTIC_AI_AGENT_MODEL to set a default model, or pass model to OcticAgent directly.
+Use OCTIC_AI_AGENT_MODEL to set a default model, or pass model to OcticAgent directly. Octic's CLI, Gradio UI, and HTTP API also load safe built-in calculator and date/time tools; install the `search` extra to add web search.
 
 ### Callable tools
 
@@ -72,3 +72,10 @@ For development setup, see the repository-level README and CONTRIBUTING guide.
 ## License
 
 Octic AI Agent is distributed under the terms in the repository LICENSE file.
+
+
+## Workspace agent tools
+
+Configure `OCTIC_AI_AGENT_WORKSPACE` to expose file listing and read tools for a specific local directory. Octic rejects paths that resolve outside that root and blocks common credential files.
+
+File writes require `OCTIC_AI_AGENT_ALLOW_FILE_WRITES=1`. Command execution requires `OCTIC_AI_AGENT_ALLOW_COMMANDS=1` and uses an argument list rather than a shell. These commands still run with your user permissions and are **not sandboxed**. Do not enable command execution for a public API.

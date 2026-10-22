@@ -138,6 +138,71 @@ class OcticAgentTests(unittest.TestCase):
         self.assertIn("Octic CLI response", output.getvalue())
         fake_agent.start.assert_called_once_with("say hello")
 
+    def test_safe_calculator_and_clock_tools(self):
+        self.assertEqual(calculate("12 * (13 + 1)")["result"], 168)
+        self.assertEqual(calculate("2 ** 8")["result"], 256)
+        with self.assertRaises(ValueError):
+            calculate("__import__('os').system('echo unsafe')")
+        with self.assertRaises(ValueError):
+            calculate("10 ** 999999")
+        current = current_datetime("UTC")
+        self.assertEqual(current["timezone"], "UTC")
+        self.assertIn("T", current["datetime"])
+        with self.assertRaises(ValueError):
+            current_datetime("Definitely/Not_A_Timezone")
+
+    def test_workspace_tools_are_scoped_and_opt_in(self):
+        with TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "README.md").write_text("Octic project", encoding="utf-8")
+            (root / ".env").write_text("API_KEY=do-not-read", encoding="utf-8")
+            (root / ".env.example").write_text("API_KEY=replace-me", encoding="utf-8")
+            (root / ".git").mkdir()
+            (root / ".git" / "config").write_text("secret", encoding="utf-8")
+            env = {
+                "OCTIC_AI_AGENT_WORKSPACE": str(root),
+                "PATH": os.environ.get("PATH", ""),
+            }
+            with patch.dict(os.environ, env, clear=True):
+                os.environ.pop("OCTIC_AI_AGENT_ALLOW_FILE_WRITES", None)
+                os.environ.pop("OCTIC_AI_AGENT_ALLOW_COMMANDS", None)
+                tools = {tool.__name__: tool for tool in default_tools()}
+                self.assertIn("calculate", tools)
+                self.assertIn("current_datetime", tools)
+                self.assertIn("list_workspace_files", tools)
+                self.assertIn("read_workspace_file", tools)
+                self.assertNotIn("write_workspace_file", tools)
+                self.assertNotIn("run_workspace_command", tools)
+                self.assertEqual(tools["read_workspace_file"]("README.md"), "Octic project")
+                listed = tools["list_workspace_files"]()
+                self.assertIn("README.md", listed)
+                self.assertIn(".env.example", listed)
+                self.assertNotIn(".env", listed)
+                self.assertFalse(any(path.startswith(".git/") for path in listed))
+                with self.assertRaises(ValueError):
+                    tools["read_workspace_file"](".env")
+                with self.assertRaises(ValueError):
+                    tools["read_workspace_file"]("../outside.txt")
+
+                with patch.dict(os.environ, {"OCTIC_AI_AGENT_ALLOW_FILE_WRITES": "1"}):
+                    write_tools = {tool.__name__: tool for tool in default_tools()}
+                    with self.assertRaises(FileExistsError):
+                        write_tools["write_workspace_file"]("README.md", "replace")
+                    write_tools["write_workspace_file"]("notes/result.txt", "created by Octic")
+                    self.assertEqual(
+                        (root / "notes" / "result.txt").read_text(encoding="utf-8"),
+                        "created by Octic",
+                    )
+
+                with patch.dict(os.environ, {"OCTIC_AI_AGENT_ALLOW_COMMANDS": "1"}):
+                    command_tools = {tool.__name__: tool for tool in default_tools()}
+                    result = command_tools["run_workspace_command"](
+                        [sys.executable, "-c", "print('tool-ok')"],
+                        timeout_seconds=5,
+                    )
+                    self.assertEqual(result["return_code"], 0)
+                    self.assertIn("tool-ok", result["stdout"])
+
     def test_optional_legacy_command_is_routed_through_octic_cli(self):
         import types as module_types
 

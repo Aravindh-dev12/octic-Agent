@@ -56,3 +56,16 @@ jobs:
         env:
           NEXT_TELEMETRY_DISABLED: "1"
         run: npm run build
+
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Compose configuration
+        env:
+          OPENAI_API_KEY: ci-placeholder
+          OCTIC_AI_AGENT_API_TOKEN: ci-placeholder-token
+        run: docker compose -f docker/docker-compose.yml config -q
+      - name: Build Octic API image
+        run: docker build -f docker/Dockerfile -t octic-ai-agent-api:ci .

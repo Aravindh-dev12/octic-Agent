@@ -3,6 +3,7 @@ version: '3.8'
 services:
   # Optional legacy dashboard/bot stack (requires the compatibility integration).
   claw:
+    profiles: ["claw"]
     build:
       context: ..
       dockerfile: docker/Dockerfile.claw
@@ -26,6 +27,7 @@ services:
 
   # Optional legacy UI service
   ui:
+    profiles: ["legacy"]
     build:
       context: ..
       dockerfile: docker/Dockerfile.ui
@@ -54,6 +56,7 @@ services:
 
   # Optional legacy chat service
   chat:
+    profiles: ["legacy"]
     build:
       context: ..
       dockerfile: docker/Dockerfile.chat
@@ -105,6 +108,7 @@ services:
 
   # Optional legacy agents service
   agents:
+    profiles: ["legacy"]
     build:
       context: ..
       dockerfile: docker/Dockerfile.praisonaiagents

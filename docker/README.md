@@ -53,4 +53,14 @@ Keep these values in your shell or a local, untracked environment file. Never co
 
 ## Optional legacy integration services
 
-The Compose file retains optional UI, chat, and bot integrations that use the compatibility stack. The standalone Octic API does not require these services. Review their Dockerfiles and dependencies before enabling them.
+A plain `docker compose up` starts the Octic API only. Legacy UI, chat, and agent services are grouped under the `legacy` profile; the old all-in-one dashboard is isolated in the `claw` profile to prevent port conflicts.
+
+Start a selected legacy UI or chat service only when its dependencies are installed and you need that integration:
+
+```bash
+docker compose -f docker/docker-compose.yml --profile legacy up --build -d ui chat
+# Or start the previous all-in-one dashboard separately:
+docker compose -f docker/docker-compose.yml --profile claw up --build -d claw
+```
+
+The standalone Octic API does not require these services. Do not start the legacy dashboard alongside the legacy UI because both use port 8082.

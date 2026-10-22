@@ -67,6 +67,37 @@ See the available commands:
 
     octic-ai-agent --help
 
+Run a single task:
+
+    octic-ai-agent run "Explain how DNS resolution works"
+
+Start an interactive conversation:
+
+    octic-ai-agent chat
+
+## Run the HTTP API
+
+Install the API extra and start Octic locally:
+
+```bash
+python -m pip install -e "src/octic_ai_agent[api,search]"
+export OPENAI_API_KEY="your-provider-api-key"
+export OCTIC_AI_AGENT_API_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+octic-ai-agent serve --host 127.0.0.1 --port 8080
+```
+
+Health check:
+
+```bash
+curl http://127.0.0.1:8080/health
+curl http://127.0.0.1:8080/chat \
+  -H "Authorization: Bearer ${OCTIC_AI_AGENT_API_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Explain how DNS works.","agent":"default"}'
+```
+
+To use the browser console, install the UI extra and follow [ui/README.md](ui/README.md). The production web console is in [web/](web/README.md); it uses server-side `OCTIC_AGENT_API_URL` and `OCTIC_AGENT_API_TOKEN` settings.
+
 ## Optional features
 
 Install only the optional features needed by your deployment:

@@ -5,8 +5,8 @@ from pathlib import Path
 from typing import Any
 import gradio as gr
 ROOT=Path(__file__).resolve().parents[1]
-PKG=ROOT/"src"/"octic_ai_agent"
-if str(PKG) not in sys.path: sys.path.insert(0,str(PKG))
+SRC=ROOT/"src"
+if str(SRC) not in sys.path: sys.path.insert(0,str(SRC))
 from octic_ai_agent import OcticAgent
 from octic_ai_agent.tools import default_tools
 AGENTS={

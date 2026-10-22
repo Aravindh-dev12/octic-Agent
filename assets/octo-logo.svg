@@ -1,0 +1,133 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 240" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b0817"/>
+      <stop offset="50%" stop-color="#140d2b"/>
+      <stop offset="100%" stop-color="#07050e"/>
+    </linearGradient>
+    <linearGradient id="octoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#b794f6"/>
+      <stop offset="50%" stop-color="#805ad5"/>
+      <stop offset="100%" stop-color="#553c9a"/>
+    </linearGradient>
+    <linearGradient id="tentacleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#9f7aea"/>
+      <stop offset="70%" stop-color="#6b46c1"/>
+      <stop offset="100%" stop-color="#44337a"/>
+    </linearGradient>
+    <linearGradient id="accentGlow" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="50%" stop-color="#a855f7"/>
+      <stop offset="100%" stop-color="#ec4899"/>
+    </linearGradient>
+    <filter id="neonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#805ad5" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Card Background -->
+  <rect width="800" height="240" rx="20" fill="url(#bgGrad)" stroke="#44337a" stroke-width="1.5"/>
+
+  <!-- Subtle grid lines -->
+  <g opacity="0.08" stroke="#a78bfa" stroke-width="1">
+    <path d="M0,40 H800 M0,80 H800 M0,120 H800 M0,160 H800 M0,200 H800"/>
+    <path d="M60,0 V240 M120,0 V240 M180,0 V240 M240,0 V240 M300,0 V240 M360,0 V240 M420,0 V240 M480,0 V240 M540,0 V240 M600,0 V240 M660,0 V240 M720,0 V240"/>
+  </g>
+
+  <!-- 3D Glow behind Octopus Mascot -->
+  <circle cx="130" cy="120" r="85" fill="#805ad5" opacity="0.25" filter="url(#neonGlow)"/>
+
+  <!-- Octopus Mascot Icon -->
+  <g transform="translate(45, 30)" filter="url(#shadow)">
+    <!-- 8 Tentacles -->
+    <path d="M 60,110 C 35,130 15,150 25,168 C 32,178 50,172 52,155 C 53,142 65,125 72,118" fill="none" stroke="url(#tentacleGrad)" stroke-width="9" stroke-linecap="round"/>
+    <path d="M 72,120 C 45,145 35,170 50,180 C 65,188 78,170 76,152 C 75,138 82,125 85,120" fill="none" stroke="url(#tentacleGrad)" stroke-width="8.5" stroke-linecap="round"/>
+    <path d="M 90,125 C 75,155 70,180 88,185 C 102,188 108,168 102,150 C 98,138 100,126 102,125" fill="none" stroke="url(#tentacleGrad)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M 105,125 C 100,155 105,185 120,185 C 132,185 135,168 128,150 C 122,136 120,125 118,124" fill="none" stroke="url(#tentacleGrad)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M 120,125 C 130,155 145,185 160,180 C 172,175 165,158 152,148 C 140,136 132,125 128,122" fill="none" stroke="url(#tentacleGrad)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M 130,120 C 150,145 175,170 188,160 C 198,150 185,138 170,135 C 158,130 142,122 138,118" fill="none" stroke="url(#tentacleGrad)" stroke-width="8.5" stroke-linecap="round"/>
+    <path d="M 140,110 C 165,128 198,142 205,130 C 212,118 195,110 180,112 C 165,114 150,110 145,108" fill="none" stroke="url(#tentacleGrad)" stroke-width="8" stroke-linecap="round"/>
+    <path d="M 45,100 C 25,112 10,122 12,136 C 15,148 28,146 32,136 C 36,124 48,112 55,105" fill="none" stroke="url(#tentacleGrad)" stroke-width="7" stroke-linecap="round"/>
+
+    <!-- Suction cups on tentacles -->
+    <circle cx="30" cy="158" r="2.5" fill="#e9d8fd" opacity="0.8"/>
+    <circle cx="42" cy="172" r="2.5" fill="#e9d8fd" opacity="0.8"/>
+    <circle cx="60" cy="180" r="2.5" fill="#e9d8fd" opacity="0.8"/>
+    <circle cx="95" cy="182" r="2.5" fill="#e9d8fd" opacity="0.8"/>
+    <circle cx="125" cy="180" r="2.5" fill="#e9d8fd" opacity="0.8"/>
+    <circle cx="158" cy="170" r="2.5" fill="#e9d8fd" opacity="0.8"/>
+    <circle cx="185" cy="150" r="2.5" fill="#e9d8fd" opacity="0.8"/>
+
+    <!-- Head / Mantle -->
+    <path d="M 50,75 C 45,28 80,8 115,8 C 150,8 185,28 180,75 C 176,108 152,122 115,122 C 78,122 54,108 50,75 Z" fill="url(#octoGrad)"/>
+    
+    <!-- Head 3D Specular Highlight -->
+    <path d="M 75,40 C 85,22 110,18 135,22 C 120,20 95,25 80,45 C 75,52 74,45 75,40 Z" fill="#ffffff" opacity="0.32"/>
+
+    <!-- Left Eye -->
+    <ellipse cx="88" cy="74" rx="14" ry="16" fill="#ffffff"/>
+    <ellipse cx="91" cy="75" rx="8" ry="9" fill="#120c24"/>
+    <circle cx="93" cy="72" r="4" fill="#38bdf8"/>
+    <circle cx="95" cy="70" r="1.5" fill="#ffffff"/>
+
+    <!-- Right Eye -->
+    <ellipse cx="140" cy="74" rx="14" ry="16" fill="#ffffff"/>
+    <ellipse cx="137" cy="75" rx="8" ry="9" fill="#120c24"/>
+    <circle cx="135" cy="72" r="4" fill="#ec4899"/>
+    <circle cx="137" cy="70" r="1.5" fill="#ffffff"/>
+
+    <!-- Cute Blush -->
+    <ellipse cx="74" cy="90" rx="7" ry="4" fill="#f472b6" opacity="0.6"/>
+    <ellipse cx="154" cy="90" rx="7" ry="4" fill="#f472b6" opacity="0.6"/>
+
+    <!-- Friendly Smile -->
+    <path d="M 107,92 Q 114,99 121,92" fill="none" stroke="#2e1065" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Typography & Taglines -->
+  <g transform="translate(265, 0)">
+    <!-- Badge -->
+    <rect x="0" y="38" width="220" height="26" rx="13" fill="#2e1065" stroke="#7c3aed" stroke-width="1.2"/>
+    <text x="12" y="55" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="#a78bfa" letter-spacing="1.5">3D WORKFORCE PLATFORM</text>
+    <circle cx="204" cy="51" r="4" fill="#10b981"/>
+
+    <!-- Brand Name -->
+    <text x="0" y="112" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="52" font-weight="900" fill="#ffffff" letter-spacing="-1">OCTO <tspan fill="url(#accentGlow)">AGENT</tspan></text>
+
+    <!-- Subtitle -->
+    <text x="0" y="148" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" font-weight="500" fill="#cbd5e1">
+      Autonomous Multi-Agent Workforce &amp; 3D Virtual Office
+    </text>
+
+    <!-- Pillar Badges -->
+    <g transform="translate(0, 172)">
+      <!-- Badge 1: 3D Office -->
+      <g>
+        <rect width="142" height="28" rx="6" fill="#1e1b4b" stroke="#6366f1" stroke-width="1"/>
+        <text x="10" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#c7d2fe">🎮 Claw3D Retro Office</text>
+      </g>
+      <!-- Badge 2: Secure Core -->
+      <g transform="translate(150, 0)">
+        <rect width="145" height="28" rx="6" fill="#142e2b" stroke="#10b981" stroke-width="1"/>
+        <text x="10" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#a7f3d0">🛡️ NanoClaw Runtime</text>
+      </g>
+      <!-- Badge 3: Dashboard -->
+      <g transform="translate(303, 0)">
+        <rect width="145" height="28" rx="6" fill="#2d1b4e" stroke="#c084fc" stroke-width="1"/>
+        <text x="10" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#f3e8ff">🏢 Isometric Visualizer</text>
+      </g>
+      <!-- Badge 4: 3D Mascot -->
+      <g transform="translate(456, 0)">
+        <rect width="68" height="28" rx="6" fill="#3b0764" stroke="#e879f9" stroke-width="1"/>
+        <text x="8" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#fdf4ff">🐙 3D</text>
+      </g>
+    </g>
+  </g>
+</svg>

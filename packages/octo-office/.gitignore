@@ -1,0 +1,14 @@
+node_modules/
+.next/
+.DS_Store
+data/
+data/*.db
+*.db
+.env.local
+.env
+.env.production
+public/data/*
+!public/data/.gitkeep
+openclaw-office.config.json
+*.log
+.vercel/

@@ -7,6 +7,14 @@
   "workspaces": [
     "packages/*"
   ],
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "better-sqlite3",
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
+  },
   "scripts": {
     "dev": "npm run dev:3d",
     "dev:3d": "npm run --prefix packages/octo-3d dev",

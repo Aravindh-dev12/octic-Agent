@@ -1,46 +1,28 @@
-FROM python:3.11-slim
+# Octic AI Agent standalone HTTP API container.
+# Build: docker build -f docker/Dockerfile -t octic-ai-agent-api .
+# Run:   docker run -p 8080:8080 -e OPENAI_API_KEY=... -e OCTIC_AI_AGENT_API_TOKEN=... octic-ai-agent-api
+
+FROM python:3.12-slim
+
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    OCTIC_AI_AGENT_API_HOST=0.0.0.0 \
+    OCTIC_AI_AGENT_API_PORT=8080 \
+    OCTIC_AI_AGENT_API_AUTH=enabled
 
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    python3-dev \
-    curl \
-    git \
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Create praison config directory
-RUN mkdir -p /root/.praison
-
-# Install Python packages (using latest versions)
-# Note: praisonai is installed from PyPI - remove version pin to use latest available
-RUN pip install --no-cache-dir \
-    flask \
-    praisonai \
-    "praisonai[api]" \
-    gunicorn \
-    markdown
-
-# Copy application code
-COPY . .
-
-# Set environment variables for directory management
-ENV PRAISON_CONFIG_DIR=/root/.praison
-ENV DOCKER_CONTAINER=true
-
-# Create health check API if api.py doesn't exist
-RUN if [ ! -f api.py ]; then \
-    echo "from flask import Flask\n\
-app = Flask(__name__)\n\
-\n\
-@app.route('/health')\n\
-def health():\n\
-    return {'status': 'healthy'}, 200\n\
-\n\
-if __name__ == '__main__':\n\
-    app.run()" > api.py; \
-fi
+COPY src/octic_ai_agent /tmp/octic_ai_agent
+RUN python -m pip install --no-cache-dir "/tmp/octic_ai_agent[api]" gunicorn \
+    && rm -rf /tmp/octic_ai_agent
 
 EXPOSE 8080
-CMD ["gunicorn", "-b", "0.0.0.0:8080", "api:app"]
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+    CMD curl --fail http://127.0.0.1:8080/health || exit 1
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "1", "--threads", "4", "octic_ai_agent.api_server:app"]

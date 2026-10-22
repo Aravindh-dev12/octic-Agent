@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  # PraisonAI 🦞 Claw — Recommended all-in-one service
+  # Optional legacy dashboard/bot stack (requires the compatibility integration).
   claw:
     build:
       context: ..
@@ -22,9 +22,9 @@ services:
     networks:
       - praison_network
 
-  # ─── Legacy services (kept for backward compatibility) ─────────────────
+  # ─── Optional legacy integration services ─────────────────────────────
 
-  # PraisonAI UI Service
+  # Optional legacy UI service
   ui:
     build:
       context: ..
@@ -52,7 +52,7 @@ services:
     networks:
       - praison_network
 
-  # PraisonAI Chat Service
+  # Optional legacy chat service
   chat:
     build:
       context: ..
@@ -79,18 +79,19 @@ services:
     networks:
       - praison_network
 
-  # PraisonAI API Service
+  # Octic AI Agent API
   api:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    volumes:
-      - praison_data:/root/.praison
     ports:
-      - "8080:8080"
+      - "${API_PORT:-8080}:8080"
     environment:
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      PRAISON_CONFIG_DIR: /root/.praison
+      OPENAI_API_KEY: ${OPENAI_API_KEY:?Set OPENAI_API_KEY in your environment}
+      OCTIC_AI_AGENT_API_TOKEN: ${OCTIC_AI_AGENT_API_TOKEN:?Set OCTIC_AI_AGENT_API_TOKEN in your environment}
+      OCTIC_AI_AGENT_API_HOST: 0.0.0.0
+      OCTIC_AI_AGENT_API_PORT: "8080"
+      OCTIC_AI_AGENT_API_AUTH: "enabled"
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8080/health" ]
       interval: 10s
@@ -99,7 +100,7 @@ services:
     networks:
       - praison_network
 
-  # PraisonAI Agents Service (standalone)
+  # Optional legacy agents service
   agents:
     build:
       context: ..

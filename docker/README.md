@@ -1,42 +1,56 @@
 # Octic AI Agent — Docker Setup
 
-This directory contains optional container and Compose configurations for local development and service deployment.
+This directory contains the primary Octic API container and optional legacy integration containers.
 
 ## Requirements
 
 - Docker Engine or Docker Desktop
 - Docker Compose v2
-- Credentials for the model provider used by your configuration
+- An API key for your chosen model provider
 
-## Start the primary service
+## Run the Octic API
 
-Run these commands from the repository root. Replace the placeholder with your own provider key; do not commit it to the repository.
+From the repository root, create a random API bearer token and export the provider credentials:
 
-    export OPENAI_API_KEY="your-api-key"
-    docker compose -f docker/docker-compose.yml config
-    docker compose -f docker/docker-compose.yml up --build -d claw
+```bash
+export OPENAI_API_KEY="your-provider-api-key"
+export OCTIC_AI_AGENT_API_TOKEN="$(python -c 'import secrets; print(secrets.token_urlsafe(32))')"
+docker compose -f docker/docker-compose.yml config
+docker compose -f docker/docker-compose.yml up --build -d api
+```
 
-View logs:
+The API is available at `http://localhost:8080`. Check its health and readiness:
 
-    docker compose -f docker/docker-compose.yml logs -f claw
+```bash
+curl http://localhost:8080/health
+curl http://localhost:8080/ready
+curl http://localhost:8080/agents -H "Authorization: Bearer ${OCTIC_AI_AGENT_API_TOKEN}"
+```
 
-Stop the service:
+Run a chat request:
 
-    docker compose -f docker/docker-compose.yml down
+```bash
+curl http://localhost:8080/chat \
+  -H "Authorization: Bearer ${OCTIC_AI_AGENT_API_TOKEN}" \
+  -H "Content-Type: application/json" \
+  -d '{"message":"Explain how DNS resolution works.","agent":"default"}'
+```
 
-## Other Compose services
+Stop the API:
 
-The Compose file also defines optional UI, chat, API, and agent services. Check the service definitions and required environment variables before starting them; do not start every service blindly if ports overlap.
+```bash
+docker compose -f docker/docker-compose.yml down
+```
 
-For local development overrides, inspect docker/docker-compose.dev.yml. Bot integration examples are in docker/bots/.
+## Environment settings
 
-## Security notes
+- `OPENAI_API_KEY`: credentials for OpenAI when using the default model; use the appropriate provider-specific credentials when selecting another LiteLLM model.
+- `OCTIC_AI_AGENT_API_TOKEN`: required bearer token for remote or container access.
+- `API_PORT`: optional host port (defaults to 8080).
+- `OCTIC_AI_AGENT_MODEL`: optional model override.
 
-- Supply credentials through environment variables or a local, untracked environment file.
-- Never bake API keys into images or Dockerfiles.
-- Avoid exposing development ports to untrusted networks.
-- Review mounted directories and container permissions before running workloads that execute agent-generated code.
+Keep these values in your shell or a local, untracked environment file. Never commit provider keys or bearer tokens. Do not expose the API publicly without TLS, strong authentication, and network restrictions.
 
-## Troubleshooting
+## Optional legacy integration services
 
-Use docker compose config to validate the configuration before starting containers. Use docker compose logs to inspect service startup errors, and rebuild after changing a Dockerfile or dependency list.
+The Compose file retains optional UI, chat, and bot integrations that use the compatibility stack. The standalone Octic API does not require these services. Review their Dockerfiles and dependencies before enabling them.

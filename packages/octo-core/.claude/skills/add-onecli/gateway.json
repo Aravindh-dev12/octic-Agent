@@ -1,6 +1,0 @@
-{
-  "kind": "onecli",
-  "label": "OneCLI",
-  "description": "Use the OneCLI agent vault and gateway.",
-  "default": true
-}

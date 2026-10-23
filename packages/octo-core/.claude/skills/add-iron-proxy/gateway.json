@@ -1,6 +1,0 @@
-{
-  "kind": "iron-proxy",
-  "label": "Iron Proxy",
-  "description": "Use one central Iron Proxy gateway.",
-  "default": false
-}

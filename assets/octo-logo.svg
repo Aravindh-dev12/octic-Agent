@@ -51,15 +51,15 @@
 
     <!-- Subtitle -->
     <text x="0" y="126" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14.5" font-weight="500" fill="#94A3B8">
-      Virtual 3D Workspace, Containerized Agent Runtime &amp; Pipeline Dashboard
+      Autonomous AI Agents Connected to 3D Model Creation &amp; 3D Virtual Workspace
     </text>
 
     <!-- 3 Core Package Flat Badges -->
     <g transform="translate(0, 144)">
-      <!-- 1. Octo 3D Workspace -->
+      <!-- 1. Agent 3D Studio -->
       <g>
         <rect width="185" height="28" rx="6" fill="#1E1B4B" stroke="#4338CA" stroke-width="1"/>
-        <text x="12" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#C7D2FE">Octo 3D Workspace</text>
+        <text x="12" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#C7D2FE">Agent 3D Studio</text>
         <text x="142" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#818CF8">:3000</text>
       </g>
       <!-- 2. Octo Core Engine -->
@@ -68,11 +68,11 @@
         <text x="12" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#A7F3D0">Octo Core Engine</text>
         <text x="126" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#34D399">Sandbox</text>
       </g>
-      <!-- 3. Octo Dashboard -->
+      <!-- 3. Chief 3D Mascot -->
       <g transform="translate(390, 0)">
         <rect width="185" height="28" rx="6" fill="#3B0764" stroke="#7E22CE" stroke-width="1"/>
-        <text x="12" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#F3E8FF">Octo Dashboard</text>
-        <text x="142" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#C084FC">:4200</text>
+        <text x="12" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="11" font-weight="600" fill="#F3E8FF">Chief 3D Mascot</text>
+        <text x="142" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="10" font-weight="500" fill="#C084FC">WebGL</text>
       </g>
     </g>
   </g>

@@ -11,6 +11,7 @@ import {
   Camera,
   UserPlus,
   Trash2,
+  Box,
   Users,
   X,
 } from "lucide-react";
@@ -6958,6 +6959,21 @@ export function RetroOffice3D({
       {/* Toolbar — top right. */}
       {!readOnly && !immersiveOverlayActive ? (
         <div className="absolute top-3 right-3 flex items-center gap-2 z-20">
+          <a
+            href="/create-3d"
+            title="Agent 3D Model Creation Studio"
+            className="flex h-7 items-center justify-center gap-1.5 rounded-md border border-purple-500/50 bg-[#1e1035]/95 px-2.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-purple-200 transition-all backdrop-blur-sm hover:border-purple-400 hover:text-white shadow-sm"
+          >
+            <Box size={12} className="text-purple-400" />
+            <span>3D Model Studio</span>
+          </a>
+          <a
+            href="/mascot"
+            title="Octo 3D Mascot Viewer"
+            className="flex h-7 items-center justify-center gap-1 rounded-md border border-purple-700/40 bg-[#180e2b]/90 px-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-purple-300 transition-all backdrop-blur-sm hover:border-purple-400 hover:text-white"
+          >
+            <span>🐙 Mascot</span>
+          </a>
           {remoteOfficeEnabled &&
           (remoteOfficeSourceKind === "presence_endpoint"
             ? remoteOfficePresenceUrl.trim().length > 0

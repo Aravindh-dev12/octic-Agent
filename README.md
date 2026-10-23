@@ -3,12 +3,13 @@
 </p>
 
 <p align="center">
-  <strong>3D Autonomous Multi-Agent Workforce &amp; Virtual Office Platform</strong>
+  <strong>Autonomous AI Agents Connected to 3D Model Creation &amp; Spatial 3D Workspace</strong>
 </p>
 
 <p align="center">
+  <a href="https://github.com/Aravindh-dev12/octo-agent-workforce"><img src="https://img.shields.io/badge/GitHub-Repository-8b5cf6?style=flat-square&logo=github" alt="GitHub Repository"></a>
   <a href="#quick-start"><img src="https://img.shields.io/badge/Status-Production%20Ready-10b981?style=flat-square" alt="Status"></a>
-  <a href="#architecture-pillars"><img src="https://img.shields.io/badge/Architecture-3--in--1%20Monorepo-8b5cf6?style=flat-square" alt="Architecture"></a>
+  <a href="#architecture-pillars"><img src="https://img.shields.io/badge/Architecture-3D%20Studio%20%2B%20Agent%20Core-6366f1?style=flat-square" alt="Architecture"></a>
   <a href="public/mascot/index.html"><img src="https://img.shields.io/badge/3D%20Model-octopus.wasm-ec4899?style=flat-square" alt="3D Model"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-3b82f6?style=flat-square" alt="License"></a>
 </p>
@@ -17,57 +18,75 @@
 
 ## Overview
 
-**Octo Agent** provides a persistent 3D spatial workspace, containerized execution runtime, and live telemetry dashboard for autonomous AI agents. Rather than interacting with agents solely through terminal output and log files, Octo Agent establishes spatial presence, room-based routing, and real-time collaboration inside an interactive 3D office.
+**Octo Agent** bridges autonomous AI reasoning agents directly with **interactive 3D model creation**, parametric mesh synthesis, and spatial 3D virtual environments. Rather than interacting with agents through flat text consoles, Octo Agent empowers your agents to translate natural language prompts into fully rendered, downloadable, and deployable 3D assets in real time.
 
-The platform coordinates your AI workforce across three native pillars:
+Repository: **[https://github.com/Aravindh-dev12/octo-agent-workforce](https://github.com/Aravindh-dev12/octo-agent-workforce)**
+
+---
+
+## Core Pillars
 
 <table>
   <thead>
     <tr>
       <th align="center">Icon</th>
       <th align="left">Pillar</th>
-      <th align="left">Package</th>
+      <th align="left">Location</th>
       <th align="left">Description</th>
     </tr>
   </thead>
   <tbody>
     <tr>
-      <td align="center"><img src="assets/icons/office-3d.svg" width="32" height="32" alt="3D Office" /></td>
-      <td><strong>Octo 3D Workspace</strong></td>
-      <td><code>packages/octo-3d</code></td>
-      <td>Walkable retro 3D office, desk assignments, layout editor, and PR review center rendered via Three.js and React Three Fiber.</td>
+      <td align="center"><img src="assets/icons/model-3d.svg" width="32" height="32" alt="3D Studio" /></td>
+      <td><strong>Agent 3D Model Studio</strong></td>
+      <td><code>/create-3d</code></td>
+      <td>Natural language prompt-to-3D agent synthesis, parametric geometry construction, live PBR shader customization, and 3D JSON/GLTF export.</td>
     </tr>
     <tr>
-      <td align="center"><img src="assets/icons/container-core.svg" width="32" height="32" alt="Core Engine" /></td>
-      <td><strong>Octo Core Engine</strong></td>
-      <td><code>packages/octo-core</code></td>
-      <td>Secure agent runtime with OS-level Linux container filesystem isolation, SQLite state management, and multi-channel messaging.</td>
-    </tr>
-    <tr>
-      <td align="center"><img src="assets/icons/pipeline-dashboard.svg" width="32" height="32" alt="Office Dashboard" /></td>
-      <td><strong>Octo Office Dashboard</strong></td>
-      <td><code>packages/octo-office</code></td>
-      <td>2D isometric dashboard with multi-step pipeline visualization, token spend metrics, and live task delegation graphs.</td>
+      <td align="center"><img src="assets/icons/office-3d.svg" width="32" height="32" alt="3D Workspace" /></td>
+      <td><strong>Octo 3D Virtual Workspace</strong></td>
+      <td><code>/office</code></td>
+      <td>Walkable 3D environment, spatial agent terminals, custom floorplan builder, and real-time agent presence rendered via Three.js.</td>
     </tr>
     <tr>
       <td align="center"><img src="assets/icons/octopus-mascot.svg" width="32" height="32" alt="3D Mascot" /></td>
       <td><strong>Chief Octo 3D Model</strong></td>
-      <td><code>public/mascot</code></td>
-      <td>Interactive WebGL 3D model (<code>octopus.wasm</code>) featuring real-time mouse gaze tracking, wave kinematics, and live speech bubbles.</td>
+      <td><code>/mascot</code></td>
+      <td>Interactive WebGL 3D GLTF asset (<code>octopus.wasm</code>) with real-time cursor gaze tracking, tentacle wave kinematics, and live speech bubbles.</td>
+    </tr>
+    <tr>
+      <td align="center"><img src="assets/icons/container-core.svg" width="32" height="32" alt="Core Engine" /></td>
+      <td><strong>Octo Core Runtime</strong></td>
+      <td><code>packages/octo-core</code></td>
+      <td>Secure agent runtime with Linux container filesystem isolation, SQLite state management, and multi-channel messaging via the <code>octo</code> CLI.</td>
     </tr>
   </tbody>
 </table>
 
 ---
 
-## 3D Mascot Model Engine
+## Agent 3D Model Creation Studio (`/create-3d`)
 
-The chief orchestrator avatar is powered by the binary GLTF/GLB model (`public/mascot/octopus.wasm`):
+The **Agent 3D Studio** gives autonomous agents the ability to dynamically generate complex 3D objects from natural language prompts:
 
-- **Arm Kinematics**: Custom vertex shaders dynamically deform each of the 8 arms using harmonic phase offsets ($\Delta \theta = 2.399 \text{ rad}$).
-- **Gaze Tracking**: Screen-to-UV Jacobian matrix inversion maps mouse coordinates directly to texture UV coordinates so the eyes track cursor movement.
-- **Blinking**: Eyelid geometry deformation and pupil dilation cycles.
-- **Embedded WebGL Viewer**: Launch via `npm run mascot` to access the standalone viewer on `http://localhost:8080`, or navigate to `/mascot` within the 3D office suite.
+- **Prompt-to-3D Decomposition**: Enter any concept (e.g. *"Futuristic Cyber-Droid with neon optics"*, *"Quantum Neural Terminal"*, or *"Tesseract Energy Singularity"*) and watch the agent break it down into parametric 3D components.
+- **Parametric Primitive Synthesis**: Builds structured models out of boxes, spheres, cylinders, cones, and toruses with calibrated positions, rotations, and scales.
+- **PBR Shading Engine**: Configurable metalness, roughness, wireframe outlines, and high-intensity emissive neon glow.
+- **Live Agent Thought Stream**: Follow the agent's real-time step-by-step reasoning log as each part is calculated and placed.
+- **Interactive WebGL Canvas**: Complete 360° orbit rotation, smooth zooming, pan controls, dynamic coordinate grid, and floating animation toggle.
+- **Parts Hierarchy Inspector**: Inspect every individual mesh component, view coordinate transforms, and tweak material colors on the fly.
+- **Direct Workspace Deployment**: One-click export to download the 3D JSON specification or deploy the model directly into the 3D virtual office.
+
+---
+
+## 3D Mascot Model Engine (`octopus.wasm`)
+
+The Chief Octo mascot is an interactive binary 3D asset (`public/mascot/octopus.wasm`, 7.18 MB) rendered in native WebGL:
+
+- **Procedural Tentacle Kinematics**: Harmonic wave equations deform all 8 arms dynamically with golden-angle phase offsets ($\Delta \theta = 2.399 \text{ rad}$).
+- **Real-Time Gaze Tracking**: Inverted Jacobian screen-to-UV matrix maps mouse coordinates directly to eye texture UV space, allowing the octopus to follow user interaction.
+- **Autonomous Blinking & Speech**: Procedural eyelid gestures and dynamic speech bubbles synced to agent actions.
+- **Standalone Viewer**: Launch via `npm run mascot` to access the zero-dependency WebGL viewer at `http://localhost:8080`.
 
 ---
 
@@ -76,9 +95,8 @@ The chief orchestrator avatar is powered by the binary GLTF/GLB model (`public/m
 ```
 octo-agent-workforce/
 ├── packages/
-│   ├── octo-3d/          Octo 3D retro virtual office, studio & layout builder
-│   ├── octo-core/        Octo Core containerized agent engine & CLI (`octo`)
-│   └── octo-office/      Octo Office 2D isometric dashboard & pipeline visualizer
+│   ├── octo-3d/          Octo 3D workspace, layout builder & Agent 3D Model Studio
+│   └── octo-core/        Octo Core containerized agent engine & CLI (`octo`)
 ├── public/
 │   ├── mascot/           3D animated octopus model (octopus.wasm & index.html)
 │   └── logo.svg          Flat vector SVG brand logo
@@ -89,7 +107,7 @@ octo-agent-workforce/
 │   ├── serve-mascot.js   Native HTTP server for the 3D mascot model
 │   ├── start-all.ps1     PowerShell startup script
 │   └── start-all.sh      Bash startup script
-├── AGENTS.md             Workforce roles, personas, and operating procedures
+├── AGENTS.md             Workforce roles, personas, and 3D synthesis procedures
 ├── ARCHITECTURE.md       System specifications, sequence flows, and protocols
 └── package.json          Root monorepo workspace configuration
 ```
@@ -100,10 +118,10 @@ octo-agent-workforce/
 
 ### 1. Requirements
 - Node.js 20+ or 22+
+- npm 10+
 - Docker (optional, recommended for OS-level container isolation)
-- Git
 
-### 2. Setup
+### 2. Clone & Install
 
 ```bash
 git clone https://github.com/Aravindh-dev12/octo-agent-workforce.git
@@ -111,33 +129,37 @@ cd octo-agent-workforce
 npm install
 ```
 
-### 3. Launching Applications
+### 3. Launch Services
 
-Run all services together or individually:
+Run the full 3D platform:
 
 ```bash
-# Launch the Octo 3D Virtual Office (Default Port: 3000)
+# Start Agent 3D Model Studio & 3D Workspace (Port: 3000)
 npm run dev:3d
-# URL: http://localhost:3000/office
+```
 
-# Launch the Octo 3D Mascot Viewer (Port: 8080)
+Open your browser to:
+- **Agent 3D Model Creation Studio**: [http://localhost:3000/create-3d](http://localhost:3000/create-3d)
+- **Octo 3D Virtual Workspace**: [http://localhost:3000/office](http://localhost:3000/office)
+- **3D Mascot Viewer**: [http://localhost:3000/mascot](http://localhost:3000/mascot)
+
+To run the standalone 3D Mascot HTTP server:
+```bash
 npm run mascot
 # URL: http://localhost:8080
+```
 
-# Launch the Octo 2D Office Dashboard (Default Port: 4200)
-npm run dev:office
-# URL: http://localhost:4200
-
-# Launch the Octo Core Agent Container Engine
+To run the Octo Core containerized runtime:
+```bash
 npm run dev:core
 ```
 
-On Windows PowerShell:
+One-click startup on Windows:
 ```powershell
 .\scripts\start-all.ps1
 ```
 
-On Linux or macOS:
+One-click startup on Linux / macOS:
 ```bash
 bash scripts/start-all.sh
 ```
@@ -146,44 +168,32 @@ bash scripts/start-all.sh
 
 ## CLI Reference
 
-Octo Agent includes a command-line interface to interact with running agent containers:
+Octo Agent includes a terminal CLI (`octo`) to manage agent containers and synthesis tasks:
 
 ```bash
 # View command help
 npm run octo -- --help
 
-# Start interactive chat with active agents
+# Start interactive agent session
 npm run octo -- chat
 
-# Run diagnostic checks on runtimes and gateway connectivity
+# Run diagnostic health check
 npm run octo -- doctor
 
-# List running container sessions
+# Inspect active agent sessions
 npm run octo -- sessions
 ```
 
 ---
 
-## Octo 3D Workspace Controls
+## Navigation & Shortcuts
 
-When running `npm run dev:3d` (`http://localhost:3000/office`):
-
-- **Movement**: `WASD` or Arrow keys to walk across office zones.
-- **Camera Orbit**: Left-click and drag to rotate the perspective; mouse wheel to zoom.
-- **Desks & Terminals**: Approach any desk to view active tasks, agent outputs, and tool calls.
-- **Layout Builder**: Open `/office/builder` to place desks, meeting tables, server bays, and decorative props.
-- **Chief Mascot Chamber**: Navigate to `/mascot` for real-time orchestrator visualization and speech streams.
-
----
-
-## Octo Office Dashboard Features
-
-When running `npm run dev:office` (`http://localhost:4200`):
-
-- **Pipeline Flow**: Real-time visualization of multi-agent task chains (e.g., Request $\to$ Chief Octo $\to$ Specialist $\to$ Verification).
-- **Activity Streams**: Searchable and filterable logs with token usage and cost metrics.
-- **Cost Telemetry**: Cumulative tracking of estimated savings and workflow durations.
-- **Mascot View**: Switch to the Mascot tab to view the WebGL 3D model directly in the dashboard.
+| Route | View | Description |
+|---|---|---|
+| `/create-3d` | **Agent 3D Studio** | Prompt-to-3D generator, mesh inspector, PBR material editor. |
+| `/office` | **3D Workspace** | Walkable 3D virtual environment with interactive agent desks. |
+| `/office/builder` | **Layout Builder** | Interactive 3D grid editor to customize office floors and assets. |
+| `/mascot` | **Chief Octo Mascot** | Full-screen 3D interactive octopus with gaze kinematics. |
 
 ---
 

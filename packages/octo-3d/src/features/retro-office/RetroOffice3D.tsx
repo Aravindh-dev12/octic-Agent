@@ -2767,13 +2767,28 @@ export function RetroOffice3D({
   const deskLocations = useMemo(() => getDeskLocations(furniture), [furniture]);
   const assignedDeskIndexByAgentId = useMemo(() => {
     const next: Record<string, number> = {};
+    const occupied = new Set<number>();
     deskItems.forEach((item, index) => {
       const agentId = deskAssignmentByDeskUid[item._uid];
       if (!agentId) return;
       next[agentId] = index;
+      occupied.add(index);
+    });
+    // Fallback: automatically assign unassigned agents to available desks
+    let fallbackIdx = 0;
+    agents.forEach((agent) => {
+      if (next[agent.id] !== undefined) return;
+      while (occupied.has(fallbackIdx) && fallbackIdx < deskLocations.length) {
+        fallbackIdx++;
+      }
+      if (fallbackIdx < deskLocations.length) {
+        next[agent.id] = fallbackIdx;
+        occupied.add(fallbackIdx);
+        fallbackIdx++;
+      }
     });
     return next;
-  }, [deskAssignmentByDeskUid, deskItems]);
+  }, [deskAssignmentByDeskUid, deskItems, agents, deskLocations.length]);
   const janitorCleaningStops = useMemo(
     () => getJanitorCleaningStops(furniture),
     [furniture],

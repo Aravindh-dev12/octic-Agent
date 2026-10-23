@@ -10,30 +10,48 @@ const MODELS = [{ id: "demo/mock-office", name: "Mock Office", provider: "demo" 
 
 const agents = new Map([
   [
-    "demo-orchestrator",
+    "octo-chief",
     {
-      id: "demo-orchestrator",
-      name: "Avery",
-      role: "Orchestrator",
-      workspace: "/demo/orchestrator",
+      id: "octo-chief",
+      name: "Chief Octo",
+      role: "Lead 3D Coordinator",
+      workspace: "/octo/chief",
     },
   ],
   [
-    "demo-researcher",
+    "mesh-architect",
     {
-      id: "demo-researcher",
-      name: "Mika",
-      role: "Research",
-      workspace: "/demo/research",
+      id: "mesh-architect",
+      name: "Mesh Architect",
+      role: "3D Mesh Architect",
+      workspace: "/octo/mesh",
     },
   ],
   [
-    "demo-builder",
+    "material-specialist",
     {
-      id: "demo-builder",
-      name: "Rune",
-      role: "Builder",
-      workspace: "/demo/builder",
+      id: "material-specialist",
+      name: "Material Specialist",
+      role: "PBR Material Specialist",
+      workspace: "/octo/materials",
+    },
+  ],
+  [
+    "spatial-coordinator",
+    {
+      id: "spatial-coordinator",
+      name: "Spatial Coordinator",
+      role: "Spatial Coordinator",
+      workspace: "/octo/spatial",
+    },
+  ],
+  [
+    "security-auditor",
+    {
+      id: "security-auditor",
+      name: "Security Auditor",
+      role: "Security Auditor",
+      workspace: "/octo/security",
     },
   ],
 ]);

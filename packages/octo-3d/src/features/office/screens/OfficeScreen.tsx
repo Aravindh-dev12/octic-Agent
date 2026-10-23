@@ -4678,6 +4678,7 @@ export function OfficeScreen({
   }, [agentsLoaded, didAttemptGatewayConnect, shouldPromptForConnect, status]);
 
   const showGatewayLoadingOverlay =
+    state.agents.length === 0 &&
     !agentsLoaded &&
     (!connectPromptReady ||
       (gatewayUrl.trim().length > 0 &&
@@ -4685,6 +4686,7 @@ export function OfficeScreen({
         ((!didAttemptGatewayConnect && showDelayedGatewayLoadingOverlay) ||
           (status === "connecting" && showDelayedGatewayLoadingOverlay))));
   const showGatewayConnectOverlay =
+    state.agents.length === 0 &&
     connectPromptReady &&
     status === "disconnected" &&
     !agentsLoaded &&

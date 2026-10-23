@@ -6,6 +6,26 @@ const { createAccessGate } = require("./access-gate");
 const { createGatewayProxy } = require("./gateway-proxy");
 const { assertPublicHostAllowed, resolveHosts } = require("./network-policy");
 const { loadUpstreamGatewaySettings } = require("./studio-settings");
+const net = require("node:net");
+const { startAdapter } = require("./demo-gateway-adapter");
+
+const autoStartGatewayAdapter = () =>
+  new Promise((resolve) => {
+    const s = net.createConnection({ port: 18789, host: "127.0.0.1" });
+    s.once("connect", () => {
+      s.destroy();
+      resolve(); // already running
+    });
+    s.once("error", () => {
+      try {
+        startAdapter();
+        console.info("⚡ Octo 3D Workforce Gateway automatically started on ws://localhost:18789");
+      } catch (e) {
+        console.warn("Could not start built-in gateway:", e.message);
+      }
+      resolve();
+    });
+  });
 
 const resolvePort = () => {
   const raw = process.env.PORT?.trim() || "3000";
@@ -64,6 +84,7 @@ const generateHttpsCert = async () => {
 };
 
 async function main() {
+  await autoStartGatewayAdapter();
   const dev = process.argv.includes("--dev");
   const useHttps = process.argv.includes("--https") || process.env.HTTPS === "true";
   const hostnames = Array.from(new Set(resolveHosts(process.env)));

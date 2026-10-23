@@ -24,6 +24,21 @@ Repository: **[https://github.com/Aravindh-dev12/octo-agent-workforce](https://g
 
 ---
 
+## 🎬 Live 3D Model Creation Demo
+
+<p align="center">
+  <img src="assets/demo-3d-model-creation.gif" alt="Octo Agent 3D Model Creation Workflow Demo" width="900" style="border-radius: 12px; box-shadow: 0 8px 32px rgba(124, 58, 237, 0.25);" />
+</p>
+
+<p align="center">
+  <em><strong>Full Workflow Walkthrough:</strong> Select Autonomous Agent ➔ Allocate 3D Task Prompt ➔ Real-Time WebGL Parametric Synthesis ➔ 360° Orbit &amp; Camera Inspection ➔ PBR Material &amp; Shader Customization ➔ Deployment to 3D Office Workspace</em>
+</p>
+
+> [!TIP]
+> 📺 A high-definition MP4 recording is also included in the repository: [`assets/demo-3d-model-creation.mp4`](assets/demo-3d-model-creation.mp4).
+
+---
+
 ## Core Pillars
 
 <table>
@@ -67,15 +82,23 @@ Repository: **[https://github.com/Aravindh-dev12/octo-agent-workforce](https://g
 
 ## Agent 3D Model Creation Studio (`/create-3d`)
 
-The **Agent 3D Studio** gives autonomous agents the ability to dynamically generate complex 3D objects from natural language prompts:
+The **Agent 3D Studio** gives autonomous agents the ability to dynamically generate complex 3D objects from natural language prompts through an orchestrated 5-stage synthesis pipeline:
 
-- **Prompt-to-3D Decomposition**: Enter any concept (e.g. *"Futuristic Cyber-Droid with neon optics"*, *"Quantum Neural Terminal"*, or *"Tesseract Energy Singularity"*) and watch the agent break it down into parametric 3D components.
-- **Parametric Primitive Synthesis**: Builds structured models out of boxes, spheres, cylinders, cones, and toruses with calibrated positions, rotations, and scales.
-- **PBR Shading Engine**: Configurable metalness, roughness, wireframe outlines, and high-intensity emissive neon glow.
-- **Live Agent Thought Stream**: Follow the agent's real-time step-by-step reasoning log as each part is calculated and placed.
-- **Interactive WebGL Canvas**: Complete 360° orbit rotation, smooth zooming, pan controls, dynamic coordinate grid, and floating animation toggle.
-- **Parts Hierarchy Inspector**: Inspect every individual mesh component, view coordinate transforms, and tweak material colors on the fly.
-- **Direct Workspace Deployment**: One-click export to download the 3D JSON specification or deploy the model directly into the 3D virtual office.
+### Autonomous 3D Creation Workflow
+
+1. **Step 1: Select Autonomous Agent**: Choose specialist synthesis agents from the workforce panel:
+   - 🐙 **Chief Octo** (`Lead Orchestrator`): Coordinates tasks and delegates prompts across synthesis specialists.
+   - 🤖 **3D Mesh Architect** (`Geometry Synthesizer`): Deconstructs prompts into parametric geometry nodes (boxes, spheres, cylinders, gyros).
+   - 🎨 **PBR Material Specialist** (`Shader Artisan`): Configures roughness, metalness, and emissive neon shaders.
+   - 🛰️ **Spatial Coordinator** (`Workspace Deployer`): Validates collision bounds and deploys models into the 3D office.
+2. **Step 2: Allocate 3D Task / Prompt**: Assign tailored design instructions (e.g. *"Build high-density Quantum Neural Terminal with liquid neon cooling ducts"* or *"Synthesize Octo Cyber-Droid Mark IV"*).
+3. **Step 3: Real-Time Generative Synthesis**: Watch the agent execute parametric decomposition in the live construction log with instant polygon estimation.
+4. **Step 4: Interactive WebGL Inspection**:
+   - Smooth **360° Camera Orbit** and pan controls.
+   - **Parts Hierarchy Tree**: Click any node (e.g. *Tactical Visor*, *Holo Terminal Screen*, *Coolant Tube*) to isolate parts with an active wireframe highlight.
+   - **Live PBR Color Tweaker**: Modify material diffuse colors and emissive neon channels in real time.
+   - **Dynamic Lighting Schemes**: Switch between *Neon Cyberpunk*, *Clean Studio*, and *Matrix Emerald* illumination modes.
+5. **Step 5: Workspace Deployment**: Deploy the finalized 3D asset directly to active desk workstations inside the **Octo 3D Virtual Workspace** (`/office`) or export the 3D JSON specification.
 
 ---
 

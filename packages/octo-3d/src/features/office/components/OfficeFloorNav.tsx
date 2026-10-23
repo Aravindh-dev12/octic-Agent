@@ -25,12 +25,12 @@ type OfficeFloorNavProps = {
 
 const PROVIDER_LABEL: Record<FloorProvider, string> = {
   demo: "Demo",
-  openclaw: "OpenClaw",
+  openclaw: "Octo Core",
   hermes: "Hermes",
   paperclip: "Paperclip",
   custom: "Custom",
   local: "Local",
-  claw3d: "Claw3D",
+  claw3d: "Octo Agent",
 };
 
 const renderFloorButton = (params: {
@@ -111,13 +111,13 @@ export function OfficeFloorNav({
     OFFICE_FLOORS.find((floor) => floor.id === displayActiveFloorId) ?? OFFICE_FLOORS[0];
   const activeRoster = floorRosterCache[activeFloor.id];
 
-  const [directoryCollapsed, setDirectoryCollapsed] = useState(false);
+  const [directoryCollapsed, setDirectoryCollapsed] = useState(true);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     try {
       const stored = window.localStorage.getItem(DIRECTORY_COLLAPSED_STORAGE_KEY);
-      if (stored === "true") setDirectoryCollapsed(true);
+      if (stored === "false") setDirectoryCollapsed(false);
     } catch {
       // localStorage may be unavailable (private mode, SSR, etc.); ignore.
     }

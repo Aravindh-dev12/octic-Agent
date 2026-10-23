@@ -5393,7 +5393,7 @@ export function OfficeScreen({
       >
         {chatOpen && (
           <div
-            className="flex overflow-hidden rounded border border-white/10 bg-[#0e0a04] shadow-2xl"
+            className="flex overflow-hidden rounded-xl border border-purple-500/30 bg-[#0f0c1b]/95 shadow-[0_8px_32px_rgba(0,0,0,0.8)] backdrop-blur-xl"
             style={{
               width: chatRosterCollapsed
                 ? "min(680px, calc(100vw - 1.5rem))"
@@ -5623,7 +5623,7 @@ export function OfficeScreen({
         <button
           type="button"
           onClick={() => setChatOpen((prev) => !prev)}
-          className="flex items-center gap-1.5 rounded border border-amber-700/50 bg-[#0e0a04]/90 px-3 py-1.5 font-mono text-[11px] font-medium tracking-wider text-amber-500/80 shadow-lg backdrop-blur transition-colors hover:border-amber-600/70 hover:text-amber-400"
+          className="flex items-center gap-2 rounded-lg border border-purple-500/40 bg-[#0f0c1b]/95 px-3.5 py-2 font-mono text-[11px] font-semibold tracking-wider text-purple-200 shadow-[0_4px_16px_rgba(109,40,217,0.3)] backdrop-blur-md transition-all hover:border-purple-400 hover:bg-[#1a1235] hover:text-white"
         >
           {chatOpen ? (
             <>

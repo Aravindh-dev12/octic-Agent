@@ -2267,7 +2267,7 @@ export function RetroOffice3D({
   githubSkill = null,
   taskManagerEnabled = false,
   soundclawEnabled = false,
-  officeTitle = "Luke Headquarters",
+  officeTitle = "Octo Headquarters",
   officeTitleLoaded = false,
   remoteOfficeEnabled = false,
   remoteOfficeSourceKind = "presence_endpoint",
@@ -5751,7 +5751,7 @@ export function RetroOffice3D({
                       : standupMeeting?.phase === "in_progress"
                         ? Boolean(standupSpeechTextByAgentId[agent.id])
                         : speechAgentIds.has(agent.id) ||
-                          Boolean(streamingTextByAgentId[agent.id])
+                          (hoveredAgentId === agent.id && Boolean(streamingTextByAgentId[agent.id]))
                   }
                   speechText={
                     isJanitor
@@ -5922,11 +5922,11 @@ export function RetroOffice3D({
       {!immersiveOverlayActive ? (
         <div className="absolute top-3 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none select-none z-10">
           <div className="flex items-center gap-3">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-amber-500/40" />
-            <span className="text-sm tracking-[0.3em] text-amber-300/80 font-bold uppercase">
-              {officeTitle}
+            <div className="h-px w-16 bg-gradient-to-r from-transparent to-purple-500/60" />
+            <span className="text-sm tracking-[0.3em] text-purple-200 font-bold uppercase drop-shadow-[0_2px_12px_rgba(168,85,247,0.5)]">
+              {officeTitle || "OCTO HEADQUARTERS"}
             </span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-amber-500/40" />
+            <div className="h-px w-16 bg-gradient-to-l from-transparent to-purple-500/60" />
           </div>
         </div>
       ) : null}
@@ -5934,7 +5934,7 @@ export function RetroOffice3D({
       {/* Agent roster — compact top summary with overflow panel. */}
       {!readOnly && !immersiveOverlayActive ? (
         <div className="absolute top-10 left-1/2 z-20 -translate-x-1/2">
-          <div className="flex items-center gap-2 rounded-full border border-amber-900/25 bg-[#1c1610]/92 px-2 py-2 shadow-lg backdrop-blur-sm">
+          <div className="flex items-center gap-2 rounded-full border border-purple-500/30 bg-[#0f0c1b]/90 px-3 py-1.5 shadow-[0_4px_24px_rgba(0,0,0,0.6)] backdrop-blur-md">
             <div className="flex items-center -space-x-1.5">
               {compactRosterAgents.map((agent) => {
                 const status = agentStatusLookup[agent.id];
@@ -7012,29 +7012,34 @@ export function RetroOffice3D({
             </button>
           ) : null}
           <div
-            className={`flex h-7 items-center rounded-md border px-2 text-[10px] font-mono uppercase tracking-[0.12em] ${
+            className={`flex h-7 items-center gap-1.5 rounded-md border px-2.5 text-[10px] font-mono uppercase tracking-[0.14em] shadow-sm ${
               gatewayStatus === "connected"
-                ? "border-emerald-400/25 bg-emerald-500/10 text-emerald-100"
-                : gatewayStatus === "connecting"
-                  ? "border-amber-400/25 bg-amber-500/10 text-amber-100"
-                  : "border-rose-400/25 bg-rose-500/10 text-rose-100"
+                ? "border-emerald-400/35 bg-emerald-950/40 text-emerald-300"
+                : "border-purple-500/35 bg-purple-950/40 text-purple-200"
             }`}
-            title={`Runtime: ${activeAdapterType} (${gatewayStatus})`}
+            title={`Octo Agent Runtime (${gatewayStatus})`}
           >
-            {activeAdapterType} • {gatewayStatus}
+            <span
+              className={`inline-block h-1.5 w-1.5 rounded-full ${
+                gatewayStatus === "connected"
+                  ? "bg-emerald-400 animate-pulse"
+                  : "bg-purple-400"
+              }`}
+            />
+            OCTO AGENT • {gatewayStatus === "connected" ? "CONNECTED" : "ONLINE"}
           </div>
           {/* New Idea 7: Heatmap toggle. */}
           <button
             onClick={() => setHeatmapMode((p) => !p)}
             title="Toggle heatmap"
-            className={`w-7 h-7 flex items-center justify-center rounded-md transition-all backdrop-blur-sm border ${heatmapMode ? "bg-amber-500/30 text-amber-300 border-amber-500/50" : "bg-[#1c1610]/80 text-amber-500/40 border-amber-900/20 hover:text-amber-400"}`}
+            className={`w-7 h-7 flex items-center justify-center rounded-md transition-all backdrop-blur-sm border ${heatmapMode ? "bg-amber-500/30 text-amber-300 border-amber-500/50" : "bg-[#0f0c1b]/80 text-purple-300/60 border-purple-900/30 hover:border-purple-500/50 hover:text-purple-200"}`}
           >
             <MapIcon size={12} />
           </button>
           <button
             onClick={() => setTrailMode((p) => !p)}
             title="Toggle trails"
-            className={`w-7 h-7 flex items-center justify-center rounded-md transition-all backdrop-blur-sm border ${trailMode ? "bg-amber-500/30 text-amber-300 border-amber-500/50" : "bg-[#1c1610]/80 text-amber-500/40 border-amber-900/20 hover:text-amber-400"}`}
+            className={`w-7 h-7 flex items-center justify-center rounded-md transition-all backdrop-blur-sm border ${trailMode ? "bg-amber-500/30 text-amber-300 border-amber-500/50" : "bg-[#0f0c1b]/80 text-purple-300/60 border-purple-900/30 hover:border-purple-500/50 hover:text-purple-200"}`}
           >
             <Maximize size={12} />
           </button>
@@ -7042,7 +7047,7 @@ export function RetroOffice3D({
           <button
             onClick={toggleEdit}
             title={editMode ? "Done editing" : "Edit office"}
-            className={`w-7 h-7 flex items-center justify-center rounded-md transition-all backdrop-blur-sm border ${editMode ? "bg-amber-500/30 text-amber-300 border-amber-500/50" : "bg-[#1c1610]/80 text-amber-500/40 border-amber-900/20 hover:text-amber-400"}`}
+            className={`w-7 h-7 flex items-center justify-center rounded-md transition-all backdrop-blur-sm border ${editMode ? "bg-amber-500/30 text-amber-300 border-amber-500/50" : "bg-[#0f0c1b]/80 text-purple-300/60 border-purple-900/30 hover:border-purple-500/50 hover:text-purple-200"}`}
           >
             {editMode ? (
               <Check size={12} strokeWidth={2.5} />
@@ -7053,7 +7058,7 @@ export function RetroOffice3D({
           <button
             onClick={() => setSettingsModalOpen(true)}
             title="Voice reply settings"
-            className={`w-7 h-7 flex items-center justify-center rounded-md transition-all backdrop-blur-sm border ${settingsModalOpen ? "bg-amber-500/30 text-amber-300 border-amber-500/50" : "bg-[#1c1610]/80 text-amber-500/40 border-amber-900/20 hover:text-amber-400"}`}
+            className={`w-7 h-7 flex items-center justify-center rounded-md transition-all backdrop-blur-sm border ${settingsModalOpen ? "bg-amber-500/30 text-amber-300 border-amber-500/50" : "bg-[#0f0c1b]/80 text-purple-300/60 border-purple-900/30 hover:border-purple-500/50 hover:text-purple-200"}`}
           >
             <Settings2 size={12} />
           </button>
@@ -7188,7 +7193,7 @@ export function RetroOffice3D({
       {!immersiveOverlayActive ? (
         <>
           {/* Ideas 3 + 6 + 8: Mini status bar — bottom left. */}
-          <div className="absolute bottom-3 left-3 flex flex-col items-start gap-1.5 z-10 pointer-events-none select-none">
+          <div className="absolute bottom-14 left-3 flex flex-col items-start gap-1.5 z-10 pointer-events-none select-none">
             {/* Idea 3: Activity feed entries — newest on bottom. */}
             {statusFeedEvents
               .slice(0, 4)
